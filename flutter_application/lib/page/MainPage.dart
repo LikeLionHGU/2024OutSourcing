@@ -6,32 +6,6 @@ class MainPage extends StatefulWidget {
   State<StatefulWidget> createState() => MainPageState();
 }
 
-// class MainPageState extends State {
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         leading: IconButton(
-//           icon: Icon(Icons.arrow_back),
-//           onPressed: () {},
-//         ),
-//         title: Text("Title"),
-//         actions: <Widget>[
-//           IconButton(onPressed: () {}, icon: Icon(Icons.shopping_cart)),
-//         ],
-//       ),
-//       body: const Column(
-//         children: [
-//           Image(image: NetworkImage("https://firebasestorage.googleapis.com/v0/b/onban-e3465.appspot.com/o/og%20image.jpg?alt=media&token=7558374d-8d17-4e0a-a53e-f1459a82c383")),
-//           TabBar(tabs: [
-//             Tab(text: '전체',), Tab(text: '김치/절임 메뉴',), Tab(text: '찌개',), Tab(text: '해물',)
-//           ])
-//         ],
-//       ),
-//     );
-//   }
-// }
 class MainPageState extends State<MainPage>
     with SingleTickerProviderStateMixin {
   TabController? tabController;
