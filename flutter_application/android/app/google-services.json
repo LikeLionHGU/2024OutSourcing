@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "167873227013",
+    "project_id": "onban-e3465",
+    "storage_bucket": "onban-e3465.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:167873227013:android:4faac9593dbecca1d7ef6c",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQ9uewOwAFKlykNOSD5z1rDs4IaDIcFnE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
