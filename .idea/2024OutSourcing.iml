@@ -7,6 +7,30 @@
       <excludeFolder url="file://$MODULE_DIR$/flutter_application/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/flutter_application/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/flutter_application/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/ios/.symlinks/plugins/cloud_firestore/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/ios/.symlinks/plugins/cloud_firestore/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/ios/.symlinks/plugins/cloud_firestore/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/ios/.symlinks/plugins/cloud_firestore/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/ios/.symlinks/plugins/cloud_firestore/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/ios/.symlinks/plugins/cloud_firestore/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/ios/.symlinks/plugins/firebase_core/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/ios/.symlinks/plugins/firebase_core/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/ios/.symlinks/plugins/firebase_core/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/ios/.symlinks/plugins/firebase_core/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/ios/.symlinks/plugins/firebase_core/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/ios/.symlinks/plugins/firebase_core/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/windows/flutter/ephemeral/.plugin_symlinks/cloud_firestore/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/windows/flutter/ephemeral/.plugin_symlinks/cloud_firestore/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/windows/flutter/ephemeral/.plugin_symlinks/cloud_firestore/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/windows/flutter/ephemeral/.plugin_symlinks/cloud_firestore/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/windows/flutter/ephemeral/.plugin_symlinks/cloud_firestore/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/windows/flutter/ephemeral/.plugin_symlinks/cloud_firestore/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/windows/flutter/ephemeral/.plugin_symlinks/firebase_core/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/windows/flutter/ephemeral/.plugin_symlinks/firebase_core/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/windows/flutter/ephemeral/.plugin_symlinks/firebase_core/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/windows/flutter/ephemeral/.plugin_symlinks/firebase_core/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/windows/flutter/ephemeral/.plugin_symlinks/firebase_core/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_application/windows/flutter/ephemeral/.plugin_symlinks/firebase_core/example/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
