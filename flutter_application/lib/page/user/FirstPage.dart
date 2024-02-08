@@ -25,18 +25,20 @@ class FirstPageState extends State<FirstPage> {
           Container(
             alignment: Alignment.center,
             height: MediaQuery.of(context).size.height * 0.05,
-            width: MediaQuery.of(context).size.width * 0.8,
+            width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
               border: Border.all(color: Colors.grey), // 테두리 색상
               borderRadius: BorderRadius.circular(8), // 모서리 둥글기
             ),
-            child: TextButton(child: Text("신규 회원가입", style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.015, color: Colors.black),), onPressed: () {},),
+            child: TextButton(child: Text("신규 회원가입", style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.015, color: Colors.black),), onPressed: () {
+              Navigator.pushNamed(context, "/signUp");
+            },),
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
           Container(
             alignment: Alignment.center,
             height: MediaQuery.of(context).size.height * 0.05,
-            width: MediaQuery.of(context).size.width * 0.8,
+            width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
               border: Border.all(color: Colors.grey), // 테두리 색상
               borderRadius: BorderRadius.circular(8), // 모서리 둥글기

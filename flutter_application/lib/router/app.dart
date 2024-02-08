@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/page/MainPage.dart';
 import 'package:flutter_application/page/user/FirstPage.dart';
 import 'package:flutter_application/page/user/signUp/SignUp.dart';
+import 'package:flutter_application/page/user/signUp/SignUpDetail.dart';
 
 import '../page/menu/MenuDetail.dart';
 
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'UniChat',
-      initialRoute: '/signUp',
+      initialRoute: '/first',
       routes: {
         // '/professor/student' : (BuildContext context) => const ProfessorProfileWithStudent(),
         // '/reservation/student' : (BuildContext context) => const StudentReservation(),
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         '/detail' : (BuildContext context) => MenuDetail(),
         '/first' : (BuildContext context) => FirstPage(),
         '/signUp' : (BuildContext context) => SignUpPage(),
+        '/signUpDetail' : (BuildContext context) => SignUpDetail(),
         // '/student/calendar' : (BuildContext context) => StudentCalendarPage(),
         // '/professor/calendar' : (BuildContext context) => ProfessorCalendarPage(),
         // '/chat' : (BuildContext context) => ChatScreen(),
