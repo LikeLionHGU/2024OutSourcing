@@ -34,6 +34,7 @@ class MainPageState extends State<MainPage>
 
     return menus.map((menu) {
       return Card(
+        color: Colors.white,
         clipBehavior: Clip.antiAlias,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.zero, // 모서리를 둥글게 하지 않음
@@ -134,16 +135,12 @@ class MainPageState extends State<MainPage>
     double childAspectRatio = cardWidth / (cardWidth * cardHeightRatio);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         centerTitle: true,
+        elevation: 0,
         title: Text("온반"),
-        actions: <Widget>[
-          IconButton(
-              onPressed: () {
-                // 여기에 쇼핑 카트 버튼 기능을 구현하세요.
-              },
-              icon: Icon(Icons.shopping_cart)),
-        ],
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight + 200),
           child: Column(
@@ -156,8 +153,10 @@ class MainPageState extends State<MainPage>
               // PreferredSizeWidget을 사용하여 TabBar에 적절한 높이를 제공합니다.
               Container(
                 width: MediaQuery.of(context).size.width,
+                color: Colors.white,
                 child: TabBar(
                   controller: tabController,
+
                   // isScrollable: true,
                   labelStyle: TextStyle(
                     fontSize: 14.0,

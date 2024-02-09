@@ -12,7 +12,10 @@ class FirstPageState extends State<FirstPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+      ),
+      backgroundColor: Colors.white,
       body: Column(
         children: [
           Container(alignment: Alignment.center, child: Text("따뜻한 마음을 담은", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.06),)),

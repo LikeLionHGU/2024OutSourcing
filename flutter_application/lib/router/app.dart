@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'UniChat',
-      initialRoute: '/router',
+      initialRoute: '/first',
       routes: {
         // '/professor/student' : (BuildContext context) => const ProfessorProfileWithStudent(),
         // '/reservation/student' : (BuildContext context) => const StudentReservation(),

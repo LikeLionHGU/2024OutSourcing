@@ -16,7 +16,10 @@ class SignUpState extends State {
     final TextEditingController passwordCheckController = TextEditingController();
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+      ),
+      backgroundColor: Colors.white,
       body: Column(
         children: [
           SizedBox(

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/page/main/MainPage.dart';
+import 'package:flutter_application/page/shop/Shop.dart';
 
 class RouterPage extends StatefulWidget {
   @override
@@ -14,6 +15,7 @@ class RouterPageState extends State<RouterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: PageView(
         controller: _pageController,
         onPageChanged: (index) {
@@ -23,11 +25,12 @@ class RouterPageState extends State<RouterPage> {
           // 각 탭에 대응하는 위젯을 여기에 넣으세요.
           MainPage(),
           MainPage(),
-          MainPage(),
+          ShopPage(),
           MainPage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.black,
