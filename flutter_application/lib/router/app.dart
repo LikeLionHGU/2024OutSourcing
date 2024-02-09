@@ -4,12 +4,14 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application/page/MainPage.dart';
+import 'package:flutter_application/page/RouterPage.dart';
+import 'package:flutter_application/page/main/MainPage.dart';
 import 'package:flutter_application/page/user/FirstPage.dart';
 import 'package:flutter_application/page/user/signUp/SignUp.dart';
 import 'package:flutter_application/page/user/signUp/SignUpDetail.dart';
 
 import '../page/menu/MenuDetail.dart';
+import '../page/user/login/Login.dart';
 
 class MyApp extends StatelessWidget {
 
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'UniChat',
-      initialRoute: '/first',
+      initialRoute: '/router',
       routes: {
         // '/professor/student' : (BuildContext context) => const ProfessorProfileWithStudent(),
         // '/reservation/student' : (BuildContext context) => const StudentReservation(),
@@ -26,7 +28,9 @@ class MyApp extends StatelessWidget {
         '/detail' : (BuildContext context) => MenuDetail(),
         '/first' : (BuildContext context) => FirstPage(),
         '/signUp' : (BuildContext context) => SignUpPage(),
-        '/signUpDetail' : (BuildContext context) => SignUpDetail(),
+        // '/signUpDetail' : (BuildContext context) => SignUpDetail(),
+        '/login' : (BuildContext context) => Login(),
+        '/router' : (BuildContext context) => RouterPage(),
         // '/student/calendar' : (BuildContext context) => StudentCalendarPage(),
         // '/professor/calendar' : (BuildContext context) => ProfessorCalendarPage(),
         // '/chat' : (BuildContext context) => ChatScreen(),

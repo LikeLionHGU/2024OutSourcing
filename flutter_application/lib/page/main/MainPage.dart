@@ -18,6 +18,7 @@ class MainPageState extends State<MainPage>
     tabController = TabController(length: 6, vsync: this);
   }
 
+
   @override
   void dispose() {
     tabController?.dispose();
@@ -135,12 +136,6 @@ class MainPageState extends State<MainPage>
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            // 여기에 뒤로 가기 버튼 기능을 구현하세요.
-          },
-        ),
         title: Text("온반"),
         actions: <Widget>[
           IconButton(
@@ -199,7 +194,6 @@ class MainPageState extends State<MainPage>
           ),
         ),
       ),
-      // AppBar 아래에 이미지와 TabBar가 포함된 Column을 배치합니다.
       body: Column(
         children: [
           Expanded(

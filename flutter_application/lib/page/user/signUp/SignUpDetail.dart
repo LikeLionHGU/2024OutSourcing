@@ -1,24 +1,39 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application/page/MainPage.dart';
+import 'package:flutter_application/page/main/MainPage.dart';
 import 'package:kpostal/kpostal.dart';
+import 'package:meta/meta.dart';
 import 'package:remedi_kopo/remedi_kopo.dart';
 
 class SignUpDetail extends StatefulWidget {
+  String email;
+  String password;
+
+  SignUpDetail({Key? key, required this.email, required this.password}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => SignUpDetailState();
 }
 
+
 class SignUpDetailState extends State<SignUpDetail> {
   final TextEditingController nameController = TextEditingController();
-
-  final TextEditingController _postcodeController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _addressDetailController =
-      TextEditingController();
+  final TextEditingController _addressDetailController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // State 내에서 widget을 사용하여 부모 StatefulWidget의 email과 password에 접근
+    // 예시로 이메일과 비밀번호를 사용하는 로직이 필요하면 여기서 초기화
+  }
 
 
   Map<String, String> formData = {};
+
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +110,7 @@ class SignUpDetailState extends State<SignUpDetail> {
             width: MediaQuery.of(context).size.width * 0.9,
             height: MediaQuery.of(context).size.height * 0.05,
             child: TextField(
-              // controller: _idController,
+              controller: _phoneNumberController,
               style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03),
               textAlignVertical: TextAlignVertical.center,
               cursorColor: Colors.black,
@@ -162,7 +177,7 @@ class SignUpDetailState extends State<SignUpDetail> {
             width: MediaQuery.of(context).size.width * 0.9,
             height: MediaQuery.of(context).size.height * 0.05,
             child: TextField(
-              // controller: _idController,
+              controller: _addressDetailController,
               style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03),
               textAlignVertical: TextAlignVertical.center,
               cursorColor: Colors.black,
@@ -198,12 +213,102 @@ class SignUpDetailState extends State<SignUpDetail> {
                     fontSize: MediaQuery.of(context).size.height * 0.015,
                     color: Colors.black),
               ),
-              onPressed: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => MainPage()),
-                  ModalRoute.withName('/main'),
-                );
+              onPressed: () async {
+                if (nameController.text.isEmpty) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        backgroundColor: Colors.white,
+                        title: Text('이름을 입력해주세요.', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04),),
+                        // content: Text('이메일을 입력해주세요.'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('확인', style: TextStyle(color: Colors.black),),
+                            onPressed: () {
+                              Navigator.of(context).pop(); // 경고창을 닫습니다.
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else if(_phoneNumberController.text.isEmpty) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        backgroundColor: Colors.white,
+                        title: Text('전화번호를 입력해주세요.', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04),),
+                        // content: Text('이메일을 입력해주세요.'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('확인', style: TextStyle(color: Colors.black),),
+                            onPressed: () {
+                              Navigator.of(context).pop(); // 경고창을 닫습니다.
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else if(_addressController.text.isEmpty) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        backgroundColor: Colors.white,
+                        title: Text('주소를 입력해주세요.', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04),),
+                        // content: Text('이메일을 입력해주세요.'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('확인', style: TextStyle(color: Colors.black),),
+                            onPressed: () {
+                              Navigator.of(context).pop(); // 경고창을 닫습니다.
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else if(_addressDetailController.text.isEmpty) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        backgroundColor: Colors.white,
+                        title: Text('상세 주소를 입력해주세요.', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04),),
+                        // content: Text('이메일을 입력해주세요.'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('확인', style: TextStyle(color: Colors.black),),
+                            onPressed: () {
+                              Navigator.of(context).pop(); // 경고창을 닫습니다.
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else {
+                  UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: widget.email, password: widget.password);
+
+                  User? user = userCredential.user;
+                  if (user != null) {
+                    await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+                      'name': nameController.text,
+                      'phoneNumber': _phoneNumberController.text,
+                      'address': _addressController.text,
+                      'addressDetail': _addressDetailController.text,
+                    });
+                  }
+
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => MainPage()),
+                    ModalRoute.withName('/main'),
+                  );
+                }
               },
             ),
           ),
@@ -215,4 +320,6 @@ class SignUpDetailState extends State<SignUpDetail> {
     );
   }
 }
+// 김동규
 // 울산광역시 남구 동산로 29번길 16
+// A동 305호

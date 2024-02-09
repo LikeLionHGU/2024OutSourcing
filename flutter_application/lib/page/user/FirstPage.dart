@@ -43,7 +43,9 @@ class FirstPageState extends State<FirstPage> {
               border: Border.all(color: Colors.grey), // 테두리 색상
               borderRadius: BorderRadius.circular(8), // 모서리 둥글기
             ),
-            child: TextButton(child: Text("기존 유저 로그인", style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.015, color: Colors.black),), onPressed: () {},),
+            child: TextButton(child: Text("기존 유저 로그인", style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.015, color: Colors.black),), onPressed: () {
+              Navigator.pushNamed(context, "/login");
+            },),
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.1,)
         ],
