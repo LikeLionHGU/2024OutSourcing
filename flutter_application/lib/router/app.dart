@@ -6,12 +6,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/page/RouterPage.dart';
 import 'package:flutter_application/page/main/MainPage.dart';
-import 'package:flutter_application/page/user/FirstPage.dart';
-import 'package:flutter_application/page/user/signUp/SignUp.dart';
-import 'package:flutter_application/page/user/signUp/SignUpDetail.dart';
 
+import '../page/account/FirstPage.dart';
+import '../page/account/login/Login.dart';
+import '../page/account/signUp/SignUp.dart';
 import '../page/menu/MenuDetail.dart';
-import '../page/user/login/Login.dart';
+
 
 class MyApp extends StatelessWidget {
 
@@ -37,7 +37,8 @@ class MyApp extends StatelessWidget {
       },
       // theme: ThemeData.light(useMaterial3: true, textTheme: ),
       theme: ThemeData(
-        useMaterial3: true, fontFamily: "AppleSD"
+        useMaterial3: true, fontFamily: "AppleSD",
+        dialogBackgroundColor: Colors.white
       ),
     );
   }

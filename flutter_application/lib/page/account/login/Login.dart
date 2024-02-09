@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/page/RouterPage.dart';
 
 import '../../main/MainPage.dart';
 
@@ -124,8 +125,8 @@ class LoginState extends State<Login> {
                   // 로그인 성공, UserCredential에서 User 반환
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => MainPage()),
-                  ModalRoute.withName('/main'),
+                  MaterialPageRoute(builder: (context) => RouterPage()),
+                  ModalRoute.withName('/router'),
                 );
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'user-not-found') {
@@ -162,11 +163,11 @@ class LoginState extends State<Login> {
                 return null;
               }
 
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => MainPage()),
-                ModalRoute.withName('/main'),
-              );
+              // Navigator.pushAndRemoveUntil(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => MainPage()),
+              //   ModalRoute.withName('/router'),
+              // );
             },),
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.1,)

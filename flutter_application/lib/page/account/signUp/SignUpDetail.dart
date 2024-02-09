@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/page/RouterPage.dart';
 import 'package:flutter_application/page/main/MainPage.dart';
 import 'package:kpostal/kpostal.dart';
 import 'package:meta/meta.dart';
@@ -305,8 +306,8 @@ class SignUpDetailState extends State<SignUpDetail> {
 
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => MainPage()),
-                    ModalRoute.withName('/main'),
+                    MaterialPageRoute(builder: (context) => RouterPage()),
+                    ModalRoute.withName('/router'),
                   );
                 }
               },

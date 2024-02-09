@@ -156,6 +156,7 @@ class SignUpState extends State {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         backgroundColor: Colors.white,
+                        elevation: 0,
                         title: Text('이메일을 입력해주세요.', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04),),
                         // content: Text('이메일을 입력해주세요.'),
                         actions: <Widget>[
@@ -174,6 +175,7 @@ class SignUpState extends State {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
+                        elevation: 0,
                         backgroundColor: Colors.white,
                         title: Text('비밀번호를 입력해주세요.', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04),),
                         // content: Text('이메일을 입력해주세요.'),
@@ -193,6 +195,7 @@ class SignUpState extends State {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
+                        elevation: 0,
                         backgroundColor: Colors.white,
                         title: Text('영문, 숫자, 특수문자를 포함해 8자 이상 작성해주세요', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04),),
                         // content: Text('이메일을 입력해주세요.'),
@@ -212,6 +215,7 @@ class SignUpState extends State {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
+                        elevation: 0,
                         backgroundColor: Colors.white,
                         title: Text('비밀번호가 일치하지 않습니다.', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04),),
                         // content: Text('이메일을 입력해주세요.'),

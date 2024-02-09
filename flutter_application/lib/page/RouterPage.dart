@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/page/main/MainPage.dart';
 import 'package:flutter_application/page/shop/Shop.dart';
+import 'package:flutter_application/page/user/UserPage.dart';
 
 class RouterPage extends StatefulWidget {
   @override
@@ -14,6 +16,7 @@ class RouterPageState extends State<RouterPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(FirebaseAuth.instance.currentUser!.uid);
     return Scaffold(
       backgroundColor: Colors.white,
       body: PageView(
@@ -26,7 +29,7 @@ class RouterPageState extends State<RouterPage> {
           MainPage(),
           MainPage(),
           ShopPage(),
-          MainPage(),
+          UserPage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
