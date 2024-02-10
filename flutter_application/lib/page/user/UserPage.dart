@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/page/menu/OrderPage.dart';
 
 class UserPage extends StatefulWidget {
   @override
@@ -46,7 +47,14 @@ class UserPageState extends State<UserPage> {
               SizedBox(width: MediaQuery.of(context).size.width * 0.07,),
               Text("주문 내역", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.045),),
               Spacer(),
-              IconButton(onPressed: () {}, icon: Icon(Icons.keyboard_arrow_right_rounded)),
+              IconButton(onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OrderPage(), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
+                  ),
+                );
+              }, icon: Icon(Icons.keyboard_arrow_right_rounded)),
               SizedBox(width: MediaQuery.of(context).size.width * 0.07,),
             ],
           ),

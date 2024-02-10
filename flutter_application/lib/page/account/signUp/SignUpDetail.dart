@@ -15,11 +15,12 @@ class SignUpDetail extends StatefulWidget {
   SignUpDetail({Key? key, required this.email, required this.password}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => SignUpDetailState();
+  State<StatefulWidget> createState() => SignUpDetailState(email: email);
 }
 
 
 class SignUpDetailState extends State<SignUpDetail> {
+  String email;
   final TextEditingController nameController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
@@ -31,6 +32,8 @@ class SignUpDetailState extends State<SignUpDetail> {
     // State 내에서 widget을 사용하여 부모 StatefulWidget의 email과 password에 접근
     // 예시로 이메일과 비밀번호를 사용하는 로직이 필요하면 여기서 초기화
   }
+
+  SignUpDetailState({required this.email});
 
 
   Map<String, String> formData = {};
@@ -298,6 +301,7 @@ class SignUpDetailState extends State<SignUpDetail> {
                   if (user != null) {
                     await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
                       'name': nameController.text,
+                      'email' : email,
                       'phoneNumber': _phoneNumberController.text,
                       'address': _addressController.text,
                       'addressDetail': _addressDetailController.text,

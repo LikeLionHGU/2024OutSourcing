@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/page/RouterPage.dart';
 import 'package:flutter_application/page/main/MainPage.dart';
+import 'package:flutter_application/page/menu/OrderPage.dart';
 
 import '../page/account/FirstPage.dart';
 import '../page/account/login/Login.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         // '/signUpDetail' : (BuildContext context) => SignUpDetail(),
         '/login' : (BuildContext context) => Login(),
         '/router' : (BuildContext context) => RouterPage(),
+        '/order' : (BuildContext context) => OrderPage(),
         // '/student/calendar' : (BuildContext context) => StudentCalendarPage(),
         // '/professor/calendar' : (BuildContext context) => ProfessorCalendarPage(),
         // '/chat' : (BuildContext context) => ChatScreen(),
@@ -43,3 +45,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+// 김동규
+// 울산광역시 남구 동산로 29번길 16
+// A동 305호
