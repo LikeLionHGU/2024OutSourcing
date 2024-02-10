@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/page/main/AdminMainPage.dart';
 import 'package:flutter_application/page/main/MainPage.dart';
 import 'package:flutter_application/page/menu/MenuUpload.dart';
+import 'package:flutter_application/page/menu/OrderList.dart';
 import 'package:flutter_application/page/shop/Shop.dart';
 import 'package:flutter_application/page/user/UserPage.dart';
 
@@ -31,7 +32,7 @@ class AdminRouterPageState extends State<AdminRouterPage> {
           MainPage(),
           AdminMainPage(),
           MenuUpload(),
-          UserPage(),
+          OrderList(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
