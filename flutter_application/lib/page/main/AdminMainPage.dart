@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/entity/Menu.dart';
 import 'package:flutter_application/entity/MenuRepository.dart';
+import 'package:flutter_application/page/menu/AdminMenuDetail.dart';
 
 class AdminMainPage extends StatefulWidget {
   @override
@@ -51,7 +52,12 @@ class AdminMainPageState extends State<AdminMainPage>
               width: MediaQuery.of(context).size.height * 0.25,
               child: GestureDetector(
                 onTap: () {
-                  print("@@");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AdminMenuDetail(), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
+                    ),
+                  );
                 },
                 child: Image.network(
                   menu.imageAddress,

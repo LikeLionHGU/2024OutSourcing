@@ -41,6 +41,7 @@ dependencies:
   kpostal: ^0.5.1
   firebase_auth: ^4.17.4
   bootpay: ^4.8.3
+  image_picker: ^1.0.7
 
 dev_dependencies:
   flutter_test:

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/page/main/AdminMainPage.dart';
 import 'package:flutter_application/page/main/MainPage.dart';
+import 'package:flutter_application/page/menu/MenuUpload.dart';
 import 'package:flutter_application/page/shop/Shop.dart';
 import 'package:flutter_application/page/user/UserPage.dart';
 
@@ -29,7 +30,7 @@ class AdminRouterPageState extends State<AdminRouterPage> {
           // 각 탭에 대응하는 위젯을 여기에 넣으세요.
           MainPage(),
           AdminMainPage(),
-          ShopPage(),
+          MenuUpload(),
           UserPage(),
         ],
       ),
