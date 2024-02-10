@@ -49,9 +49,14 @@ class AdminMainPageState extends State<AdminMainPage>
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.2,
               width: MediaQuery.of(context).size.height * 0.25,
-              child: Image.network(
-                menu.imageAddress,
-                fit: BoxFit.cover,
+              child: GestureDetector(
+                onTap: () {
+                  print("@@");
+                },
+                child: Image.network(
+                  menu.imageAddress,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             SizedBox(

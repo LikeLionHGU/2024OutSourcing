@@ -43,8 +43,8 @@ class AdminRouterPageState extends State<AdminRouterPage> {
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.search), label: "검색"),
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "오늘반찬"),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "장바구니"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "마이페이지"),
+          BottomNavigationBarItem(icon: Icon(Icons.add_circle_outline), label: "메뉴등록"),
+          BottomNavigationBarItem(icon: Icon(Icons.receipt_long_rounded), label: "주문확인"),
         ],
       ),
     );
