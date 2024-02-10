@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/page/AdminRouterPage.dart';
 import 'package:flutter_application/page/RouterPage.dart';
 
 import '../../main/MainPage.dart';
@@ -116,18 +117,27 @@ class LoginState extends State<Login> {
 
               try {
                 // 사용자 로그인 시도
-                print('!!');
+
                   UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
                   email: _emailController.text,
                   password: _passwordController.text,
                 );
-                print('??');
-                  // 로그인 성공, UserCredential에서 User 반환
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => RouterPage()),
-                  ModalRoute.withName('/router'),
-                );
+
+                if(FirebaseAuth.instance.currentUser!.uid == "mV9xtQzNfrdW9Acn3aAfcPwDS9E2") {
+
+                    Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => AdminRouterPage()),
+                    ModalRoute.withName('/admin/router'),
+                  );
+                } else {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => RouterPage()),
+                    ModalRoute.withName('/router'),
+                  );
+                }
+
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'user-not-found') {
                   AlertDialog(

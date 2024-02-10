@@ -40,6 +40,7 @@ dependencies:
   remedi_kopo: ^0.0.2
   kpostal: ^0.5.1
   firebase_auth: ^4.17.4
+  bootpay: ^4.8.3
 
 dev_dependencies:
   flutter_test:

@@ -362,8 +362,86 @@ class OrderPageState extends State<OrderPage>
           ]),
           ExpansionTile(
             title: Text('결제방식'),
-            children:
-            items.map(buildShopItem).toList(), // 리스트를 ExpansionTile에 매핑합니다.
+            children: [
+              SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+              Row(
+                children: [
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+                  Text("계좌이체", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+                ],
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.005,),
+              Row(
+                children: [
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+                  Text("신한은행 123456789", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+                ],
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.005,),
+              Row(
+                children: [
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+                  Text("(주문 후 바로 입금 부탁드립니다)", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+                ],
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.02,
+              ),
+            ]
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
+          ),
+          Row(
+            children: [
+              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+              Text("총 상품 금액", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              Spacer(),
+              Text("7000원", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+            ],
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
+          ),
+          Row(
+            children: [
+              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+              Text("배달비", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              Spacer(),
+              Text("0원", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+            ],
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
+          ),
+          Row(
+            children: [
+              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+              Text("총 결제 금액", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              Spacer(),
+              Text("7000원", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+            ],
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
+          ),
+
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.9,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey), // 테두리 색상
+                borderRadius: BorderRadius.circular(8), // 모서리 둥글기
+              ),
+              child: TextButton(
+                child: Text("바로 구매하기", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+                onPressed: () {},
+              ),
+            ),
           ),
         ],
       ),

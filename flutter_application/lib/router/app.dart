@@ -4,6 +4,8 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/Kakao.dart';
+import 'package:flutter_application/page/AdminRouterPage.dart';
 import 'package:flutter_application/page/RouterPage.dart';
 import 'package:flutter_application/page/main/MainPage.dart';
 import 'package:flutter_application/page/menu/OrderPage.dart';
@@ -32,7 +34,9 @@ class MyApp extends StatelessWidget {
         // '/signUpDetail' : (BuildContext context) => SignUpDetail(),
         '/login' : (BuildContext context) => Login(),
         '/router' : (BuildContext context) => RouterPage(),
+        '/admin/router' : (BuildContext context) => AdminRouterPage(),
         '/order' : (BuildContext context) => OrderPage(),
+        '/test' : (BuildContext context) => PaymentButton(),
         // '/student/calendar' : (BuildContext context) => StudentCalendarPage(),
         // '/professor/calendar' : (BuildContext context) => ProfessorCalendarPage(),
         // '/chat' : (BuildContext context) => ChatScreen(),
