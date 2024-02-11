@@ -240,6 +240,27 @@
             </list>
           </value>
         </entry>
+        <entry key="firebase_storage">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_storage-11.6.5/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="firebase_storage_platform_interface">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_storage_platform_interface-5.1.8/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="firebase_storage_web">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_storage_web-3.6.22/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="flutter">
           <value>
             <list>
@@ -725,6 +746,9 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core-2.25.4/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core_platform_interface-5.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core_web-2.11.4/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_storage-11.6.5/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_storage_platform_interface-5.1.8/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_storage_web-3.6.22/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_inappwebview-5.8.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_lints-2.0.3/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.17/lib" />

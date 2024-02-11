@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+// 이 페이지는
+
 class OrderList extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => OrderListState();

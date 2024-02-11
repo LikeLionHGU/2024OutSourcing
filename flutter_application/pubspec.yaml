@@ -42,6 +42,7 @@ dependencies:
   firebase_auth: ^4.17.4
   bootpay: ^4.8.3
   image_picker: ^1.0.7
+  firebase_storage: ^11.6.5
 
 dev_dependencies:
   flutter_test:
