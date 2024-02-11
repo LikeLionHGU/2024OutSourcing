@@ -52,7 +52,7 @@ class MenuUploadState extends State<MenuUpload> {
     CollectionReference products = FirebaseFirestore.instance.collection('products');
     return products.add({
       'name': nameController.text,
-      'price': double.tryParse(priceController.text) ?? 0.0,
+      'price': int.tryParse(priceController.text) ?? 0,
       'count': int.tryParse(countController.text) ?? 0,
       'description': descriptionController.text,
       'address': addressController.text,
@@ -67,34 +67,137 @@ class MenuUploadState extends State<MenuUpload> {
     if (_image != null) {
       uploadImage(_image!).then((imageUrl) {
         if (imageUrl != null) {
-          saveData(imageUrl);
+          if(nameController.text == null) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('업로드 실패'),
+                  backgroundColor: Colors.white,
+                  content: Text('메뉴 이름을 입력해주세요.'),
+                  actions: <Widget>[
+                    TextButton(
+                      child: Text('확인', style: TextStyle(color: Colors.black),),
+                      onPressed: () {
+                        Navigator.of(context).pop(); // 경고창을 닫습니다.
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
 
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('업로드 성공'),
-                backgroundColor: Colors.white,
-                content: Text('메뉴가 업로드 되었습니다.'),
-                actions: <Widget>[
-                  TextButton(
-                    child: Text('확인', style: TextStyle(color: Colors.black),),
-                    onPressed: () {
-                      setState(() {
-                        _image = null;
-                        nameController.text = '';
-                        priceController.text = '';
-                        countController.text = '';
-                        descriptionController.text = '';
-                        addressController.text = '';
-                      });
-                      Navigator.of(context).pop(); // 경고창을 닫습니다.
-                    },
-                  ),
-                ],
-              );
-            },
-          );
+          } else if (priceController.text == null) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('업로드 실패'),
+                  backgroundColor: Colors.white,
+                  content: Text('가격을 입력해주세요.'),
+                  actions: <Widget>[
+                    TextButton(
+                      child: Text('확인', style: TextStyle(color: Colors.black),),
+                      onPressed: () {
+                        Navigator.of(context).pop(); // 경고창을 닫습니다.
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+
+          } else if (countController.text == null) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('업로드 실패'),
+                  backgroundColor: Colors.white,
+                  content: Text('수량을 입력해주세요.'),
+                  actions: <Widget>[
+                    TextButton(
+                      child: Text('확인', style: TextStyle(color: Colors.black),),
+                      onPressed: () {
+                        Navigator.of(context).pop(); // 경고창을 닫습니다.
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+
+          } else if (descriptionController.text == null) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('업로드 실패'),
+                  backgroundColor: Colors.white,
+                  content: Text('상품 설명을 입력해주세요.'),
+                  actions: <Widget>[
+                    TextButton(
+                      child: Text('확인', style: TextStyle(color: Colors.black),),
+                      onPressed: () {
+                        Navigator.of(context).pop(); // 경고창을 닫습니다.
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+
+          } else if (addressController.text == null) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('업로드 실패'),
+                  backgroundColor: Colors.white,
+                  content: Text('배송 안내사항을 입력해주세요.'),
+                  actions: <Widget>[
+                    TextButton(
+                      child: Text('확인', style: TextStyle(color: Colors.black),),
+                      onPressed: () {
+                        Navigator.of(context).pop(); // 경고창을 닫습니다.
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+
+          } else {
+            saveData(imageUrl);
+
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('업로드 성공'),
+                  backgroundColor: Colors.white,
+                  content: Text('메뉴가 업로드 되었습니다.'),
+                  actions: <Widget>[
+                    TextButton(
+                      child: Text('확인', style: TextStyle(color: Colors.black),),
+                      onPressed: () {
+                        setState(() {
+                          _image = null;
+                          nameController.text = '';
+                          priceController.text = '';
+                          countController.text = '';
+                          descriptionController.text = '';
+                          addressController.text = '';
+                        });
+                        Navigator.of(context).pop(); // 경고창을 닫습니다.
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          }
+
         }
       });
     } else {

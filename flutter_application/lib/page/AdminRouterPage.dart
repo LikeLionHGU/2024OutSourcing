@@ -29,7 +29,7 @@ class AdminRouterPageState extends State<AdminRouterPage> {
         },
         children: <Widget>[
           // 각 탭에 대응하는 위젯을 여기에 넣으세요.
-          MainPage(),
+          AdminMainPage(),
           AdminMainPage(),
           MenuUpload(),
           OrderList(),

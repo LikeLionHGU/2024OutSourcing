@@ -12,11 +12,18 @@ class AdminMainPage extends StatefulWidget {
 class AdminMainPageState extends State<AdminMainPage>
     with SingleTickerProviderStateMixin {
   TabController? tabController;
+  List<Menu>? menus;
 
   @override
   void initState() {
     super.initState();
     tabController = TabController(length: 6, vsync: this);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      var loadedMenus = await MenuRepository.loadMenusFromFirestore();
+      setState(() {
+        menus = loadedMenus;
+      });
+    });
   }
 
 
@@ -27,13 +34,12 @@ class AdminMainPageState extends State<AdminMainPage>
   }
 
   List<Card> _buildGridCards(BuildContext context, Orientation orientation) {
-    List<Menu> menus = MenuRepository.loadMenus();
-
-    if (menus.isEmpty) {
-      return const <Card>[];
+    if(menus == null || menus!.isEmpty) {
+      return <Card>[];
     }
 
-    return menus.map((menu) {
+    return menus!.map((menu) {
+      print(menu.price);
       return Card(
         color: Colors.white,
         clipBehavior: Clip.antiAlias,

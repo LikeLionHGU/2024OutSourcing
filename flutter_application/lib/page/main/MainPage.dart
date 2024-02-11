@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/entity/Menu.dart';
 import 'package:flutter_application/entity/MenuRepository.dart';
+import 'package:flutter_application/page/menu/AdminMenuDetail.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -11,11 +12,18 @@ class MainPage extends StatefulWidget {
 class MainPageState extends State<MainPage>
     with SingleTickerProviderStateMixin {
   TabController? tabController;
+  List<Menu>? menus;
 
   @override
   void initState() {
     super.initState();
     tabController = TabController(length: 6, vsync: this);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      var loadedMenus = await MenuRepository.loadMenusFromFirestore();
+      setState(() {
+        menus = loadedMenus;
+      });
+    });
   }
 
 
@@ -26,13 +34,12 @@ class MainPageState extends State<MainPage>
   }
 
   List<Card> _buildGridCards(BuildContext context, Orientation orientation) {
-    List<Menu> menus = MenuRepository.loadMenus();
-
-    if (menus.isEmpty) {
-      return const <Card>[];
+    if(menus == null || menus!.isEmpty) {
+      return <Card>[];
     }
 
-    return menus.map((menu) {
+    return menus!.map((menu) {
+      print(menu.price);
       return Card(
         color: Colors.white,
         clipBehavior: Clip.antiAlias,
@@ -49,41 +56,19 @@ class MainPageState extends State<MainPage>
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.2,
               width: MediaQuery.of(context).size.height * 0.25,
-              child: Image.network(
-                menu.imageAddress,
-                fit: BoxFit.cover,
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.01,
-            ),
-            Container(
-              alignment: Alignment.center,
-              height: MediaQuery.of(context).size.height * 0.035,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey), // 테두리 색상
-                borderRadius: BorderRadius.circular(8), // 모서리 둥글기
-              ),
-              child: TextButton(
-                onPressed: () {
-                  // 버튼 클릭 시 실행할 작업
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AdminMenuDetail(), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
+                    ),
+                  );
                 },
-                child: Text(
-                  "담기",
-                  style: TextStyle(
-                    color: Colors.black, // 텍스트 색상
-                    fontSize:
-                        MediaQuery.of(context).size.height * 0.015, // 텍스트 크기
-                  ),
-                  textAlign: TextAlign.center,
+                child: Image.network(
+                  menu.imageAddress,
+                  fit: BoxFit.cover,
                 ),
-                style: TextButton.styleFrom(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.zero,
-                ),
-                // style: TextButton.styleFrom(
-                //   padding: EdgeInsets.all(8), // 버튼 내부의 패딩
-                // ),
               ),
             ),
             SizedBox(
@@ -100,17 +85,17 @@ class MainPageState extends State<MainPage>
             Text(
               '${menu.count}개 남았습니다',
               style: TextStyle(
-                fontSize: MediaQuery.of(context).size.width * 0.03,
-                color: Color(0xffFF0000)
+                  fontSize: MediaQuery.of(context).size.width * 0.03,
+                  color: Color(0xffFF0000)
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.01),
             Text(
               '${menu.price}원',
               style: TextStyle(
-                fontSize: MediaQuery.of(context).size.width * 0.03,
-                color: Colors.black,
-                fontWeight: FontWeight.bold
+                  fontSize: MediaQuery.of(context).size.width * 0.03,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold
               ),
             ),
           ],

@@ -5,6 +5,8 @@ import 'package:flutter_application/page/main/MainPage.dart';
 import 'package:flutter_application/page/shop/Shop.dart';
 import 'package:flutter_application/page/user/UserPage.dart';
 
+import 'main/AdminMainPage.dart';
+
 class RouterPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => RouterPageState();
@@ -26,8 +28,8 @@ class RouterPageState extends State<RouterPage> {
         },
         children: <Widget>[
           // 각 탭에 대응하는 위젯을 여기에 넣으세요.
-          MainPage(),
-          MainPage(),
+          AdminMainPage(),
+          AdminMainPage(),
           ShopPage(),
           UserPage(),
         ],
