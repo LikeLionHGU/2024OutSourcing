@@ -26,6 +26,8 @@ class MenuDetailState extends State<MenuDetail>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.white,
+          scrolledUnderElevation: 0,
           centerTitle: true,
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
@@ -46,6 +48,7 @@ class MenuDetailState extends State<MenuDetail>
                 icon: Icon(Icons.shopping_cart)),
           ],
         ),
+        backgroundColor: Colors.white,
         body: Column(children: [
           Image(
               image: NetworkImage(

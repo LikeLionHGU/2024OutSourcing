@@ -27,12 +27,10 @@ class AdminMainPageState extends State<AdminMainPage>
       var loadedMenus = await MenuRepository.loadMenusFromFirestore();
       setState(() {
         menus = loadedMenus;
-        print("!@#");
 
         for(int i = 0; i < loadedMenus.length; i++) {
           if(loadedMenus[i].category == 0) {
             firstMenu.add(loadedMenus[i]);
-            print("!@#");
           } else if(loadedMenus[i].category == 1) {
             secondMenu.add(loadedMenus[i]);
           } else if(loadedMenus[i].category == 2) {
@@ -84,7 +82,7 @@ class AdminMainPageState extends State<AdminMainPage>
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AdminMenuDetail(), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
+                      builder: (context) => AdminMenuDetail(menu: menu,), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
                     ),
                   );
                 },
@@ -155,7 +153,7 @@ class AdminMainPageState extends State<AdminMainPage>
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AdminMenuDetail(), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
+                      builder: (context) => AdminMenuDetail(menu: menu,), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
                     ),
                   );
                 },

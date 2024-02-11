@@ -1,7 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../entity/Menu.dart';
+
 class AdminMenuDetail extends StatefulWidget {
+  AdminMenuDetail({Key? key, required this.menu}) : super(key: key); // 생성자
+  Menu menu;
+
   @override
   State<StatefulWidget> createState() => AdminMenuDetailState();
 }
@@ -24,9 +29,13 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
 
   @override
   Widget build(BuildContext context) {
+    final List<String> options = ['메인', '찌개', '해물', '육류', '반찬'];
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        backgroundColor: Colors.white,
+        scrolledUnderElevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -34,14 +43,15 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
           },
         ),
         title: Text(
-          "닭가슴살 샐러드",
+          widget.menu.name,
           style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05),
         ),
       ),
+      backgroundColor: Colors.white,
       body: Column(children: [
         Image(
             image: NetworkImage(
-                'https://firebasestorage.googleapis.com/v0/b/onban-e3465.appspot.com/o/KakaoTalk_Photo_2024-02-02-20-09-13.jpeg?alt=media&token=d2117df7-112e-4431-be85-155b8d2b8f4a')),
+                widget.menu.imageAddress)),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.03,
         ),
@@ -52,7 +62,7 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
             ),
             Container(
               child: Text(
-                "간편식",
+                options[widget.menu.category],
                 style: TextStyle(color: Color(0xffC5C5C5)),
               ),
               alignment: Alignment.centerLeft,
@@ -67,7 +77,7 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
             SizedBox(width: MediaQuery.of(context).size.width * 0.05),
             Container(
               child: Text(
-                "닭가슴살 샐러드",
+                widget.menu.name,
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.height * 0.025),
               ),
@@ -109,7 +119,7 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
             ),
             Container(
               child: Text(
-                "10개 남았습니다",
+                '${widget.menu.count}개 남았습니다',
                 style: TextStyle(color: Color(0xffFF0000)),
               ),
               alignment: Alignment.centerLeft,
@@ -126,7 +136,7 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
             ),
             Container(
               child: Text(
-                "7,000원",
+                '${widget.menu.price}원',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: MediaQuery.of(context).size.height * 0.025),
@@ -182,7 +192,9 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
                         Expanded(
                           child: Container(
                             child:
-                                Text('샐러드 소스를 넣어 드립니다. \n기호에 따라 넣어 드시면 됩니다 :)'),
+                                Text(
+                                  widget.menu.description
+                                ),
                             alignment: Alignment.centerLeft,
                           ),
                         ),
@@ -209,7 +221,7 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
                         Expanded(
                           child: Container(
                             child: Text(
-                                '작성해주신 배송지로 배송 해드립니다. \n주소가 다를 경우, 확인 부탁 드립니다 :)'),
+                                widget.menu.address),
                             alignment: Alignment.centerLeft,
                           ),
                         ),
