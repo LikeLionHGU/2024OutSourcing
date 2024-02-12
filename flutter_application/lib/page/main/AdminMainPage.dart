@@ -217,7 +217,7 @@ class AdminMainPageState extends State<AdminMainPage>
         backgroundColor: Colors.white,
         centerTitle: true,
         elevation: 0,
-        title: Text("온반"),
+        title: Text("온반", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.01),),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight + 200),
           child: Column(
@@ -225,7 +225,7 @@ class AdminMainPageState extends State<AdminMainPage>
               Container(
                 child: Image(
                     image: NetworkImage(
-                        "https://firebasestorage.googleapis.com/v0/b/onban-e3465.appspot.com/o/og%20image.jpg?alt=media&token=7558374d-8d17-4e0a-a53e-f1459a82c383")),
+                        "https://firebasestorage.googleapis.com/v0/b/onban-e3465.appspot.com/o/Frame%201097.png?alt=media&token=1773d545-842c-4eb3-8511-5c643bc1817a")),
               ),
               // PreferredSizeWidget을 사용하여 TabBar에 적절한 높이를 제공합니다.
               Container(
@@ -239,10 +239,10 @@ class AdminMainPageState extends State<AdminMainPage>
                     fontSize: 14.0,
                   ),
                   unselectedLabelStyle: TextStyle(fontSize: 14.0),
-                  labelColor: Colors.black,
+                  labelColor: Color(0xffFF8B51),
                   unselectedLabelColor: Colors.grey,
                   indicatorSize: TabBarIndicatorSize.tab,
-                  indicatorColor: Colors.black,
+                  indicatorColor: Color(0xffFF8B51),
                   indicatorWeight: 1.0,
                   tabs: [
                     Tab(

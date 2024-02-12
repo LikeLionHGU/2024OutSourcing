@@ -38,7 +38,7 @@ class RouterPageState extends State<RouterPage> {
         backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
+        selectedItemColor: Color(0xffFF8B51),
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
         items: [

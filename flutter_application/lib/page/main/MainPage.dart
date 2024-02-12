@@ -98,7 +98,8 @@ class MainPageState extends State<MainPage>
               alignment: Alignment.center,
               height: MediaQuery.of(context).size.height * 0.035,
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey), // 테두리 색상
+                color: Colors.white,
+                border: Border.all(color: Color(0xffFF8B51)), // 테두리 색상
                 borderRadius: BorderRadius.circular(8), // 모서리 둥글기
               ),
               child: TextButton(
@@ -108,7 +109,7 @@ class MainPageState extends State<MainPage>
                 child: Text(
                   "담기",
                   style: TextStyle(
-                    color: Colors.black, // 텍스트 색상
+                    color: Color(0xffFF8B51), // 텍스트 색상
                     fontSize:
                     MediaQuery.of(context).size.height * 0.015, // 텍스트 크기
                   ),
@@ -248,15 +249,15 @@ class MainPageState extends State<MainPage>
         backgroundColor: Colors.white,
         centerTitle: true,
         elevation: 0,
-        title: Text("온반"),
+        title: Text("온반", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05),),
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight + 200),
+          preferredSize: Size.fromHeight(kToolbarHeight + 140),
           child: Column(
             children: [
               Container(
                 child: Image(
                     image: NetworkImage(
-                        "https://firebasestorage.googleapis.com/v0/b/onban-e3465.appspot.com/o/Slide%2016_9%20-%201%201.png?alt=media&token=e3824a2b-f00e-44c9-bb14-fe426b298e5e")),
+                        "https://firebasestorage.googleapis.com/v0/b/onban-e3465.appspot.com/o/Frame%201097.png?alt=media&token=1773d545-842c-4eb3-8511-5c643bc1817a")),
               ),
               // PreferredSizeWidget을 사용하여 TabBar에 적절한 높이를 제공합니다.
               Container(
@@ -270,10 +271,10 @@ class MainPageState extends State<MainPage>
                     fontSize: 14.0,
                   ),
                   unselectedLabelStyle: TextStyle(fontSize: 14.0),
-                  labelColor: Colors.black,
+                  labelColor: Color(0xffFF8B51),
                   unselectedLabelColor: Colors.grey,
                   indicatorSize: TabBarIndicatorSize.tab,
-                  indicatorColor: Colors.black,
+                  indicatorColor: Color(0xffFF8B51),
                   indicatorWeight: 1.0,
                   tabs: [
                     Tab(

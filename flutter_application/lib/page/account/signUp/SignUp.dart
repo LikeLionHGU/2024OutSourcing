@@ -139,7 +139,8 @@ class SignUpState extends State {
             height: MediaQuery.of(context).size.height * 0.05,
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey), // 테두리 색상
+              color: Color(0xffFF8B51),
+              border: Border.all(color: Color(0xffFF8B51)), // 테두리 색상
               borderRadius: BorderRadius.circular(8), // 모서리 둥글기
             ),
             child: TextButton(
@@ -147,7 +148,7 @@ class SignUpState extends State {
                 "다음",
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.height * 0.015,
-                    color: Colors.black),
+                    color: Colors.white),
               ),
               onPressed: () {
                 if (emailController.text.isEmpty) {
