@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         // '/professor/student' : (BuildContext context) => const ProfessorProfileWithStudent(),
         // '/reservation/student' : (BuildContext context) => const StudentReservation(),
         // '/main' : (BuildContext context) => MainPage(),
-        '/detail' : (BuildContext context) => MenuDetail(),
+        // '/detail' : (BuildContext context) => MenuDetail(),
         '/first' : (BuildContext context) => FirstPage(),
         '/signUp' : (BuildContext context) => SignUpPage(),
         // '/signUpDetail' : (BuildContext context) => SignUpDetail(),

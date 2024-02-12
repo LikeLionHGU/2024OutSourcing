@@ -13,6 +13,11 @@ class MainPageState extends State<MainPage>
     with SingleTickerProviderStateMixin {
   TabController? tabController;
   List<Menu>? menus;
+  List<Menu> firstMenu = [];
+  List<Menu> secondMenu = [];
+  List<Menu> thirdMenu = [];
+  List<Menu> fourthMenu = [];
+  List<Menu> fifthMenu = [];
 
   @override
   void initState() {
@@ -22,6 +27,21 @@ class MainPageState extends State<MainPage>
       var loadedMenus = await MenuRepository.loadMenusFromFirestore();
       setState(() {
         menus = loadedMenus;
+        for(int i = 0; i < loadedMenus.length; i++) {
+          if(loadedMenus[i].category == 0) {
+            firstMenu.add(loadedMenus[i]);
+          } else if(loadedMenus[i].category == 1) {
+            secondMenu.add(loadedMenus[i]);
+          } else if(loadedMenus[i].category == 2) {
+            thirdMenu.add(loadedMenus[i]);
+          } else if(loadedMenus[i].category == 3) {
+            fourthMenu.add(loadedMenus[i]);
+          } else if(loadedMenus[i].category == 4) {
+            fifthMenu.add(loadedMenus[i]);
+          } else {
+            print(loadedMenus[i].category);
+          }
+        }
       });
     });
   }
@@ -65,6 +85,109 @@ class MainPageState extends State<MainPage>
                 //     ),
                 //   );
                 // },
+                child: Image.network(
+                  menu.imageAddress,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.01,
+            ),
+            Container(
+              alignment: Alignment.center,
+              height: MediaQuery.of(context).size.height * 0.035,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey), // 테두리 색상
+                borderRadius: BorderRadius.circular(8), // 모서리 둥글기
+              ),
+              child: TextButton(
+                onPressed: () {
+                  // 버튼 클릭 시 실행할 작업
+                },
+                child: Text(
+                  "담기",
+                  style: TextStyle(
+                    color: Colors.black, // 텍스트 색상
+                    fontSize:
+                    MediaQuery.of(context).size.height * 0.015, // 텍스트 크기
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                style: TextButton.styleFrom(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.zero,
+                ),
+                // style: TextButton.styleFrom(
+                //   padding: EdgeInsets.all(8), // 버튼 내부의 패딩
+                // ),
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.01,
+            ),
+            Text(
+              menu.name,
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.width * 0.04,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.001),
+            Text(
+              '${menu.count}개 남았습니다',
+              style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.width * 0.03,
+                  color: Color(0xffFF0000)
+              ),
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+            Text(
+              '${menu.price}원',
+              style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.width * 0.03,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold
+              ),
+            ),
+          ],
+        ),
+      );
+    }).toList();
+  }
+
+  List<Card> _buildElementGridCards(BuildContext context, Orientation orientation, List<Menu> targetMenu) {
+    if(targetMenu == null || targetMenu!.isEmpty) {
+      return <Card>[];
+    }
+
+    return targetMenu!.map((menu) {
+      print(menu.price);
+      return Card(
+        color: Colors.white,
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.zero, // 모서리를 둥글게 하지 않음
+        ),
+        elevation: 0.0,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.01,
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.2,
+              width: MediaQuery.of(context).size.height * 0.25,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AdminMenuDetail(menu: menu,), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
+                    ),
+                  );
+                },
                 child: Image.network(
                   menu.imageAddress,
                   fit: BoxFit.cover,
@@ -133,7 +256,7 @@ class MainPageState extends State<MainPage>
               Container(
                 child: Image(
                     image: NetworkImage(
-                        "https://firebasestorage.googleapis.com/v0/b/onban-e3465.appspot.com/o/og%20image.jpg?alt=media&token=7558374d-8d17-4e0a-a53e-f1459a82c383")),
+                        "https://firebasestorage.googleapis.com/v0/b/onban-e3465.appspot.com/o/Slide%2016_9%20-%201%201.png?alt=media&token=e3824a2b-f00e-44c9-bb14-fe426b298e5e")),
               ),
               // PreferredSizeWidget을 사용하여 TabBar에 적절한 높이를 제공합니다.
               Container(
@@ -199,11 +322,71 @@ class MainPageState extends State<MainPage>
                     );
                   },
                 ),
-                Center(child: Text('김치/절임 메뉴')),
-                Center(child: Text('찌개 메뉴')),
-                Center(child: Text('해물 메뉴')),
-                Center(child: Text('전체 메뉴')),
-                Center(child: Text('전체 메뉴')),
+                OrientationBuilder(
+                  builder: (context, orientation) {
+                    int crossAxisCount = 2;
+                    double spacing = MediaQuery.of(context).size.height * 0.00000000001;
+                    return GridView.count(
+                      crossAxisCount: crossAxisCount,
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      childAspectRatio: childAspectRatio,
+                      // mainAxisSpacing: spacing,
+                      children: _buildElementGridCards(context, orientation, firstMenu),
+                    );
+                  },
+                ),
+                OrientationBuilder(
+                  builder: (context, orientation) {
+                    int crossAxisCount = 2;
+                    double spacing = MediaQuery.of(context).size.height * 0.00000000001;
+                    return GridView.count(
+                      crossAxisCount: crossAxisCount,
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      childAspectRatio: childAspectRatio,
+                      // mainAxisSpacing: spacing,
+                      children: _buildElementGridCards(context, orientation, secondMenu),
+                    );
+                  },
+                ),
+                OrientationBuilder(
+                  builder: (context, orientation) {
+                    int crossAxisCount = 2;
+                    double spacing = MediaQuery.of(context).size.height * 0.00000000001;
+                    return GridView.count(
+                      crossAxisCount: crossAxisCount,
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      childAspectRatio: childAspectRatio,
+                      // mainAxisSpacing: spacing,
+                      children: _buildElementGridCards(context, orientation, thirdMenu),
+                    );
+                  },
+                ),
+                OrientationBuilder(
+                  builder: (context, orientation) {
+                    int crossAxisCount = 2;
+                    double spacing = MediaQuery.of(context).size.height * 0.00000000001;
+                    return GridView.count(
+                      crossAxisCount: crossAxisCount,
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      childAspectRatio: childAspectRatio,
+                      // mainAxisSpacing: spacing,
+                      children: _buildElementGridCards(context, orientation, fourthMenu),
+                    );
+                  },
+                ),
+                OrientationBuilder(
+                  builder: (context, orientation) {
+                    int crossAxisCount = 2;
+                    double spacing = MediaQuery.of(context).size.height * 0.00000000001;
+                    return GridView.count(
+                      crossAxisCount: crossAxisCount,
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      childAspectRatio: childAspectRatio,
+                      // mainAxisSpacing: spacing,
+                      children: _buildElementGridCards(context, orientation, fifthMenu),
+                    );
+                  },
+                ),
               ],
             ),
           ),

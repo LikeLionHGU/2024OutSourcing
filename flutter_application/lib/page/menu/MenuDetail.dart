@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../entity/Menu.dart';
+
 class MenuDetail extends StatefulWidget {
+  MenuDetail({Key? key, required this.menu}) : super(key: key); // 생성자
+  Menu menu;
   @override
   State<StatefulWidget> createState() => MenuDetailState();
 }
@@ -24,6 +28,7 @@ class MenuDetailState extends State<MenuDetail>
 
   @override
   Widget build(BuildContext context) {
+    final List<String> options = ['메인', '찌개', '해물', '육류', '반찬'];
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -36,7 +41,7 @@ class MenuDetailState extends State<MenuDetail>
             },
           ),
           title: Text(
-            "닭가슴살 샐러드",
+            widget.menu.name,
             style:
                 TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05),
           ),
@@ -52,7 +57,7 @@ class MenuDetailState extends State<MenuDetail>
         body: Column(children: [
           Image(
               image: NetworkImage(
-                  "https://firebasestorage.googleapis.com/v0/b/onban-e3465.appspot.com/o/og%20image.jpg?alt=media&token=7558374d-8d17-4e0a-a53e-f1459a82c383")),
+                  widget.menu.imageAddress)),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.03,
           ),
@@ -64,7 +69,7 @@ class MenuDetailState extends State<MenuDetail>
               ),
               Container(
                 child: Text(
-                  "간편식",
+                  options[widget.menu.category],
                   style: TextStyle(color: Color(0xffC5C5C5)),
                 ),
                 alignment: Alignment.centerLeft,
@@ -79,7 +84,7 @@ class MenuDetailState extends State<MenuDetail>
               SizedBox(width: MediaQuery.of(context).size.width * 0.05),
               Container(
                 child: Text(
-                  "닭가슴살 샐러드",
+                  widget.menu.name,
                   style: TextStyle(
                       fontSize: MediaQuery.of(context).size.height * 0.025),
                 ),
@@ -94,7 +99,7 @@ class MenuDetailState extends State<MenuDetail>
               ),
               Container(
                 child: Text(
-                  "10개 남았습니다",
+                  '${widget.menu.count}개 남았습니다',
                   style: TextStyle(color: Color(0xffFF0000)),
                 ),
                 alignment: Alignment.centerLeft,
@@ -111,7 +116,7 @@ class MenuDetailState extends State<MenuDetail>
               ),
               Container(
                 child: Text(
-                  "7,000원",
+                  '${widget.menu.price}원',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: MediaQuery.of(context).size.height * 0.025),
@@ -167,7 +172,7 @@ class MenuDetailState extends State<MenuDetail>
                           Expanded(
                             child: Container(
                               child: Text(
-                                  '샐러드 소스를 넣어 드립니다. \n기호에 따라 넣어 드시면 됩니다 :)'),
+                                  widget.menu.description),
                               alignment: Alignment.centerLeft,
                             ),
                           ),
@@ -194,7 +199,7 @@ class MenuDetailState extends State<MenuDetail>
                           Expanded(
                             child: Container(
                               child: Text(
-                                  '작성해주신 배송지로 배송 해드립니다. \n주소가 다를 경우, 확인 부탁 드립니다 :)'),
+                                  widget.menu.address),
                               alignment: Alignment.centerLeft,
                             ),
                           ),
@@ -265,7 +270,7 @@ class MenuDetailState extends State<MenuDetail>
                                           ),
                                           Container(
                                             child: Text(
-                                              "닭가슴살 샐러드",
+                                              widget.menu.name,
                                             ),
                                             alignment: Alignment.centerLeft,
                                           ),
@@ -319,7 +324,7 @@ class MenuDetailState extends State<MenuDetail>
                                             ),
                                           ),
                                           Spacer(),
-                                          Text("7,000원"),
+                                          Text('${widget.menu.price}원',),
                                           SizedBox(
                                             width: MediaQuery.of(context)
                                                 .size
@@ -343,7 +348,7 @@ class MenuDetailState extends State<MenuDetail>
                                 SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
                                 Text("총 결제 금액", style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.02, fontWeight: FontWeight.bold),),
                                 Spacer(),
-                                Text("7,000원", style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.02, fontWeight: FontWeight.bold),),
+                                Text('${widget.menu.price}원', style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.02, fontWeight: FontWeight.bold),),
                                 SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
                               ],
                             ),
@@ -441,3 +446,4 @@ class MenuDetailState extends State<MenuDetail>
         ));
   } // 0xffC5C5C5
 }
+// 울산광역시 남구 동산로 29번길 16
