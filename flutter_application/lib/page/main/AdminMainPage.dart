@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/entity/Menu.dart';
 import 'package:flutter_application/entity/MenuRepository.dart';
 import 'package:flutter_application/page/menu/AdminMenuDetail.dart';
+import 'package:intl/intl.dart';
 
 class AdminMainPage extends StatefulWidget {
   @override
@@ -112,7 +113,7 @@ class AdminMainPageState extends State<AdminMainPage>
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.01),
             Text(
-              '${menu.price}원',
+              '${NumberFormat('#,###').format(menu.price)}원',
               style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.03,
                   color: Colors.black,

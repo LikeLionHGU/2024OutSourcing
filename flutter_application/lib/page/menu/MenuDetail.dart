@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/entity/shop/ShopItemProvider.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../entity/Menu.dart';
@@ -114,7 +115,7 @@ class MenuDetailState extends State<MenuDetail>
               ),
               Container(
                 child: Text(
-                  '${widget.menu.price}원',
+                  '${NumberFormat('#,###').format(widget.menu.price)}원',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: MediaQuery.of(context).size.height * 0.025),
@@ -317,7 +318,7 @@ class MenuDetailState extends State<MenuDetail>
                                             ),
                                           ),
                                           Spacer(),
-                                          Text('${widget.menu.price * count}원',),
+                                          Text('${NumberFormat('#,###').format(widget.menu.price * count)}원',),
                                           SizedBox(
                                             width: MediaQuery.of(context)
                                                 .size
@@ -341,7 +342,7 @@ class MenuDetailState extends State<MenuDetail>
                                 SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
                                 Text("총 결제 금액", style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.02, fontWeight: FontWeight.bold),),
                                 Spacer(),
-                                Text('${widget.menu.price}원', style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.02, fontWeight: FontWeight.bold),),
+                                Text('${NumberFormat('#,###').format(widget.menu.price * count)}원', style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.02, fontWeight: FontWeight.bold),),
                                 SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
                               ],
                             ),

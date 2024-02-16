@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/entity/shop/ShopItem.dart';
 import 'package:flutter_application/entity/shop/ShopItemProvider.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ShopPage extends StatefulWidget { // 장바구니 페이지에 해당함
@@ -69,7 +70,7 @@ class ShopPageState extends State<ShopPage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${shopItem.price}원'),
+                  Text('${NumberFormat('#,###').format(shopItem.price)}원'),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.35,
@@ -154,22 +155,22 @@ class ShopPageState extends State<ShopPage> {
                 Divider(),
                 Row(
                   children: [
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.04,),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
                     Text("총 상품 금액", style: TextStyle(fontWeight: FontWeight.bold),),
                     Spacer(),
                     Text('14000원', style: TextStyle(fontWeight: FontWeight.bold)),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.04,),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
                   ],
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.9,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey), // 테두리 색상
+                    color: Color(0xffFF8B51),
                     borderRadius: BorderRadius.circular(8), // 모서리 둥글기
                   ),
                   child: TextButton(
-                    child: Text("바로 구매하기", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+                    child: Text("바로 구매하기", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                     onPressed: () {},
                   ),
                 ),

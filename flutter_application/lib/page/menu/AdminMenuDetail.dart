@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../entity/Menu.dart';
 
@@ -136,7 +137,7 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
             ),
             Container(
               child: Text(
-                '${widget.menu.price}원',
+                '${NumberFormat('#,###').format(widget.menu.price)}원',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: MediaQuery.of(context).size.height * 0.025),
