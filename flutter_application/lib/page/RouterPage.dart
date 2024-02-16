@@ -17,7 +17,7 @@ class RouterPage extends StatefulWidget {
 class RouterPageState extends State<RouterPage> {
   int _selectedIndex = 1;
   PageController _pageController = PageController();
-  late Member member;
+  Member member = Member(name: "name", email: "email", phoneNumber: "phoneNumber", address: "address", addressDetail: "addressDetail");
 
   @override
   Widget build(BuildContext context) {
