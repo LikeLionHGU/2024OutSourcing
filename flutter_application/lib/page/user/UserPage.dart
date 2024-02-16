@@ -1,14 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/page/menu/OrderPage.dart';
 
+import '../../entity/Member.dart';
+
 class UserPage extends StatefulWidget {
+  Member member;
+  UserPage({Key? key, required this.member}) : super(key: key); // 생성자
   @override
   State<StatefulWidget> createState() => UserPageState();
 
 }
 
 class UserPageState extends State<UserPage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,14 +30,14 @@ class UserPageState extends State<UserPage> {
           Row(
             children: [
               SizedBox(width: MediaQuery.of(context).size.width * 0.07,),
-              Text("안녕하세요 김동규님", style: TextStyle(fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.width * 0.05),)
+              Text("안녕하세요 ${widget.member.name}님", style: TextStyle(fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.width * 0.05),)
             ],
           ),
           // SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
           Row(
             children: [
               SizedBox(width: MediaQuery.of(context).size.width * 0.07,),
-              Text("22000063@handong.ac.kr", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04),),
+              Text("${widget.member.email}", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04),),
               Spacer(),
               TextButton(onPressed: () {}, child: Text("계정관리", style: TextStyle(color: Colors.grey),)),
               SizedBox(width: MediaQuery.of(context).size.width * 0.07,),
@@ -80,5 +87,9 @@ class UserPageState extends State<UserPage> {
       ),
     );
   }
+
+
+
+
 
 }

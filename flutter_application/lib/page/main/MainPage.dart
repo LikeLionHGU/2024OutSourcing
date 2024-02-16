@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/entity/Member.dart';
 import 'package:flutter_application/entity/Menu.dart';
 import 'package:flutter_application/entity/MenuRepository.dart';
 import 'package:flutter_application/page/menu/AdminMenuDetail.dart';
@@ -19,6 +22,7 @@ class MainPageState extends State<MainPage>
   List<Menu> thirdMenu = [];
   List<Menu> fourthMenu = [];
   List<Menu> fifthMenu = [];
+  Member? member;
 
   @override
   void initState() {
@@ -45,6 +49,7 @@ class MainPageState extends State<MainPage>
         }
       });
     });
+
   }
 
 
