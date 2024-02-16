@@ -10,6 +10,8 @@ import '../entity/Member.dart';
 import 'main/AdminMainPage.dart';
 
 class RouterPage extends StatefulWidget {
+  int index = 0;
+  RouterPage({Key? key, required this.index}) : super(key: key);
   @override
   State<StatefulWidget> createState() => RouterPageState();
 }
@@ -21,7 +23,7 @@ class RouterPageState extends State<RouterPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(FirebaseAuth.instance.currentUser!.uid);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: PageView(
@@ -63,7 +65,6 @@ class RouterPageState extends State<RouterPage> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: _selectedIndex);
 
     final FirebaseAuth auth = FirebaseAuth.instance;
     final User? currentUser = auth.currentUser;
@@ -92,6 +93,12 @@ class RouterPageState extends State<RouterPage> {
       // currentUser가 null이면 로그인하지 않았다는 메시지를 출력합니다.
       print('No user is currently signed in.');
     }
+
+    setState(() {
+      _selectedIndex = widget.index;
+    });
+
+    _pageController = PageController(initialPage: _selectedIndex);
   }
 
   void _onItemTapped(int index) {

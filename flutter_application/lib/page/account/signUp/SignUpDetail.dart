@@ -310,7 +310,7 @@ class SignUpDetailState extends State<SignUpDetail> {
 
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => RouterPage()),
+                    MaterialPageRoute(builder: (context) => RouterPage(index: 1,)),
                     ModalRoute.withName('/router'),
                   );
                 }

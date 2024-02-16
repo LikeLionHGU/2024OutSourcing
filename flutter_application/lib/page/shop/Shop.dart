@@ -1,15 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/entity/shop/ShopItem.dart';
+import 'package:flutter_application/entity/shop/ShopItemProvider.dart';
+import 'package:provider/provider.dart';
 
-class ShopPage extends StatefulWidget {
+class ShopPage extends StatefulWidget { // 장바구니 페이지에 해당함
   @override
   State<StatefulWidget> createState() => ShopPageState();
 }
 
 class ShopPageState extends State<ShopPage> {
   bool isChecked = true;
-  List<ShopItem> items = [ShopItem(name: "닭가슴살 샐러드", price: 7000, count: 2, imageAddress: "https://firebasestorage.googleapis.com/v0/b/onban-e3465.appspot.com/o/og%20image.jpg?alt=media&token=7558374d-8d17-4e0a-a53e-f1459a82c383"), ShopItem(name: "닭가슴살 샐러드", price: 7000, count: 2, imageAddress: "https://firebasestorage.googleapis.com/v0/b/onban-e3465.appspot.com/o/og%20image.jpg?alt=media&token=7558374d-8d17-4e0a-a53e-f1459a82c383")];
+  List<ShopItem> items = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // Access the provider and context inside initState, not at the class level.
+    items = Provider.of<ShopItemProvider>(context, listen: false).items;
+  }
 
 
   void toggleCheckbox() {
@@ -50,7 +59,7 @@ class ShopPageState extends State<ShopPage> {
                   borderRadius: BorderRadius.circular(8),
                   image: DecorationImage(
                       image: NetworkImage(
-                          "https://firebasestorage.googleapis.com/v0/b/onban-e3465.appspot.com/o/KakaoTalk_Photo_2024-02-02-20-09-13.jpeg?alt=media&token=d2117df7-112e-4431-be85-155b8d2b8f4a"),
+                          shopItem.imageAddress),
                     fit: BoxFit.cover
                   )
                 ),

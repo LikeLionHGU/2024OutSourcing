@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/entity/shop/ShopItemProvider.dart';
+import 'package:provider/provider.dart';
 
 import '../../entity/Menu.dart';
+import '../../entity/shop/ShopItem.dart';
+import '../RouterPage.dart';
 
 class MenuDetail extends StatefulWidget {
   MenuDetail({Key? key, required this.menu}) : super(key: key); // 생성자
@@ -369,6 +373,14 @@ class MenuDetailState extends State<MenuDetail>
                                   alignment: Alignment.center,
                                   child: IconButton(icon: Icon(Icons.shopping_cart, color: Color(0xffFF8B51),), onPressed: () {
                                     Navigator.pop(context);
+                                    ShopItem newItem = ShopItem(
+                                      name: widget.menu.name,
+                                      price: widget.menu.price,
+                                      count: count,
+                                      imageAddress: widget.menu.imageAddress
+                                    );
+
+                                    Provider.of<ShopItemProvider>(context, listen: false).addItem(newItem);
 
                                     showDialog(
                                       context: context,
@@ -394,7 +406,11 @@ class MenuDetailState extends State<MenuDetail>
                                                         child: Text("이동하기", style: TextStyle(color: Colors.white),), // '네' 버튼
                                                         onPressed: () {
                                                           // '네'를 눌렀을 때 수행할 동작
-                                                          Navigator.of(context).pop(); // 대화 상자를 닫음
+                                                          Navigator.pushAndRemoveUntil(
+                                                            context,
+                                                            MaterialPageRoute(builder: (context) => RouterPage(index: 2,)), // NewPage는 이동할 새 페이지의 위젯입니다.
+                                                                (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+                                                          );
                                                         },
                                                       ),
                                                       decoration: BoxDecoration(
