@@ -217,7 +217,7 @@ class AdminMainPageState extends State<AdminMainPage>
         backgroundColor: Colors.white,
         centerTitle: true,
         elevation: 0,
-        title: Text("온반", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.01),),
+        title: Text("온반", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05),),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight + 200),
           child: Column(

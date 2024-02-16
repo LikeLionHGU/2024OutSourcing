@@ -39,7 +39,7 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            // 여기에 뒤로 가기 버튼 기능을 구현하세요.
+            Navigator.pop(context);
           },
         ),
         title: Text(

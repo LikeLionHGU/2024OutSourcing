@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/entity/Menu.dart';
 import 'package:flutter_application/entity/MenuRepository.dart';
 import 'package:flutter_application/page/menu/AdminMenuDetail.dart';
+import 'package:flutter_application/page/menu/MenuDetail.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -104,7 +105,12 @@ class MainPageState extends State<MainPage>
               ),
               child: TextButton(
                 onPressed: () {
-                  // 버튼 클릭 시 실행할 작업
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MenuDetail(menu: menu,), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
+                    ),
+                  );
                 },
                 child: Text(
                   "담기",

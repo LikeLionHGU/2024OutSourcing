@@ -29,6 +29,7 @@ class MenuDetailState extends State<MenuDetail>
   @override
   Widget build(BuildContext context) {
     final List<String> options = ['메인', '찌개', '해물', '육류', '반찬'];
+    int count = 1;
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -37,7 +38,7 @@ class MenuDetailState extends State<MenuDetail>
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              // 여기에 뒤로 가기 버튼 기능을 구현하세요.
+              Navigator.pop(context);
             },
           ),
           title: Text(
@@ -45,13 +46,6 @@ class MenuDetailState extends State<MenuDetail>
             style:
                 TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05),
           ),
-          actions: <Widget>[
-            IconButton(
-                onPressed: () {
-                  // 여기에 쇼핑 카트 버튼 기능을 구현하세요.
-                },
-                icon: Icon(Icons.shopping_cart)),
-          ],
         ),
         backgroundColor: Colors.white,
         body: Column(children: [
@@ -220,16 +214,17 @@ class MenuDetailState extends State<MenuDetail>
           padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.05),
           child: TextButton(
             style: TextButton.styleFrom(
-                backgroundColor: Color(0xffC5C5C5),
+                backgroundColor: Color(0xffFF8B51),
                 fixedSize: Size(MediaQuery.of(context).size.width * 0.03,
                     MediaQuery.of(context).size.height * 0.001)),
             child: Text(
               "구매하기",
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(color: Colors.white),
             ),
             onPressed: () {
               showModalBottomSheet(
                   context: context,
+                  backgroundColor: Colors.white,
                   builder: (BuildContext context) {
                     return Container(
                         height: MediaQuery.of(context).size.height * 0.4,
@@ -246,7 +241,7 @@ class MenuDetailState extends State<MenuDetail>
                                 ),
                                 Container(
                                   decoration: BoxDecoration(
-                                      color: Color(0xffC5C5C5),
+                                      color: Color(0xffEBEBEB),
                                       borderRadius:
                                           BorderRadius.circular(20.0)),
                                   height: MediaQuery.of(context).size.height *
@@ -286,45 +281,39 @@ class MenuDetailState extends State<MenuDetail>
                                                 0.06,
                                           ),
                                           Container(
-                                            width: MediaQuery.of(context).size.width * 0.1,
-                                            height: MediaQuery.of(context).size.width * 0.1,
+                                            width: MediaQuery.of(context).size.width * 0.35,
+                                            height: MediaQuery.of(context).size.height * 0.05,
                                             decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(MediaQuery.of(context).size.width * 0.01),
-                                                  bottomLeft: Radius.circular(MediaQuery.of(context).size.width * 0.01),
-                                                )),
-                                            child: IconButton(
-                                              onPressed: () {},
-                                              icon: Icon(Icons.add),
+                                              color: Colors.white,
+                                              border: Border.all(color: Colors.grey), // 테두리 색상
+                                              borderRadius: BorderRadius.circular(8), // 모서리 둥글기
                                             ),
-                                          ),
-                                          SizedBox(width: MediaQuery.of(context).size.width * 0.005,),
-                                          Container(
-                                            alignment: Alignment.center,
-                                            width: MediaQuery.of(context).size.width * 0.1,
-                                            height: MediaQuery.of(context).size.width * 0.1,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,),
-                                            child: Text("1", style: TextStyle(fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.height * 0.02),),
-                                          ),
-                                          SizedBox(width: MediaQuery.of(context).size.width * 0.005,),
-                                          Container(
-                                            width: MediaQuery.of(context).size.width * 0.1,
-                                            height: MediaQuery.of(context).size.width * 0.1,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.only(
-                                                  topRight: Radius.circular(MediaQuery.of(context).size.width * 0.01),
-                                                  bottomRight: Radius.circular(MediaQuery.of(context).size.width * 0.01),
-                                                )),
-                                            child: IconButton(
-                                              onPressed: () {},
-                                              icon: Icon(Icons.add),
+                                            child: Row(
+                                              children: [
+                                                IconButton(
+                                                  icon: Icon(Icons.remove, color: Color(0xffEBEBEB),),
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      if (count > 0) count--;
+                                                    });
+                                                  },
+                                                ),
+                                                Spacer(),
+                                                Text('${count}'),
+                                                Spacer(),
+                                                IconButton(
+                                                  icon: Icon(Icons.add, color: Color(0xffEBEBEB),),
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      count++;
+                                                    });
+                                                  },
+                                                ),
+                                              ],
                                             ),
                                           ),
                                           Spacer(),
-                                          Text('${widget.menu.price}원',),
+                                          Text('${widget.menu.price * count}원',),
                                           SizedBox(
                                             width: MediaQuery.of(context)
                                                 .size
@@ -360,11 +349,11 @@ class MenuDetailState extends State<MenuDetail>
                                   width: MediaQuery.of(context).size.width * 0.72,
                                   height: MediaQuery.of(context).size.height * 0.06,
                                   decoration: BoxDecoration(
-                                    color: Color(0xffC5C5C5),
+                                    color: Color(0xffFF8B51),
                                     borderRadius: BorderRadius.circular(10)
                                   ),
                                   alignment: Alignment.center,
-                                  child: TextButton(child: Text("바로 구매", style: TextStyle(color: Colors.black),), onPressed: () {
+                                  child: TextButton(child: Text("바로 구매하기", style: TextStyle(color: Colors.white),), onPressed: () {
                                     Navigator.pop(context);
 
                                   },),
@@ -374,11 +363,11 @@ class MenuDetailState extends State<MenuDetail>
                                   width: MediaQuery.of(context).size.width * 0.15,
                                   height: MediaQuery.of(context).size.height * 0.06,
                                   decoration: BoxDecoration(
-                                    color: Color(0xffC5C5C5),
+                                    color: Colors.white,
                                     borderRadius: BorderRadius.circular(8)
                                   ),
                                   alignment: Alignment.center,
-                                  child: IconButton(icon: Icon(Icons.shopping_cart), onPressed: () {
+                                  child: IconButton(icon: Icon(Icons.shopping_cart, color: Color(0xffFF8B51),), onPressed: () {
                                     Navigator.pop(context);
 
                                     showDialog(
@@ -390,42 +379,54 @@ class MenuDetailState extends State<MenuDetail>
                                           ),
                                           // backgroundColor: Color(0xffFFFFFF),
                                           backgroundColor: Colors.white,
-                                          title: Text("장바구니에 담았어요, 바로 확인할까요?", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04),),
+                                          elevation: 0,
+                                          title: Text("장바구니로 이동하기", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold),),
                                           actions: <Widget>[
-                                            Row(
+                                            Column(
                                               children: [
-                                                Container(
-                                                  child: TextButton(
-                                                    child: Text("네", style: TextStyle(color: Colors.black),), // '네' 버튼
-                                                    onPressed: () {
-                                                      // '네'를 눌렀을 때 수행할 동작
-                                                      Navigator.of(context).pop(); // 대화 상자를 닫음
-                                                    },
-                                                  ),
-                                                  decoration: BoxDecoration(
-                                                      color: Color(0xffC5C5C5),
-                                                      borderRadius: BorderRadius.circular(8)
-                                                  ),
-                                                  width: MediaQuery.of(context).size.width * 0.3,
-                                                  height: MediaQuery.of(context).size.height * 0.05,
-                                                ),
-                                                SizedBox(width: MediaQuery.of(context).size.width * 0.015,),
-                                                Spacer(),
-                                                SizedBox(width: MediaQuery.of(context).size.width * 0.015,),
-                                                Container(
-                                                  child: TextButton(
-                                                    child: Text("아니요", style: TextStyle(color: Colors.black),), // '아니요' 버튼
-                                                    onPressed: () {
-                                                      // '아니요'를 눌렀을 때 수행할 동작
-                                                      Navigator.of(context).pop(); // 대화 상자를 닫음
-                                                    },
-                                                  ),
-                                                  width: MediaQuery.of(context).size.width * 0.3,
-                                                  height: MediaQuery.of(context).size.height * 0.05,
-                                                  decoration: BoxDecoration(
-                                                      color: Color(0xffFFFFFF),
-                                                      borderRadius: BorderRadius.circular(8)
-                                                  ),
+                                                Align(child: Text("해당 상품을 장바구니에 담았습니다.",), alignment: Alignment.centerLeft,),
+                                                Align(child: Text("바로 확인하시겠습니까?",), alignment: Alignment.centerLeft,),
+                                                SizedBox(height: MediaQuery.of(context).size.height * 0.015,),
+                                                Row(
+                                                  children: [
+                                                    Container(
+                                                      child: TextButton(
+                                                        child: Text("이동하기", style: TextStyle(color: Colors.white),), // '네' 버튼
+                                                        onPressed: () {
+                                                          // '네'를 눌렀을 때 수행할 동작
+                                                          Navigator.of(context).pop(); // 대화 상자를 닫음
+                                                        },
+                                                      ),
+                                                      decoration: BoxDecoration(
+                                                          color: Color(0xffFF8B51),
+                                                          borderRadius: BorderRadius.circular(8),
+                                                      ),
+                                                      width: MediaQuery.of(context).size.width * 0.3,
+                                                      height: MediaQuery.of(context).size.height * 0.05,
+                                                    ),
+                                                    SizedBox(width: MediaQuery.of(context).size.width * 0.015,),
+                                                    Spacer(),
+                                                    SizedBox(width: MediaQuery.of(context).size.width * 0.015,),
+                                                    Container(
+                                                      child: TextButton(
+                                                        child: Text("머무르기", style: TextStyle(color: Colors.black),), // '아니요' 버튼
+                                                        onPressed: () {
+                                                          // '아니요'를 눌렀을 때 수행할 동작
+                                                          Navigator.of(context).pop(); // 대화 상자를 닫음
+                                                        },
+                                                      ),
+                                                      width: MediaQuery.of(context).size.width * 0.3,
+                                                      height: MediaQuery.of(context).size.height * 0.05,
+                                                      decoration: BoxDecoration(
+                                                          color: Color(0xffFFFFFF),
+                                                          borderRadius: BorderRadius.circular(8),
+                                                        border: Border.all(
+                                                          color: Color(0xffEBEBEB),
+                                                          width: 1.5
+                                                        )
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ],
                                             ),
