@@ -14,18 +14,7 @@ class OrderPage extends StatefulWidget {
 class OrderPageState extends State<OrderPage>
     with SingleTickerProviderStateMixin {
   List<ShopItem> items = [
-    ShopItem(
-        name: "닭가슴살 샐러드",
-        price: 7000,
-        count: 2,
-        imageAddress:
-            "https://firebasestorage.googleapis.com/v0/b/onban-e3465.appspot.com/o/og%20image.jpg?alt=media&token=7558374d-8d17-4e0a-a53e-f1459a82c383"),
-    ShopItem(
-        name: "닭가슴살 샐러드",
-        price: 7000,
-        count: 2,
-        imageAddress:
-            "https://firebasestorage.googleapis.com/v0/b/onban-e3465.appspot.com/o/og%20image.jpg?alt=media&token=7558374d-8d17-4e0a-a53e-f1459a82c383")
+
   ];
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;

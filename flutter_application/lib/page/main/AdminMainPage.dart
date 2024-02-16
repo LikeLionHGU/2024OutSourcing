@@ -220,7 +220,7 @@ class AdminMainPageState extends State<AdminMainPage>
         elevation: 0,
         title: Text("온반", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05),),
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight + 200),
+          preferredSize: Size.fromHeight(kToolbarHeight + 140),
           child: Column(
             children: [
               Container(

@@ -378,6 +378,7 @@ class MenuDetailState extends State<MenuDetail>
                                       name: widget.menu.name,
                                       price: widget.menu.price,
                                       count: count,
+                                      isSelected: true,
                                       imageAddress: widget.menu.imageAddress
                                     );
 

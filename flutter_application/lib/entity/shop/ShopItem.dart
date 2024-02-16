@@ -3,11 +3,13 @@ class ShopItem {
   int price;
   int count;
   String imageAddress;
+  bool isSelected;
 
   ShopItem(
       {required this.name,
         required this.price,
         required this.count,
+        required this.isSelected,
         required this.imageAddress});
 
   Map<String, dynamic> toMap() {
