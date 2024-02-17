@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/page/order/OrderAdminCheckPage.dart';
 import 'package:intl/intl.dart';
 
 import '../../entity/AdminOrder.dart';
@@ -69,12 +70,12 @@ class OrderAdminPageState extends State<OrderAdminPage> {
                 ),
                 trailing: Text('${shopItems[index].order.member.name}', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),), // 가격
                 onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => OrderCheckPage(member: widget.member, items: shopItems[index].shopList, order: shopItems[index],), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OrderAdminCheckPage(order: shopItems[index])
+                    ),
+                  );
                 },
               ),
               Divider()
@@ -87,7 +88,7 @@ class OrderAdminPageState extends State<OrderAdminPage> {
 
   Future<List<AdminOrder>> getAllAdminOrders() async {
     CollectionReference ordersRef = FirebaseFirestore.instance.collection('orders');
-    QuerySnapshot querySnapshot = await ordersRef.get();
+    QuerySnapshot querySnapshot = await ordersRef.orderBy('dateAndTime', descending: true).get();
 
     List<AdminOrder> orders = querySnapshot.docs
         .map((doc) {

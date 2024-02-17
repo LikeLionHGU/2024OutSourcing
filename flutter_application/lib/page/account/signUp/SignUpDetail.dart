@@ -42,7 +42,11 @@ class SignUpDetailState extends State<SignUpDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+      ),
+      backgroundColor: Colors.white,
       body: Column(
         children: [
           SizedBox(
@@ -325,6 +329,10 @@ class SignUpDetailState extends State<SignUpDetail> {
     );
   }
 }
-// 김동규
+// 정주연
 // 울산광역시 남구 동산로 29번길 16
 // A동 305호
+
+// 010-1234-5678
+// 한동대학교
+// 벧엘관
