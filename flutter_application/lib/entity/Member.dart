@@ -18,6 +18,7 @@ class Member {
       'name' : name,
       'phoneNumber' : phoneNumber,
       'address' : address,
+      'email' : email,
       'addressDetail' : addressDetail
     };
   }

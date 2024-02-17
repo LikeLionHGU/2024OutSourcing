@@ -32,7 +32,7 @@ class AdminRouterPageState extends State<AdminRouterPage> {
           AdminMainPage(),
           AdminMainPage(),
           MenuUpload(),
-          OrderList(),
+          MenuUpload(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

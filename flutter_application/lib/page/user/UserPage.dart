@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/page/menu/OrderList.dart';
 import 'package:flutter_application/page/menu/OrderPage.dart';
 
 import '../../entity/Member.dart';
@@ -55,12 +56,12 @@ class UserPageState extends State<UserPage> {
               Text("주문 내역", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.045),),
               Spacer(),
               IconButton(onPressed: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => OrderPage(member: widget.member,), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
-                //   ),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OrderList(member: widget.member,), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
+                  ),
+                );
               }, icon: Icon(Icons.keyboard_arrow_right_rounded)),
               SizedBox(width: MediaQuery.of(context).size.width * 0.07,),
             ],

@@ -27,7 +27,7 @@ class ShopItem {
       price: map['price'],
       count: map['count'],
       imageAddress: map['imageAddress'],
-      isSelected: map['isSelected']
+      isSelected: false
     );
   }
 }

@@ -14,4 +14,9 @@ class ShopItemProvider with ChangeNotifier {
     items.removeWhere((item) => item.name == name);
     notifyListeners();
   }
+
+  void clear() {
+    items = [];
+    notifyListeners();
+  }
 }

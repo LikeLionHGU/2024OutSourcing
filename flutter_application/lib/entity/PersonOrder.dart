@@ -7,18 +7,24 @@ class PersonOrder {
   List<ShopItem> shopList;
   Member member;
   Timestamp orderTime;
+  bool isCard;
+  String description;
 
   PersonOrder({
+    required this.description,
     required this.shopList,
     required this.member,
-    required this.orderTime
+    required this.orderTime,
+    required this.isCard,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'shopList': shopList.map((item) => item.toMap()).toList(),
       'member': member.toMap(),
-      'orderTime' : orderTime
+      'orderTime' : orderTime,
+      'isCard' : isCard,
+      'description' : description
     };
   }
 
@@ -33,7 +39,9 @@ class PersonOrder {
     return PersonOrder(
       shopList: shopList,
       member: member,
-      orderTime: orderTime
+      orderTime: orderTime,
+      isCard: firestoreData['isCard'],
+      description: firestoreData['description']
     );
   }
 }

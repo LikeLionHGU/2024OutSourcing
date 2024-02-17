@@ -359,7 +359,19 @@ class MenuDetailState extends State<MenuDetail>
                                   ),
                                   alignment: Alignment.center,
                                   child: TextButton(child: Text("바로 구매하기", style: TextStyle(color: Colors.white),), onPressed: () {
-                                    Navigator.pop(context);
+                                    ShopItem newItem = ShopItem(
+                                        name: widget.menu.name,
+                                        price: widget.menu.price,
+                                        count: count,
+                                        isSelected: true,
+                                        imageAddress: widget.menu.imageAddress
+                                    );
+                                    Provider.of<ShopItemProvider>(context, listen: false).addItem(newItem);
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => RouterPage(index: 2,)), // NewPage는 이동할 새 페이지의 위젯입니다.
+                                          (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+                                    );
 
                                   },),
                                 ),

@@ -11,17 +11,18 @@ import '../../entity/Member.dart';
 import '../../entity/shop/ShopItem.dart';
 import '../RouterPage.dart';
 
-class OrderPage extends StatefulWidget {
+class OrderCheckPage extends StatefulWidget {
   Member member;
+  PersonOrder order;
   List<ShopItem> items;
   int totalPrice = 0;
 
-  OrderPage({Key? key, required this.member, required this.items}) : super(key: key);
+  OrderCheckPage({Key? key, required this.member, required this.items, required this.order}) : super(key: key);
   @override
   State<StatefulWidget> createState() => OrderPageState();
 }
 
-class OrderPageState extends State<OrderPage>
+class OrderPageState extends State<OrderCheckPage>
     with SingleTickerProviderStateMixin {
   late Map<String, dynamic> order;
 
@@ -44,6 +45,7 @@ class OrderPageState extends State<OrderPage>
   TextEditingController phoneController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController addressDetailController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
 
   @override
   void initState() {
@@ -53,6 +55,7 @@ class OrderPageState extends State<OrderPage>
     phoneController.text = widget.member.phoneNumber;
     addressController.text = widget.member.address;
     addressDetailController.text = widget.member.addressDetail;
+    descriptionController.text = widget.order.description;
 
     for(int i = 0; i < widget.items.length; i++) {
       widget.totalPrice += widget.items[i].price * widget.items[i].count;
@@ -145,7 +148,7 @@ class OrderPageState extends State<OrderPage>
           ExpansionTile(
             title: Text('주문내역'),
             children:
-                widget.items.map(buildShopItem).toList(), // 리스트를 ExpansionTile에 매핑합니다.
+            widget.items.map(buildShopItem).toList(), // 리스트를 ExpansionTile에 매핑합니다.
           ),
           ExpansionTile(title: Text('주문자 정보'), children: [
             SizedBox(
@@ -302,91 +305,60 @@ class OrderPageState extends State<OrderPage>
               height: MediaQuery.of(context).size.height * 0.02,
             ),
             Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                height: MediaQuery.of(context).size.height * 0.05,
-                child: InputDecorator(
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-
-                    border: OutlineInputBorder(), // 테두리를 추가합니다.
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 5), // 내부 패딩을 추가합니다.
-                    // 여기에 추가적인 꾸밈 속성을 정의할 수 있습니다.
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: MediaQuery.of(context).size.height * 0.05,
+              child: TextField(
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.03),
+                textAlignVertical: TextAlignVertical.center,
+                controller: descriptionController,
+                cursorColor: Colors.black,
+                readOnly: true,
+                decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    // 포커스가 맞춰졌을 때의 테두리 색상을 설정
+                    borderSide: BorderSide(color: Colors.black),
                   ),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      value: dropdownValue,
-                      isExpanded: true,
-                      hint: Text("요청사항을 선택해주세요", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03),),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownValue = newValue!;
-                          order['description'] = newValue!;
-                        });
-                      },
-                      items: <String>['요청사항 없음', '벨 누르지 말고 문 앞에 놓아주세요', '벨 누르고 문 앞에 놓아주세요', '비대면으로 받고싶어요']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value, style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03),),
-                        );
-                      }).toList(),
-                    ),
-                  ),
+                  labelText: '요청사항',
+                  labelStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: MediaQuery.of(context).size.width * 0.03),
+                  hintText: "요청사항을 입력해주세요",
+                  hintStyle: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.025),
+                  border: OutlineInputBorder(),
                 ),
               ),
+            ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
             ),
           ]),
           ExpansionTile(
-            title: Text('결제방식'),
-            children: [
-              Row(
-                children: [
-                  SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
-                  IconButton(onPressed: () {
-                    setState(() {
-                      _selectedIndex = 1;
-                      order['isCard'] = false;
-                    });
-
-                  }, icon: Icon(Icons.check_circle, color: _selectedIndex == 1 ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05)),
-                  Text("가게 방문 후 직접 결제", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
-                ],
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
-              Row(
-                children: [
-                  SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
-                  IconButton(onPressed: () {
-                    setState(() {
-                      _selectedIndex = 0;
-                      order['isCard'] = true;
-                    });
-
-                  }, icon: Icon(Icons.check_circle, color: _selectedIndex == 0 ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05)),
-                  Text("계좌이체", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
-                ],
-              ),
-              // SizedBox(height: MediaQuery.of(context).size.height * 0.005,),
-              Row(
-                children: [
-                  SizedBox(width: MediaQuery.of(context).size.width * 0.14,),
-                  Text("수협중앙회 2020-5311-7264", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
-                ],
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.005,),
-              Row(
-                children: [
-                  SizedBox(width: MediaQuery.of(context).size.width * 0.14,),
-                  Text("(주문 후 바로 입금 부탁드립니다)", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
-                ],
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
-              ),
-            ]
+              title: Text('결제방식'),
+              children: [
+                Row(
+                  children: [
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.06,),
+                    Icon(Icons.check_circle, color: _selectedIndex == 1 ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.03,),
+                    Text("가게 방문 후 직접 결제", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+                  ],
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+                Row(
+                  children: [
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.06,),
+                    Icon(Icons.check_circle, color: _selectedIndex == 0 ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.03,),
+                    Text("계좌이체", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+                  ],
+                ),
+                // SizedBox(height: MediaQuery.of(context).size.height * 0.005,),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.02,
+                ),
+              ]
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.02,

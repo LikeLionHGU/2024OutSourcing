@@ -1,96 +1,38 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/page/menu/OrderCheckPage.dart';
+import 'package:intl/intl.dart';
+
+import '../../entity/Member.dart';
+import '../../entity/PersonOrder.dart';
+import '../../entity/shop/ShopItem.dart';
 
 // 이 페이지는
 
 class OrderList extends StatefulWidget {
+  Member member;
+  OrderList({Key? key, required this.member}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => OrderListState();
 }
 
 class OrderListState extends State<OrderList> {
-  final List<Map<String, dynamic>> items = [
-    {
-      'date': '2024.02.12',
-      'menu': '닭가슴살 샐러드',
-      'person': '김동규',
-      'price': '7,000원',
-    },
-    {
-      'date': '2024.02.16',
-      'menu': '배추김치',
-      'person': '정주연',
-      'price': '12,000원',
-    },
-    {
-      'date': '2024.02.12',
-      'menu': '닭가슴살 샐러드',
-      'person': '김동규',
-      'price': '7,000원',
-    },
-    {
-      'date': '2024.02.12',
-      'menu': '닭가슴살 샐러드',
-      'person': '김동규',
-      'price': '7,000원',
-    },
-    {
-      'date': '2024.02.12',
-      'menu': '닭가슴살 샐러드',
-      'person': '김동규',
-      'price': '7,000원',
-    },
-    {
-      'date': '2024.02.12',
-      'menu': '닭가슴살 샐러드',
-      'person': '김동규',
-      'price': '7,000원',
-    },
-    {
-      'date': '2024.02.12',
-      'menu': '닭가슴살 샐러드',
-      'person': '김동규',
-      'price': '7,000원',
-    },
-    {
-      'date': '2024.02.12',
-      'menu': '닭가슴살 샐러드',
-      'person': '김동규',
-      'price': '7,000원',
-    },
-    {
-      'date': '2024.02.12',
-      'menu': '닭가슴살 샐러드',
-      'person': '김동규',
-      'price': '7,000원',
-    },
-    {
-      'date': '2024.02.12',
-      'menu': '닭가슴살 샐러드',
-      'person': '김동규',
-      'price': '7,000원',
-    },
-    {
-      'date': '2024.02.12',
-      'menu': '닭가슴살 샐러드',
-      'person': '김동규',
-      'price': '7,000원',
-    },
-    {
-      'date': '2024.02.12',
-      'menu': '닭가슴살 샐러드',
-      'person': '김동규',
-      'price': '7,000원',
-    },
-    {
-      'date': '2024.02.12',
-      'menu': '닭가슴살 샐러드',
-      'person': '김동규',
-      'price': '7,000원',
-    },
+  List<PersonOrder> shopItems = []; // shopItems를 상태 변수로 선언합니다.
+  @override
+  void initState() {
+    super.initState();
+    initShopItems(); // initState에서 shopItems를 초기화합니다.
+  }
 
-    // 다른 아이템들을 여기에 추가할 수 있습니다.
-  ];
+  Future<void> initShopItems() async {
+    List<PersonOrder> orders = await getUserOrders(FirebaseAuth.instance.currentUser!.uid); // 비동기 함수 호출
+    setState(() {
+      shopItems = orders; // 상태 업데이트
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,22 +44,41 @@ class OrderListState extends State<OrderList> {
       ),
       backgroundColor: Colors.white,
       body: ListView.builder(
-        itemCount: items.length, // 리스트 아이템의 총 개수
+        itemCount: shopItems.length, // 리스트 아이템의 총 개수
         itemBuilder: (context, index) {
+          var format = DateFormat('yyyy-MM-dd HH:mm'); // 원하는 포맷 지정
+          var date = DateTime.fromMillisecondsSinceEpoch(shopItems[index].orderTime.millisecondsSinceEpoch);
+          var type = '';
+          int num = 0;
+          int count = shopItems[index].shopList.length;
+          if(shopItems[index].isCard) {
+            type = '계좌이체';
+          } else {
+            type = '매장 방문 후 결제';
+          }
+
+          for(int i = 0; i < shopItems[index].shopList.length; i++) {
+            num += shopItems[index].shopList[i].price * shopItems[index].shopList[i].count;
+          }
           return Column(
             children: [
               ListTile(
-                title: Text(items[index]['date']), // 메뉴 이름
+                title: Text(format.format(date)),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(items[index]['menu']), // 날짜
-                    Text(items[index]['person']), // 카테고리
+                    Text('메뉴이름     ${shopItems[index].shopList[0].name} 등 ${count}개'),
+                    Text("결제방법     ${type}"), // 결제방법
                   ],
                 ),
-                trailing: Text(items[index]['price']), // 가격
+                trailing: Text('${NumberFormat('#,###').format(num)}원', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),), // 가격
                 onTap: () {
-                  // ListTile이 탭되었을 때의 액션을 여기에 추가합니다.
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OrderCheckPage(member: widget.member, items: shopItems[index].shopList, order: shopItems[index],), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
+                    ),
+                  );
                 },
               ),
               Divider()
@@ -126,6 +87,22 @@ class OrderListState extends State<OrderList> {
         },
       ),
     );
+  }
+
+  Future<List<PersonOrder>> getUserOrders(String userId) async {
+    // 사용자의 orders 하위 컬렉션에 접근
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('orders')
+        .get();
+
+    // 모든 주문 문서들의 리스트를 반환
+    List<PersonOrder> shopItems = querySnapshot.docs
+        .map((doc) => PersonOrder.fromFirestore(doc.data() as Map<String, dynamic>))
+        .toList();
+
+    return shopItems;
   }
 
 }
