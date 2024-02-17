@@ -5,7 +5,13 @@ import 'package:flutter_application/entity/shop/ShopItemProvider.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../entity/Member.dart';
+import '../menu/OrderPage.dart';
+
 class ShopPage extends StatefulWidget { // 장바구니 페이지에 해당함
+  Member member;
+
+  ShopPage({Key? key, required this.member}) : super(key: key);
   @override
   State<StatefulWidget> createState() => ShopPageState();
 }
@@ -13,7 +19,6 @@ class ShopPage extends StatefulWidget { // 장바구니 페이지에 해당함
 class ShopPageState extends State<ShopPage> {
   bool isChecked = true;
   List<ShopItem> items = [];
-  List<ShopItem> orderList = [];
   int price = 0;
 
   @override
@@ -220,7 +225,14 @@ class ShopPageState extends State<ShopPage> {
                   ),
                   child: TextButton(
                     child: Text("바로 구매하기", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OrderPage(member: widget.member, items: items,), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
+                        ),
+                      );
+                    },
                   ),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02,),

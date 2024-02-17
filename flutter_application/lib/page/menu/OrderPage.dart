@@ -2,26 +2,28 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../entity/Member.dart';
 import '../../entity/shop/ShopItem.dart';
 
 class OrderPage extends StatefulWidget {
+  Member member;
+  List<ShopItem> items;
+  int totalPrice = 0;
+
+  OrderPage({Key? key, required this.member, required this.items}) : super(key: key);
   @override
   State<StatefulWidget> createState() => OrderPageState();
 }
 
 class OrderPageState extends State<OrderPage>
     with SingleTickerProviderStateMixin {
-  List<ShopItem> items = [
-
-  ];
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
 
   late User currentUser;
-  late Member member;
   late Map<String, dynamic> userData;
   bool isExpanded = false;
   String? _selectedOption;
@@ -41,37 +43,14 @@ class OrderPageState extends State<OrderPage>
   @override
   void initState() {
     super.initState();
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final User? currentUser = auth.currentUser;
+    nameController.text = widget.member.name;
+    emailController.text = widget.member.email;
+    phoneController.text = widget.member.phoneNumber;
+    addressController.text = widget.member.address;
+    addressDetailController.text = widget.member.addressDetail;
 
-    if (currentUser != null) {
-      // 안전하게 uid를 가져옵니다.
-      String uid = currentUser.uid;
-
-      // Firestore에서 해당 UID를 가진 사용자의 정보를 가져옵니다.
-      DocumentReference userRef =
-          FirebaseFirestore.instance.collection('users').doc(uid);
-
-      userRef.get().then((DocumentSnapshot documentSnapshot) {
-        if (documentSnapshot.exists) {
-          // 문서 데이터가 존재하면 출력하고 Member 객체를 생성합니다.
-          print('Document data: ${documentSnapshot.data()}');
-          setState(() {
-            member = Member.fromDocument(documentSnapshot);
-            nameController.text = member.name;
-            emailController.text = member.email;
-            phoneController.text = member.phoneNumber;
-            addressController.text = member.address;
-            addressDetailController.text = member.addressDetail;
-          });
-        } else {
-          // 문서가 존재하지 않으면 콘솔에 메시지를 출력합니다.
-          print('Document does not exist on the database');
-        }
-      });
-    } else {
-      // currentUser가 null이면 로그인하지 않았다는 메시지를 출력합니다.
-      print('No user is currently signed in.');
+    for(int i = 0; i < widget.items.length; i++) {
+      widget.totalPrice += widget.items[i].price * widget.items[i].count;
     }
   }
 
@@ -93,7 +72,7 @@ class OrderPageState extends State<OrderPage>
                     borderRadius: BorderRadius.circular(8),
                     image: DecorationImage(
                         image: NetworkImage(
-                            "https://firebasestorage.googleapis.com/v0/b/onban-e3465.appspot.com/o/KakaoTalk_Photo_2024-02-02-20-09-13.jpeg?alt=media&token=d2117df7-112e-4431-be85-155b8d2b8f4a"),
+                            shopItem.imageAddress),
                         fit: BoxFit.cover)),
               ),
               SizedBox(
@@ -108,7 +87,7 @@ class OrderPageState extends State<OrderPage>
                   ),
                   Row(
                     children: [
-                      Text('${shopItem.price}원'),
+                      Text('${NumberFormat('#,###').format(shopItem.price * shopItem.count)}원'),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.01,
                       ),
@@ -120,7 +99,7 @@ class OrderPageState extends State<OrderPage>
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.01,
                       ),
-                      Text('1개'),
+                      Text('${shopItem.count}개'),
                     ],
                   ),
                   SizedBox(
@@ -156,7 +135,7 @@ class OrderPageState extends State<OrderPage>
           ExpansionTile(
             title: Text('주문내역'),
             children:
-                items.map(buildShopItem).toList(), // 리스트를 ExpansionTile에 매핑합니다.
+                widget.items.map(buildShopItem).toList(), // 리스트를 ExpansionTile에 매핑합니다.
           ),
           ExpansionTile(title: Text('주문자 정보'), children: [
             SizedBox(
@@ -328,7 +307,7 @@ class OrderPageState extends State<OrderPage>
                     child: DropdownButton<String>(
                       value: dropdownValue,
                       isExpanded: true,
-                      hint: Text("요청사항을 선택해주세요"),
+                      hint: Text("요청사항을 선택해주세요", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03),),
                       onChanged: (String? newValue) {
                         setState(() {
                           dropdownValue = newValue!;
@@ -352,24 +331,42 @@ class OrderPageState extends State<OrderPage>
           ExpansionTile(
             title: Text('결제방식'),
             children: [
+              Row(
+                children: [
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+                  IconButton(onPressed: () {
+                    setState(() {
+                      _selectedIndex = 1;
+                    });
+
+                  }, icon: Icon(Icons.check_circle, color: _selectedIndex == 1 ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05)),
+                  Text("가게 방문 후 직접 결제", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+                ],
+              ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
               Row(
                 children: [
-                  SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+                  IconButton(onPressed: () {
+                    setState(() {
+                      _selectedIndex = 0;
+                    });
+
+                  }, icon: Icon(Icons.check_circle, color: _selectedIndex == 0 ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05)),
                   Text("계좌이체", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
                 ],
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.005,),
+              // SizedBox(height: MediaQuery.of(context).size.height * 0.005,),
               Row(
                 children: [
-                  SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.14,),
                   Text("신한은행 123456789", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
                 ],
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.005,),
               Row(
                 children: [
-                  SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.14,),
                   Text("(주문 후 바로 입금 부탁드립니다)", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
                 ],
               ),
@@ -386,7 +383,7 @@ class OrderPageState extends State<OrderPage>
               SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
               Text("총 상품 금액", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
               Spacer(),
-              Text("7000원", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              Text('${NumberFormat('#,###').format(widget.totalPrice)}원', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
               SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
             ],
           ),
@@ -410,7 +407,7 @@ class OrderPageState extends State<OrderPage>
               SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
               Text("총 결제 금액", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
               Spacer(),
-              Text("7000원", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              Text('${NumberFormat('#,###').format(widget.totalPrice)}원', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
               SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
             ],
           ),
@@ -423,11 +420,11 @@ class OrderPageState extends State<OrderPage>
             child: Container(
               width: MediaQuery.of(context).size.width * 0.9,
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey), // 테두리 색상
+                color: Color(0xffFF8B51),
                 borderRadius: BorderRadius.circular(8), // 모서리 둥글기
               ),
               child: TextButton(
-                child: Text("바로 구매하기", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+                child: Text("주문하기", style: TextStyle(color: Colors.white),),
                 onPressed: () {},
               ),
             ),

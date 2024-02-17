@@ -35,7 +35,7 @@ class RouterPageState extends State<RouterPage> {
           // 각 탭에 대응하는 위젯을 여기에 넣으세요.
           AdminMainPage(),
           MainPage(),
-          ShopPage(),
+          ShopPage(member: member,),
           UserPage(member: member,),
         ],
       ),
