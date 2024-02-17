@@ -226,12 +226,17 @@ class ShopPageState extends State<ShopPage> {
                   child: TextButton(
                     child: Text("바로 구매하기", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => OrderPage(member: widget.member, items: items,), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
-                        ),
-                      );
+                      if(items.length < 1) {
+
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OrderPage(member: widget.member, items: items,), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
+                          ),
+                        );
+                      }
+
                     },
                   ),
                 ),
