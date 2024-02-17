@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/entity/PersonOrder.dart';
 import 'package:intl/intl.dart';
 
 import '../../entity/Member.dart';
@@ -19,6 +20,7 @@ class OrderPage extends StatefulWidget {
 
 class OrderPageState extends State<OrderPage>
     with SingleTickerProviderStateMixin {
+  late Map<String, dynamic> order;
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -52,6 +54,11 @@ class OrderPageState extends State<OrderPage>
     for(int i = 0; i < widget.items.length; i++) {
       widget.totalPrice += widget.items[i].price * widget.items[i].count;
     }
+
+    DateTime now = DateTime.now();
+    DateTime dateAndTimeInMinutes = DateTime(now.year, now.month, now.day, now.hour, now.minute);
+
+    order = PersonOrder(shopList: widget.items, member: widget.member, orderTime: Timestamp.fromDate(dateAndTimeInMinutes)).toMap();
   }
 
   Widget buildShopItem(ShopItem shopItem) {
@@ -425,12 +432,32 @@ class OrderPageState extends State<OrderPage>
               ),
               child: TextButton(
                 child: Text("주문하기", style: TextStyle(color: Colors.white),),
-                onPressed: () {},
+                onPressed: () {
+                  addOrderToUser(FirebaseAuth.instance.currentUser!.uid, order);
+                  addOrder(FirebaseAuth.instance.currentUser!.uid, order);
+                  print("완료");
+                },
               ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  Future<void> addOrderToUser(String userId, Map<String, dynamic> orderData) async {
+    CollectionReference orders = FirebaseFirestore.instance.collection('users').doc(userId).collection('orders');
+    await orders.add(orderData);
+  }
+
+  Future<void> addOrder(String userId, Map<String, dynamic> orderData) async {
+    DocumentReference orderDocRef = FirebaseFirestore.instance.collection('orders').doc(); // 주문 문서 ID 자동 생성
+    DateTime now = DateTime.now();
+    DateTime dateAndTimeInMinutes = DateTime(now.year, now.month, now.day, now.hour, now.minute);
+    await orderDocRef.set({
+      'userId': userId, // 사용자 ID 명시적으로 저장
+      'order': orderData,
+      'dateAndTime': Timestamp.fromDate(dateAndTimeInMinutes), // Timestamp 형태로 변환
+    });
   }
 }

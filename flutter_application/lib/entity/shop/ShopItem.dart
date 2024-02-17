@@ -20,4 +20,14 @@ class ShopItem {
       'imageAddress' : imageAddress
     };
   }
+
+  factory ShopItem.fromMap(Map<String, dynamic> map) {
+    return ShopItem(
+      name: map['name'],
+      price: map['price'],
+      count: map['count'],
+      imageAddress: map['imageAddress'],
+      isSelected: map['isSelected']
+    );
+  }
 }

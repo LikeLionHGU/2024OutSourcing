@@ -33,6 +33,16 @@ class Member {
     );
   }
 
+  factory Member.fromMap(Map<String, dynamic> map) {
+    return Member(
+      name: map['name'],
+      phoneNumber: map['phoneNumber'],
+      address: map['address'],
+      addressDetail: map['addressDetail'],
+      email: map['email'],
+    );
+  }
+
   // factory Student.fromMap(Map<String, dynamic> data) {
   //   return Student(
   //     email: data['email'] as String? ?? 'default@email.com',
