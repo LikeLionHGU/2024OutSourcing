@@ -377,14 +377,14 @@ class MenuUploadState extends State<MenuUpload> {
                 options.length,
                 (index) {
                   return ChoiceChip(
-                    selectedColor: Colors.grey,
+                    selectedColor: Color(0xffFF8B51),
                     backgroundColor: Colors.white,
                     showCheckmark: false,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(3.0),
                       side: BorderSide(
                           color: _selectedIndex == index
-                              ? Colors.grey
+                              ? Color(0xffFF8B51)
                               : Colors.grey),
                     ),
                     // 선택되었을 때와 선택되지 않았을 때 동일한 텍스트 스타일을 유지하기 위한 스타일링
@@ -458,11 +458,12 @@ class MenuUploadState extends State<MenuUpload> {
                 width: MediaQuery.of(context).size.width * 0.9,
                 height: MediaQuery.of(context).size.height * 0.05,
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey), // 테두리 색상
+                  color: Color(0xffFF8B51),
+                  border: Border.all(color: Color(0xffFF8B51)), // 테두리 색상
                   borderRadius: BorderRadius.circular(8), // 모서리 둥글기
                 ),
                 child: TextButton(
-                  child: Text("등록하기", style: TextStyle(color: Colors.black),),
+                  child: Text("등록하기", style: TextStyle(color: Colors.white),),
                   onPressed: () {
                     uploadAndSaveData();
                   },
