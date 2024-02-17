@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/page/AdminRouterPage.dart';
 import 'package:flutter_application/page/RouterPage.dart';
 import 'package:flutter_application/page/main/MainPage.dart';
-import 'package:flutter_application/page/menu/OrderPage.dart';
+import 'package:flutter_application/page/order/OrderPage.dart';
 
 import '../page/account/FirstPage.dart';
 import '../page/account/login/Login.dart';

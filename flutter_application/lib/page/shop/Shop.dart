@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../entity/Member.dart';
-import '../menu/OrderPage.dart';
+import '../order/OrderPage.dart';
 
 class ShopPage extends StatefulWidget { // 장바구니 페이지에 해당함
   Member member;
