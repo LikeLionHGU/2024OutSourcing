@@ -475,7 +475,7 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
                           onPressed: () {
                             Navigator.pushAndRemoveUntil(
                               context,
-                              MaterialPageRoute(builder: (context) => AdminRouterPage(index: 3,)), // NewPage는 이동할 새 페이지의 위젯입니다.
+                              MaterialPageRoute(builder: (context) => AdminRouterPage(index: 2,)), // NewPage는 이동할 새 페이지의 위젯입니다.
                                   (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
                             );
                           },

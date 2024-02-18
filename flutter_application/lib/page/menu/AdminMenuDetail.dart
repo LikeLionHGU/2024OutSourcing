@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../entity/Menu.dart';
+import '../AdminRouterPage.dart';
 
 class AdminMenuDetail extends StatefulWidget {
   AdminMenuDetail({Key? key, required this.menu}) : super(key: key); // 생성자
@@ -50,9 +52,7 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
       ),
       backgroundColor: Colors.white,
       body: Column(children: [
-        Image(
-            image: NetworkImage(
-                widget.menu.imageAddress)),
+        Image(image: NetworkImage(widget.menu.imageAddress)),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.03,
         ),
@@ -86,6 +86,7 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
             ),
             Spacer(),
             PopupMenuButton<String>(
+              elevation: 0.1,
               onSelected: (String value) {
                 print(value);
                 // 선택된 값에 따른 로직을 여기에 추가하세요.
@@ -95,15 +96,36 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
                 PopupMenuItem<String>(
                   value: '수정하기',
                   child: Container(
-                    width: double.infinity,
+                      width: double.infinity,
                       alignment: Alignment.center,
-                      child: Text('수정하기', textAlign: TextAlign.center)),
+                      child: TextButton(
+                        child: Text('수정하기', textAlign: TextAlign.center),
+                        onPressed: () {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => OrderAdminCheckPage(order: shopItems[index])
+                          //   ),
+                          // );
+                        },
+                      )),
                 ),
                 PopupMenuDivider(),
                 PopupMenuItem<String>(
                   value: '삭제하기',
                   child: Container(
-                      width: double.infinity, alignment: Alignment.center, child: Text('삭제하기', textAlign: TextAlign.center, style: TextStyle(color: Colors.red),)),
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      child: TextButton(
+                        child: Text(
+                          '삭제하기',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.red),
+                        ),
+                        onPressed: () {
+                          deleteDocument(widget.menu.documentId);
+                        },
+                      )),
                 ),
               ],
               icon: Icon(Icons.edit), // 사용하고 싶은 아이콘을 여기에 넣으세요.
@@ -192,10 +214,7 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
                         ),
                         Expanded(
                           child: Container(
-                            child:
-                                Text(
-                                  widget.menu.description
-                                ),
+                            child: Text(widget.menu.description),
                             alignment: Alignment.centerLeft,
                           ),
                         ),
@@ -221,8 +240,7 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
                         ),
                         Expanded(
                           child: Container(
-                            child: Text(
-                                widget.menu.address),
+                            child: Text(widget.menu.address),
                             alignment: Alignment.centerLeft,
                           ),
                         ),
@@ -241,4 +259,64 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
       ]),
     );
   } // 0xffC5C5C5
+  Future<void> deleteDocument(String documentId) async {
+    // Firestore 인스턴스를 가져온 후, 'orders' 컬렉션에서 특정 문서 ID를 가진 문서 참조를 얻습니다.
+    DocumentReference docRef = FirebaseFirestore.instance.collection('products').doc(documentId);
+
+    // 해당 문서를 삭제합니다.
+    await docRef.delete().then((_) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder( // AlertDialog 모서리를 둥글게 처리
+              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.width * 0.02)),
+            ),
+            // backgroundColor: Color(0xffFFFFFF),
+            backgroundColor: Colors.white,
+            elevation: 0,
+            title: Text("삭제 완료", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold),),
+            actions: <Widget>[
+              Column(
+                children: [
+                  Align(child: Text("삭제가 완료되었습니다.",), alignment: Alignment.centerLeft,),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.015,),
+                  Row(
+                    children: [
+                      Container(
+                        child: TextButton(
+                          child: Text("닫기", style: TextStyle(color: Colors.white),), // '네' 버튼
+                          onPressed: () {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (context) => AdminRouterPage(index: 0,)), // NewPage는 이동할 새 페이지의 위젯입니다.
+                                  (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+                            );
+                          },
+                        ),
+                        decoration: BoxDecoration(
+                          color: Color(0xffFF8B51),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        height: MediaQuery.of(context).size.height * 0.05,
+                      ),
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.center,
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
+      ).then((_) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => AdminRouterPage(index: 3,)), // NewPage는 이동할 새 페이지의 위젯입니다.
+              (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+        );
+      }
+      );
+    });
+  }
 }

@@ -25,7 +25,7 @@ class ShopItem {
 
   factory ShopItem.fromMap(Map<String, dynamic> map) {
     return ShopItem(
-      documentId: map['documentId'],
+      documentId: "",
       name: map['name'],
       price: map['price'],
       count: map['count'],
