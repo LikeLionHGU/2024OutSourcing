@@ -9,8 +9,10 @@ class PersonOrder {
   Timestamp orderTime;
   bool isCard;
   String description;
+  bool isDeliver;
 
   PersonOrder({
+    required this.isDeliver,
     required this.description,
     required this.shopList,
     required this.member,
@@ -41,7 +43,8 @@ class PersonOrder {
       member: member,
       orderTime: orderTime,
       isCard: firestoreData['isCard'],
-      description: firestoreData['description']
+      description: firestoreData['description'],
+      isDeliver: firestoreData['isDeliver']
     );
   }
 }

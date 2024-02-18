@@ -60,6 +60,10 @@ class OrderListState extends State<OrderList> {
           for(int i = 0; i < shopItems[index].shopList.length; i++) {
             num += shopItems[index].shopList[i].price * shopItems[index].shopList[i].count;
           }
+
+          if(shopItems[index].isDeliver) {
+            num += 2000;
+          }
           return Column(
             children: [
               ListTile(

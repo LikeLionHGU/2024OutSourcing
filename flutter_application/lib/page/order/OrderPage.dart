@@ -38,6 +38,8 @@ class OrderPageState extends State<OrderPage>
   String? dropdownValue = null; // DropdownButton의 현재 선택된 값
   TextEditingController _textController = TextEditingController();
   int _selectedIndex = 0; // 현재 선택된 탭의 인덱스
+  bool _selectedType = false;
+  int price = 0;
 
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -61,7 +63,7 @@ class OrderPageState extends State<OrderPage>
     DateTime now = DateTime.now();
     DateTime dateAndTimeInMinutes = DateTime(now.year, now.month, now.day, now.hour, now.minute);
     // true가 계좌이체
-    order = PersonOrder(shopList: widget.items, member: widget.member, orderTime: Timestamp.fromDate(dateAndTimeInMinutes), isCard: true, description: "요청사항 없음").toMap();
+    order = PersonOrder(shopList: widget.items, member: widget.member, orderTime: Timestamp.fromDate(dateAndTimeInMinutes), isCard: true, description: "요청사항 없음", isDeliver: false).toMap();
   }
 
   Widget buildShopItem(ShopItem shopItem) {
@@ -389,7 +391,34 @@ class OrderPageState extends State<OrderPage>
             ]
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.02,
+            height: MediaQuery.of(context).size.height * 0.01,
+          ),
+          Row(
+            children: [
+              IconButton(onPressed: () {
+                setState(() {
+                  _selectedType = false;
+                  order['isDeliver'] = false;
+                  price = 0;
+                });
+              }, icon: Icon(Icons.check_circle, color: _selectedType ? Colors.grey : Color(0xffFF8B51), size: MediaQuery.of(context).size.width * 0.05,)),
+              Text("포장으로 받기", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+            ],
+          ),
+          Row(
+            children: [
+              IconButton(onPressed: () {
+                setState(() {
+                  _selectedType = true;
+                  order['isDeliver'] = true;
+                  price = 2000;
+                });
+              }, icon: Icon(Icons.check_circle, color: _selectedType ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05,)),
+              Text("배달로 받기", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+            ],
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.01,
           ),
           Row(
             children: [
@@ -408,7 +437,7 @@ class OrderPageState extends State<OrderPage>
               SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
               Text("배달비", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
               Spacer(),
-              Text("0원", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              Text('${NumberFormat('#,###').format(price)}원', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
               SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
             ],
           ),
@@ -420,7 +449,7 @@ class OrderPageState extends State<OrderPage>
               SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
               Text("총 결제 금액", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
               Spacer(),
-              Text('${NumberFormat('#,###').format(widget.totalPrice)}원', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              Text('${NumberFormat('#,###').format(widget.totalPrice + price)}원', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
               SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
             ],
           ),

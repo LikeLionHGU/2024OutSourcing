@@ -43,6 +43,8 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
   TextEditingController _textController = TextEditingController();
   int _selectedIndex = 0; // 현재 선택된 탭의 인덱스
 
+  int price = 0;
+
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -70,7 +72,10 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
     DateTime now = DateTime.now();
     DateTime dateAndTimeInMinutes = DateTime(now.year, now.month, now.day, now.hour, now.minute);
     // true가 계좌이체
-    order = PersonOrder(shopList: items!, member: member!, orderTime: Timestamp.fromDate(dateAndTimeInMinutes), isCard: true, description: "요청사항 없음").toMap();
+    order = PersonOrder(shopList: items!, member: member!, orderTime: Timestamp.fromDate(dateAndTimeInMinutes), isCard: widget.order.order.isCard, description: "요청사항 없음", isDeliver: widget.order.order.isDeliver).toMap();
+    if(widget.order.order.isCard) {
+      price = 2000;
+    }
   }
 
   Widget buildShopItem(ShopItem shopItem) {
@@ -371,6 +376,28 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
           ),
           Row(
             children: [
+              SizedBox(width: MediaQuery.of(context).size.width * 0.04,),
+              Icon(Icons.check_circle, color: widget.order.order.isDeliver ? Colors.grey : Color(0xffFF8B51), size: MediaQuery.of(context).size.width * 0.05,),
+              SizedBox(width: MediaQuery.of(context).size.width * 0.03,),
+              Text("포장으로 받기", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+            ],
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
+          ),
+          Row(
+            children: [
+              SizedBox(width: MediaQuery.of(context).size.width * 0.04,),
+              Icon(Icons.check_circle, color: widget.order.order.isDeliver ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05,),
+              SizedBox(width: MediaQuery.of(context).size.width * 0.03,),
+              Text("배달로 받기", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+            ],
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.03,
+          ),
+          Row(
+            children: [
               SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
               Text("총 상품 금액", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
               Spacer(),
@@ -386,7 +413,7 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
               SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
               Text("배달비", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
               Spacer(),
-              Text("0원", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              Text("${NumberFormat('#,###').format(price)}원", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
               SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
             ],
           ),
@@ -398,7 +425,7 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
               SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
               Text("총 결제 금액", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
               Spacer(),
-              Text('${NumberFormat('#,###').format(widget.totalPrice)}원', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              Text('${NumberFormat('#,###').format(widget.totalPrice + price)}원', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
               SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
             ],
           ),
