@@ -519,6 +519,7 @@ class OrderPageState extends State<OrderPage>
     await orderDocRef.set({
       'userId': userId, // 사용자 ID 명시적으로 저장
       'order': orderData,
+      'isFinished' : false,
       'dateAndTime': Timestamp.fromDate(dateAndTimeInMinutes), // Timestamp 형태로 변환
     });
   }

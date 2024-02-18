@@ -60,7 +60,13 @@ class OrderAdminPageState extends State<OrderAdminPage> {
           return Column(
             children: [
               ListTile(
-                title: Text(format.format(date)),
+                title: Row(
+                  children: [
+                    Icon(Icons.check_circle, color: shopItems[index].isFinished ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.04),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+                    Text(format.format(date)),
+                  ],
+                ),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -97,8 +103,11 @@ class OrderAdminPageState extends State<OrderAdminPage> {
       PersonOrder order = PersonOrder.fromFirestore(data['order'] as Map<String, dynamic>); // PersonOrder 객체 생성
       Timestamp dateAndTime = data['dateAndTime'];
       String userId = data['userId'];
+      bool isFinished = data['isFinished'];
 
       return AdminOrder(
+        documentId: doc.id,
+        isFinished: isFinished,
         order: order,
         dateAndTime: dateAndTime,
         userId: userId,

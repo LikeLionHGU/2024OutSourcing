@@ -8,8 +8,12 @@ class AdminOrder {
   PersonOrder order;
   Timestamp dateAndTime;
   String userId;
+  bool isFinished;
+  String documentId;
 
   AdminOrder({
+    required this.documentId,
+    required this.isFinished,
     required this.order,
     required this.dateAndTime,
     required this.userId,
@@ -19,20 +23,9 @@ class AdminOrder {
     return {
       'order': order.toMap(),
       'dateAndTime' : dateAndTime,
+      'isFinished' : isFinished,
       'userId' : userId
     };
-  }
-
-  // Firestore 문서의 데이터를 받아서 Menu 객체를 생성하는 메서드
-  factory AdminOrder.fromFirestore(Map<String, dynamic> firestoreData) {
-    PersonOrder order = PersonOrder.fromFirestore(firestoreData['order'] as Map<String, dynamic>); // PersonOrder 객체 생성
-    Timestamp dateAndTime = firestoreData['dateAndTime'];
-
-    return AdminOrder(
-        order: order,
-        dateAndTime: dateAndTime,
-        userId: firestoreData['userId']
-    );
   }
 }
 

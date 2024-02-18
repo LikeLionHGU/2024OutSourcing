@@ -12,11 +12,31 @@ import 'package:flutter_application/page/user/UserPage.dart';
 class AdminRouterPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => AdminRouterPageState();
+  int index;
+  AdminRouterPage({Key? key, required this.index}) : super(key: key);
 }
 
 class AdminRouterPageState extends State<AdminRouterPage> {
   int _selectedIndex = 1;
   PageController _pageController = PageController();
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+
+    setState(() {
+      _selectedIndex = widget.index;
+    });
+
+    _pageController = PageController(initialPage: _selectedIndex);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,17 +73,6 @@ class AdminRouterPageState extends State<AdminRouterPage> {
     );
   }
 
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController(initialPage: _selectedIndex);
-  }
 
   void _onItemTapped(int index) {
     _pageController.animateToPage(

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/entity/AdminOrder.dart';
 import 'package:flutter_application/entity/PersonOrder.dart';
 import 'package:flutter_application/entity/shop/ShopItemProvider.dart';
+import 'package:flutter_application/page/AdminRouterPage.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +13,7 @@ import '../../entity/Member.dart';
 import '../../entity/shop/ShopItem.dart';
 import '../RouterPage.dart';
 
-class OrderAdminCheckPage extends StatefulWidget {
+class OrderAdminCheckPage extends StatefulWidget { // order 문서 내부에 문서 ID를 가지고 와야함
   AdminOrder order;
   int totalPrice = 0;
 
@@ -26,6 +27,7 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
   late Map<String, dynamic> order;
   List<ShopItem>? items;
   Member? member;
+
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -403,7 +405,6 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.02,
           ),
-
           Align(
             alignment: Alignment.center,
             child: Container(
@@ -413,66 +414,26 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
                 borderRadius: BorderRadius.circular(8), // 모서리 둥글기
               ),
               child: TextButton(
-                child: Text("주문하기", style: TextStyle(color: Colors.white),),
+                child: Text("완료하기", style: TextStyle(color: Colors.white),),
                 onPressed: () {
-                  addOrderToUser(FirebaseAuth.instance.currentUser!.uid, order);
-                  addOrder(FirebaseAuth.instance.currentUser!.uid, order);
-
-                  Provider.of<ShopItemProvider>(context, listen: false).clear();
-
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        shape: RoundedRectangleBorder( // AlertDialog 모서리를 둥글게 처리
-                          borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.width * 0.02)),
-                        ),
-                        // backgroundColor: Color(0xffFFFFFF),
-                        backgroundColor: Colors.white,
-                        elevation: 0,
-                        title: Text("주문 완료", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold),),
-                        actions: <Widget>[
-                          Column(
-                            children: [
-                              Align(child: Text("주문이 완료되었습니다.",), alignment: Alignment.centerLeft,),
-                              SizedBox(height: MediaQuery.of(context).size.height * 0.015,),
-                              Row(
-                                children: [
-                                  Container(
-                                    child: TextButton(
-                                      child: Text("닫기", style: TextStyle(color: Colors.white),), // '네' 버튼
-                                      onPressed: () {
-                                        // '네'를 눌렀을 때 수행할 동작
-                                        Navigator.pushAndRemoveUntil(
-                                          context,
-                                          MaterialPageRoute(builder: (context) => RouterPage(index: 1,)), // NewPage는 이동할 새 페이지의 위젯입니다.
-                                              (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
-                                        );
-                                      },
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: Color(0xffFF8B51),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    width: MediaQuery.of(context).size.width * 0.3,
-                                    height: MediaQuery.of(context).size.height * 0.05,
-                                  ),
-                                ],
-                                mainAxisAlignment: MainAxisAlignment.center,
-                              ),
-                            ],
-                          ),
-                        ],
-                      );
-                    },
-                  ).then((_) {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => RouterPage(index: 1,)), // NewPage는 이동할 새 페이지의 위젯입니다.
-                          (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
-                    );
-                  }
-                  );
+                  updateOrder(widget.order.documentId);
+                },
+              ),
+            ),
+          ),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.9,
+              decoration: BoxDecoration(
+                color: Color(0xffFF8B51),
+                borderRadius: BorderRadius.circular(8), // 모서리 둥글기
+              ),
+              child: TextButton(
+                child: Text("삭제하기", style: TextStyle(color: Colors.white),),
+                onPressed: () {
+                  deleteDocument(widget.order.documentId);
 
                 },
               ),
@@ -483,19 +444,126 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
     );
   }
 
-  Future<void> addOrderToUser(String userId, Map<String, dynamic> orderData) async {
-    CollectionReference orders = FirebaseFirestore.instance.collection('users').doc(userId).collection('orders');
-    await orders.add(orderData);
+  Future<void> updateOrder(String documentId) async {
+    CollectionReference orders = FirebaseFirestore.instance.collection('orders');
+
+    // 문서 ID를 사용하여 특정 문서 업데이트
+    await orders.doc(documentId).update({
+      'isFinished': true,
+    }).then((_) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder( // AlertDialog 모서리를 둥글게 처리
+              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.width * 0.02)),
+            ),
+            // backgroundColor: Color(0xffFFFFFF),
+            backgroundColor: Colors.white,
+            elevation: 0,
+            title: Text("주문 확정", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold),),
+            actions: <Widget>[
+              Column(
+                children: [
+                  Align(child: Text("주문이 확정되었습니다.",), alignment: Alignment.centerLeft,),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.015,),
+                  Row(
+                    children: [
+                      Container(
+                        child: TextButton(
+                          child: Text("닫기", style: TextStyle(color: Colors.white),), // '네' 버튼
+                          onPressed: () {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (context) => AdminRouterPage(index: 3,)), // NewPage는 이동할 새 페이지의 위젯입니다.
+                                  (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+                            );
+                          },
+                        ),
+                        decoration: BoxDecoration(
+                          color: Color(0xffFF8B51),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        height: MediaQuery.of(context).size.height * 0.05,
+                      ),
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.center,
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
+      ).then((_) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => AdminRouterPage(index: 3,)), // NewPage는 이동할 새 페이지의 위젯입니다.
+              (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+        );
+      }
+      );
+    });
   }
 
-  Future<void> addOrder(String userId, Map<String, dynamic> orderData) async {
-    DocumentReference orderDocRef = FirebaseFirestore.instance.collection('orders').doc(); // 주문 문서 ID 자동 생성
-    DateTime now = DateTime.now();
-    DateTime dateAndTimeInMinutes = DateTime(now.year, now.month, now.day, now.hour, now.minute);
-    await orderDocRef.set({
-      'userId': userId, // 사용자 ID 명시적으로 저장
-      'order': orderData,
-      'dateAndTime': Timestamp.fromDate(dateAndTimeInMinutes), // Timestamp 형태로 변환
+  Future<void> deleteDocument(String documentId) async {
+    // Firestore 인스턴스를 가져온 후, 'orders' 컬렉션에서 특정 문서 ID를 가진 문서 참조를 얻습니다.
+    DocumentReference docRef = FirebaseFirestore.instance.collection('orders').doc(documentId);
+
+    // 해당 문서를 삭제합니다.
+    await docRef.delete().then((_) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder( // AlertDialog 모서리를 둥글게 처리
+              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.width * 0.02)),
+            ),
+            // backgroundColor: Color(0xffFFFFFF),
+            backgroundColor: Colors.white,
+            elevation: 0,
+            title: Text("삭제 완료", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold),),
+            actions: <Widget>[
+              Column(
+                children: [
+                  Align(child: Text("삭제가 완료되었습니다.",), alignment: Alignment.centerLeft,),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.015,),
+                  Row(
+                    children: [
+                      Container(
+                        child: TextButton(
+                          child: Text("닫기", style: TextStyle(color: Colors.white),), // '네' 버튼
+                          onPressed: () {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (context) => AdminRouterPage(index: 3,)), // NewPage는 이동할 새 페이지의 위젯입니다.
+                                  (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+                            );
+                          },
+                        ),
+                        decoration: BoxDecoration(
+                          color: Color(0xffFF8B51),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        height: MediaQuery.of(context).size.height * 0.05,
+                      ),
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.center,
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
+      ).then((_) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => AdminRouterPage(index: 3,)), // NewPage는 이동할 새 페이지의 위젯입니다.
+              (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+        );
+      }
+      );
     });
   }
 }

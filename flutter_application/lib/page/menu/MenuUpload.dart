@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../RouterPage.dart';
+
 class MenuUpload extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => MenuUploadState();
@@ -231,10 +233,6 @@ class MenuUploadState extends State<MenuUpload> {
         title: Text("메뉴 작성"),
         backgroundColor: Colors.white,
         scrolledUnderElevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {},
-        ),
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(

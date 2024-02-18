@@ -128,7 +128,7 @@ class LoginState extends State<Login> {
 
                     Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => AdminRouterPage()),
+                    MaterialPageRoute(builder: (context) => AdminRouterPage(index: 1,)),
                     ModalRoute.withName('/admin/router'),
                   );
                 } else {

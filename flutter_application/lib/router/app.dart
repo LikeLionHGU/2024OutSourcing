@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         // '/signUpDetail' : (BuildContext context) => SignUpDetail(),
         '/login' : (BuildContext context) => Login(),
         '/router' : (BuildContext context) => RouterPage(index: 1,),
-        '/admin/router' : (BuildContext context) => AdminRouterPage(),
+        // '/admin/router' : (BuildContext context) => AdminRouterPage(),
         // '/order' : (BuildContext context) => OrderPage(),
         // '/student/calendar' : (BuildContext context) => StudentCalendarPage(),
         // '/professor/calendar' : (BuildContext context) => ProfessorCalendarPage(),
