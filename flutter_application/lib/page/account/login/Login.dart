@@ -128,13 +128,13 @@ class LoginState extends State<Login> {
 
                     Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => AdminRouterPage(index: 1,)),
+                    MaterialPageRoute(builder: (context) => AdminRouterPage(index: 0,)),
                     ModalRoute.withName('/admin/router'),
                   );
                 } else {
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => RouterPage(index: 1,)),
+                    MaterialPageRoute(builder: (context) => RouterPage(index: 0,)),
                     ModalRoute.withName('/router'),
                   );
                 }

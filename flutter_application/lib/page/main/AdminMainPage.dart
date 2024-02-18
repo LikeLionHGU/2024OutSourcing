@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/entity/Menu.dart';
 import 'package:flutter_application/entity/MenuRepository.dart';
+import 'package:flutter_application/page/account/FirstPage.dart';
 import 'package:flutter_application/page/menu/AdminMenuDetail.dart';
 import 'package:intl/intl.dart';
 
@@ -219,6 +221,19 @@ class AdminMainPageState extends State<AdminMainPage>
         centerTitle: true,
         elevation: 0,
         title: Text("온반", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05),),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut(); // Firebase에서 로그아웃
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => FirstPage()), // NewPage는 이동할 새 페이지의 위젯입니다.
+                    (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+              );
+            },
+          ),
+        ],
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight + 140),
           child: Column(
