@@ -10,7 +10,7 @@ class MenuRepository {
     QuerySnapshot snapshot = await firestore.collection('products').get();
 
     return snapshot.docs.map((doc) {
-      return Menu.fromFirestore(doc.data() as Map<String, dynamic>);
+      return Menu.fromFirestore(doc.data() as Map<String, dynamic>, doc.id);
     }).toList();
   }
 }

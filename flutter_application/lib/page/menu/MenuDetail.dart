@@ -415,6 +415,7 @@ class MenuDetailState extends State<MenuDetail>
                                     ),
                                     onPressed: () {
                                       ShopItem newItem = ShopItem(
+                                        documentId: widget.menu.documentId,
                                           name: widget.menu.name,
                                           price: widget.menu.price,
                                           count: count,
@@ -428,7 +429,7 @@ class MenuDetailState extends State<MenuDetail>
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => RouterPage(
-                                                  index: 2,
+                                                  index: 1,
                                                 )),
                                         // NewPage는 이동할 새 페이지의 위젯입니다.
                                         (Route<dynamic> route) =>
@@ -455,6 +456,7 @@ class MenuDetailState extends State<MenuDetail>
                                     onPressed: () {
                                       Navigator.pop(context);
                                       ShopItem newItem = ShopItem(
+                                        documentId: widget.menu.documentId,
                                           name: widget.menu.name,
                                           price: widget.menu.price,
                                           count: count,
@@ -537,7 +539,7 @@ class MenuDetailState extends State<MenuDetail>
                                                                       (context) =>
                                                                           RouterPage(
                                                                             index:
-                                                                                2,
+                                                                                1,
                                                                           )),
                                                               // NewPage는 이동할 새 페이지의 위젯입니다.
                                                               (Route<dynamic>

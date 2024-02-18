@@ -18,10 +18,10 @@ class FirstPageState extends State<FirstPage> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          Container(alignment: Alignment.center, child: Text("따뜻한 마음을 담은", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.06),)),
-          Container(alignment: Alignment.center, child: Text("반찬 전문점, 온반입니다", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.06),)),
+          Container(alignment: Alignment.center, child: Text("저희 온반을 찾아주셔서 감사합니다", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05, fontWeight: FontWeight.bold),)),
           SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
-          Container(alignment: Alignment.center, child: Text("엄마의 정성처럼 따뜻한 마음과 온기를 담았습니다", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03),)),
+          Container(alignment: Alignment.center, child: Text("신선한 재료로 가족을 위한 건강한 음식을", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),)),
+          Container(alignment: Alignment.center, child: Text("만드는 것을 목표로 하고 있습니다", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),)),
           Expanded(
             child: Container(),
           ),

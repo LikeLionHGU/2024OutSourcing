@@ -441,6 +441,7 @@ class OrderPageState extends State<OrderPage>
                 onPressed: () {
                   addOrderToUser(FirebaseAuth.instance.currentUser!.uid, order);
                   addOrder(FirebaseAuth.instance.currentUser!.uid, order);
+                  updateCounts(Provider.of<ShopItemProvider>(context, listen: false));
 
                   Provider.of<ShopItemProvider>(context, listen: false).clear();
 
@@ -466,7 +467,6 @@ class OrderPageState extends State<OrderPage>
                                     child: TextButton(
                                       child: Text("닫기", style: TextStyle(color: Colors.white),), // '네' 버튼
                                       onPressed: () {
-                                        // '네'를 눌렀을 때 수행할 동작
                                         Navigator.pushAndRemoveUntil(
                                           context,
                                           MaterialPageRoute(builder: (context) => RouterPage(index: 1,)), // NewPage는 이동할 새 페이지의 위젯입니다.
@@ -505,6 +505,27 @@ class OrderPageState extends State<OrderPage>
         ],
       ),
     );
+  }
+
+  Future<void> updateCounts(ShopItemProvider provider) async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    for (var item in provider.items) {
+      DocumentReference docRef = firestore.collection('products').doc(item.documentId);
+      print("!!");
+      print(item.documentId);
+
+      firestore.runTransaction((transaction) async {
+        DocumentSnapshot snapshot = await transaction.get(docRef);
+
+        if (!snapshot.exists) {
+          throw Exception("Document does not exist!");
+        }
+
+        int newCount = snapshot['count'] - item.count;
+        transaction.update(docRef, {'count': newCount});
+      });
+    }
   }
 
   Future<void> addOrderToUser(String userId, Map<String, dynamic> orderData) async {

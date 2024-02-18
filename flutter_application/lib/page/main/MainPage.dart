@@ -197,7 +197,7 @@ class MainPageState extends State<MainPage>
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AdminMenuDetail(menu: menu,), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
+                      builder: (context) => MenuDetail(menu: menu,), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
                     ),
                   );
                 },
