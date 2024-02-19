@@ -35,6 +35,9 @@ class OrderPageState extends State<OrderCheckPage>
   String? _selectedOption;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  var format = DateFormat('yyyy-MM-dd HH:mm'); // 원하는 포맷 지정
+  var date;
+
   List<String> _options = ['항목 1', '항목 2', '항목 3', '항목 4', '항목 5'];
   String? dropdownValue = null; // DropdownButton의 현재 선택된 값
   TextEditingController _textController = TextEditingController();
@@ -62,6 +65,8 @@ class OrderPageState extends State<OrderCheckPage>
     for(int i = 0; i < widget.items.length; i++) {
       widget.totalPrice += widget.items[i].price * widget.items[i].count;
     }
+
+    date =  DateTime.fromMillisecondsSinceEpoch(widget.order.orderTime.millisecondsSinceEpoch);
 
     DateTime now = DateTime.now();
     DateTime dateAndTimeInMinutes = DateTime(now.year, now.month, now.day, now.hour, now.minute);
@@ -99,13 +104,13 @@ class OrderPageState extends State<OrderCheckPage>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(shopItem.name),
+                  Text(shopItem.name, style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.039),),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.01,
                   ),
                   Row(
                     children: [
-                      Text('${NumberFormat('#,###').format(shopItem.price * shopItem.count)}원'),
+                      Text('${NumberFormat('#,###').format(shopItem.price * shopItem.count)}원', style: TextStyle(fontWeight: FontWeight.bold),),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.01,
                       ),
@@ -151,7 +156,7 @@ class OrderPageState extends State<OrderCheckPage>
       body: ListView(
         children: [
           ExpansionTile(
-            title: Text('주문내역'),
+            title: Text("${format.format(date)}"),
             children:
             widget.items.map(buildShopItem).toList(), // 리스트를 ExpansionTile에 매핑합니다.
           ),
@@ -417,9 +422,9 @@ class OrderPageState extends State<OrderCheckPage>
           Row(
             children: [
               SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
-              Text("총 결제 금액", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              Text("총 결제 금액", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold),),
               Spacer(),
-              Text('${NumberFormat('#,###').format(widget.totalPrice + price)}원', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              Text('${NumberFormat('#,###').format(widget.totalPrice + price)}원', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold),),
               SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
             ],
           ),

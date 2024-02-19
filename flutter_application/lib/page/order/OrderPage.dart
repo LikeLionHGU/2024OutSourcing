@@ -418,7 +418,7 @@ class OrderPageState extends State<OrderPage>
             ],
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.01,
+            height: MediaQuery.of(context).size.height * 0.03,
           ),
           Row(
             children: [

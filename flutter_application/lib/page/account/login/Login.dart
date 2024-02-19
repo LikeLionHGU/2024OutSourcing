@@ -39,7 +39,7 @@ class LoginState extends State<Login> {
             ],
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.03,
+            height: MediaQuery.of(context).size.height * 0.01,
           ),
           Row(
             children: [
@@ -49,7 +49,7 @@ class LoginState extends State<Login> {
               Text(
                 "다시 만나서 반가워요 :)",
                 style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width * 0.05),
+                    fontSize: MediaQuery.of(context).size.width * 0.06, fontWeight: FontWeight.w600),
               ),
             ],
           ),
@@ -128,13 +128,13 @@ class LoginState extends State<Login> {
 
                     Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => AdminRouterPage(index: 0,)),
+                    MaterialPageRoute(builder: (context) => AdminRouterPage(index: 1,)),
                     ModalRoute.withName('/admin/router'),
                   );
                 } else {
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => RouterPage(index: 0,)),
+                    MaterialPageRoute(builder: (context) => RouterPage(index: 1,)),
                     ModalRoute.withName('/router'),
                   );
                 }

@@ -52,7 +52,10 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
       ),
       backgroundColor: Colors.white,
       body: Column(children: [
-        Image(image: NetworkImage(widget.menu.imageAddress)),
+        SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 0.3,
+            child: Image(image: NetworkImage(widget.menu.imageAddress), fit: BoxFit.cover,)),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.03,
         ),
@@ -69,9 +72,6 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
               alignment: Alignment.centerLeft,
             ),
           ],
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.01,
         ),
         Row(
           children: [
@@ -128,7 +128,7 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
                       )),
                 ),
               ],
-              icon: Icon(Icons.edit), // 사용하고 싶은 아이콘을 여기에 넣으세요.
+              icon: Icon(Icons.edit, color: Colors.grey, size: MediaQuery.of(context).size.width * 0.05,), // 사용하고 싶은 아이콘을 여기에 넣으세요.
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.05,
@@ -187,13 +187,13 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
           unselectedLabelColor: Colors.grey,
           indicatorSize: TabBarIndicatorSize.tab,
           indicatorColor: Colors.black,
-          indicatorWeight: MediaQuery.of(context).size.height * 0.002,
+          indicatorWeight: 2,
           tabs: [
             Tab(
-              child: Text("상품설명"),
+              child: Text("상품설명", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.036),),
             ),
             Tab(
-              child: Text("배송안내"),
+              child: Text("배송안내", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.036)),
             ),
           ],
         ),

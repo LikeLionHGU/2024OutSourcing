@@ -33,8 +33,8 @@ class RouterPageState extends State<RouterPage> {
         },
         children: <Widget>[
           // 각 탭에 대응하는 위젯을 여기에 넣으세요.
-          MainPage(),
           ShopPage(member: member,),
+          MainPage(),
           UserPage(member: member,),
         ],
       ),
@@ -46,8 +46,8 @@ class RouterPageState extends State<RouterPage> {
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "오늘반찬"),
           BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "장바구니"),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "오늘반찬"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "마이페이지"),
         ],
       ),

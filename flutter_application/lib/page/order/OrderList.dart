@@ -99,6 +99,7 @@ class OrderListState extends State<OrderList> {
         .collection('users')
         .doc(userId)
         .collection('orders')
+    .orderBy('orderTime', descending: true)
         .get();
 
     // 모든 주문 문서들의 리스트를 반환

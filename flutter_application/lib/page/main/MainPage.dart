@@ -66,7 +66,7 @@ class MainPageState extends State<MainPage>
     }
 
     return menus!.map((menu) {
-      print(menu.price);
+
       return Card(
         color: Colors.white,
         clipBehavior: Clip.antiAlias,
@@ -107,7 +107,7 @@ class MainPageState extends State<MainPage>
               decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(color: Color(0xffFF8B51)), // 테두리 색상
-                borderRadius: BorderRadius.circular(8), // 모서리 둥글기
+                borderRadius: BorderRadius.circular(4), // 모서리 둥글기
               ),
               child: TextButton(
                 onPressed: () {
@@ -143,7 +143,6 @@ class MainPageState extends State<MainPage>
               menu.name,
               style: TextStyle(
                 fontSize: MediaQuery.of(context).size.width * 0.04,
-                fontWeight: FontWeight.bold,
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.001),
@@ -158,7 +157,7 @@ class MainPageState extends State<MainPage>
             Text(
               '${NumberFormat('#,###').format(menu.price)}원',
               style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width * 0.03,
+                  fontSize: MediaQuery.of(context).size.width * 0.038,
                   color: Colors.black,
                   fontWeight: FontWeight.bold
               ),
@@ -214,7 +213,6 @@ class MainPageState extends State<MainPage>
               menu.name,
               style: TextStyle(
                 fontSize: MediaQuery.of(context).size.width * 0.04,
-                fontWeight: FontWeight.bold,
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.001),
@@ -287,7 +285,7 @@ class MainPageState extends State<MainPage>
                   unselectedLabelColor: Colors.grey,
                   indicatorSize: TabBarIndicatorSize.tab,
                   indicatorColor: Color(0xffFF8B51),
-                  indicatorWeight: 1.0,
+                  indicatorWeight: 2.0,
                   tabs: [
                     Tab(
                       child: Text("전체"),

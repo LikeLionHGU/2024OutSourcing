@@ -50,8 +50,8 @@ class AdminRouterPageState extends State<AdminRouterPage> {
         },
         children: <Widget>[
           // 각 탭에 대응하는 위젯을 여기에 넣으세요.
-          AdminMainPage(),
           MenuUpload(),
+          AdminMainPage(),
           OrderAdminPage(),
         ],
       ),
@@ -63,8 +63,8 @@ class AdminRouterPageState extends State<AdminRouterPage> {
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "오늘반찬"),
           BottomNavigationBarItem(icon: Icon(Icons.add_circle_outline), label: "메뉴등록"),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "오늘반찬"),
           BottomNavigationBarItem(icon: Icon(Icons.receipt_long_rounded), label: "주문확인"),
         ],
       ),

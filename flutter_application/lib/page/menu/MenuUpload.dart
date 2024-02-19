@@ -85,6 +85,13 @@ class MenuUploadState extends State<MenuUpload> {
                       },
                     ),
                   ],
+                  shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
+                    borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
+                    side: BorderSide( // 테두리의 두께와 색상을 조절
+                      color: Colors.white, // 테두리 색상
+                      width: 1, // 테두리 두께
+                    ),
+                  ),
                 );
               },
             );
@@ -105,6 +112,13 @@ class MenuUploadState extends State<MenuUpload> {
                       },
                     ),
                   ],
+                  shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
+                    borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
+                    side: BorderSide( // 테두리의 두께와 색상을 조절
+                      color: Colors.white, // 테두리 색상
+                      width: 1, // 테두리 두께
+                    ),
+                  ),
                 );
               },
             );
@@ -125,6 +139,13 @@ class MenuUploadState extends State<MenuUpload> {
                       },
                     ),
                   ],
+                  shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
+                    borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
+                    side: BorderSide( // 테두리의 두께와 색상을 조절
+                      color: Colors.white, // 테두리 색상
+                      width: 1, // 테두리 두께
+                    ),
+                  ),
                 );
               },
             );
@@ -145,6 +166,13 @@ class MenuUploadState extends State<MenuUpload> {
                       },
                     ),
                   ],
+                  shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
+                    borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
+                    side: BorderSide( // 테두리의 두께와 색상을 조절
+                      color: Colors.white, // 테두리 색상
+                      width: 1, // 테두리 두께
+                    ),
+                  ),
                 );
               },
             );
@@ -165,6 +193,13 @@ class MenuUploadState extends State<MenuUpload> {
                       },
                     ),
                   ],
+                  shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
+                    borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
+                    side: BorderSide( // 테두리의 두께와 색상을 조절
+                      color: Colors.white, // 테두리 색상
+                      width: 1, // 테두리 두께
+                    ),
+                  ),
                 );
               },
             );
@@ -195,6 +230,13 @@ class MenuUploadState extends State<MenuUpload> {
                       },
                     ),
                   ],
+                  shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
+                    borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
+                    side: BorderSide( // 테두리의 두께와 색상을 조절
+                      color: Colors.white, // 테두리 색상
+                      width: 1, // 테두리 두께
+                    ),
+                  ),
                 );
               },
             );
@@ -376,14 +418,14 @@ class MenuUploadState extends State<MenuUpload> {
                 (index) {
                   return ChoiceChip(
                     selectedColor: Color(0xffFF8B51),
-                    backgroundColor: Colors.white,
+                    backgroundColor: Color(0xffebebeb),
                     showCheckmark: false,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(3.0),
                       side: BorderSide(
                           color: _selectedIndex == index
                               ? Color(0xffFF8B51)
-                              : Colors.grey),
+                              : Color(0xffebebeb)),
                     ),
                     // 선택되었을 때와 선택되지 않았을 때 동일한 텍스트 스타일을 유지하기 위한 스타일링
                     labelStyle: TextStyle(
@@ -416,14 +458,21 @@ class MenuUploadState extends State<MenuUpload> {
                     fontSize: MediaQuery.of(context).size.width * 0.03),
                 textAlignVertical: TextAlignVertical.center,
                 decoration: InputDecoration(
+                  fillColor: Color(0xffebebeb),
+                  filled: true,
+                  enabledBorder: OutlineInputBorder(
+                    // 포커스가 맞춰졌을 때의 테두리 색상을 설정
+                    borderSide: BorderSide(color: Color(0xffebebeb)),
+                  ),
                   focusedBorder: OutlineInputBorder(
                     // 포커스가 맞춰졌을 때의 테두리 색상을 설정
-                    borderSide: BorderSide(color: Colors.black),
+                    borderSide: BorderSide(color: Color(0xffebebeb)),
                   ),
                   labelStyle: TextStyle(
                       color: Colors.black,
                       fontSize: MediaQuery.of(context).size.width * 0.03),
                   hintText: '상품설명을 입력해주세요',
+                  hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.038),
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -440,14 +489,21 @@ class MenuUploadState extends State<MenuUpload> {
                     fontSize: MediaQuery.of(context).size.width * 0.03),
                 textAlignVertical: TextAlignVertical.center,
                 decoration: InputDecoration(
+                  filled: true,
+                  enabledBorder: OutlineInputBorder(
+                    // 포커스가 맞춰졌을 때의 테두리 색상을 설정
+                    borderSide: BorderSide(color: Color(0xffebebeb)),
+                  ),
+                  fillColor: Color(0xffebebeb),
                   focusedBorder: OutlineInputBorder(
                     // 포커스가 맞춰졌을 때의 테두리 색상을 설정
-                    borderSide: BorderSide(color: Colors.black),
+                    borderSide: BorderSide(color: Color(0xffebebeb)),
                   ),
                   labelStyle: TextStyle(
                       color: Colors.black,
                       fontSize: MediaQuery.of(context).size.width * 0.03),
                   hintText: '배송안내를 입력해주세요',
+                  hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.038),
                   border: OutlineInputBorder(),
                 ),
               ),

@@ -65,7 +65,7 @@ class ShopPageState extends State<ShopPage> {
 
                 });
               }, icon: Icon(Icons.check_circle, color: shopItem.isSelected ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.06)),
-              Text(shopItem.name),
+              Text(shopItem.name, style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.038)),
               Spacer(),
               IconButton(
                 icon: Icon(Icons.close),
@@ -207,9 +207,10 @@ class ShopPageState extends State<ShopPage> {
             child: Column(
               children: [
                 Divider(),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
                 Row(
                   children: [
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.05),
                     Text("총 상품 금액", style: TextStyle(fontWeight: FontWeight.bold),),
                     Spacer(),
                     Text('${NumberFormat('#,###').format(price)}원', style: TextStyle(fontWeight: FontWeight.bold)),
@@ -229,10 +230,18 @@ class ShopPageState extends State<ShopPage> {
                       if(items.length < 1) {
 
                       } else {
+                        List<ShopItem> selectedItems = [];
+
+                        for(int i = 0; i < items.length; i++) {
+                          if(items[i].isSelected) {
+                            selectedItems.add(items[i]);
+                          }
+                        }
+
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => OrderPage(member: widget.member, items: items,), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
+                            builder: (context) => OrderPage(member: widget.member, items: selectedItems,), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
                           ),
                         );
                       }

@@ -28,7 +28,7 @@ class MenuDetailState extends State<MenuDetail>
     super.initState();
     tabController = TabController(length: 2, vsync: this);
 
-    if(widget.menu.count == 0) {
+    if (widget.menu.count == 0) {
       count = 0;
     } else {
       count = widget.initialCount;
@@ -65,7 +65,10 @@ class MenuDetailState extends State<MenuDetail>
         ),
         backgroundColor: Colors.white,
         body: Column(children: [
-          Image(image: NetworkImage(widget.menu.imageAddress)),
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.3,
+              child: Image(image: NetworkImage(widget.menu.imageAddress), fit: BoxFit.cover,)),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.03,
           ),
@@ -152,13 +155,17 @@ class MenuDetailState extends State<MenuDetail>
             unselectedLabelColor: Colors.grey,
             indicatorSize: TabBarIndicatorSize.tab,
             indicatorColor: Colors.black,
-            indicatorWeight: MediaQuery.of(context).size.height * 0.002,
+            indicatorWeight: 2,
             tabs: [
               Tab(
-                child: Text("상품설명"),
+                child: Text("상품설명",
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.036)),
               ),
               Tab(
-                child: Text("배송안내"),
+                child: Text("배송안내",
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.036)),
               ),
             ],
           ),
@@ -285,6 +292,12 @@ class MenuDetailState extends State<MenuDetail>
                                             Container(
                                               child: Text(
                                                 widget.menu.name,
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.04),
                                               ),
                                               alignment: Alignment.centerLeft,
                                             ),
@@ -346,10 +359,9 @@ class MenuDetailState extends State<MenuDetail>
                                                     ),
                                                     onPressed: () {
                                                       setState(() {
-                                                        if(count < max) {
+                                                        if (count < max) {
                                                           count++;
                                                         }
-
                                                       });
                                                       print(count);
                                                     },
@@ -437,30 +449,32 @@ class MenuDetailState extends State<MenuDetail>
                                         style: TextStyle(color: Colors.white),
                                       ),
                                       onPressed: () {
-                                        if(count >= 1) {
+                                        if (count >= 1) {
                                           ShopItem newItem = ShopItem(
-                                              documentId: widget.menu.documentId,
+                                              documentId:
+                                                  widget.menu.documentId,
                                               name: widget.menu.name,
                                               price: widget.menu.price,
                                               count: count,
                                               isSelected: true,
                                               imageAddress:
-                                              widget.menu.imageAddress);
+                                                  widget.menu.imageAddress);
+
                                           Provider.of<ShopItemProvider>(context,
-                                              listen: false)
+                                                  listen: false)
                                               .addItem(newItem);
                                           Navigator.pushAndRemoveUntil(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => RouterPage(
-                                                  index: 1,
-                                                )),
+                                                builder: (context) =>
+                                                    RouterPage(
+                                                      index: 0,
+                                                    )),
                                             // NewPage는 이동할 새 페이지의 위젯입니다.
-                                                (Route<dynamic> route) =>
-                                            false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+                                            (Route<dynamic> route) =>
+                                                false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
                                           );
                                         }
-
                                       },
                                     ),
                                   ),
@@ -472,7 +486,10 @@ class MenuDetailState extends State<MenuDetail>
                                         0.06,
                                     decoration: BoxDecoration(
                                         color: Colors.white,
-                                        borderRadius: BorderRadius.circular(8)),
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                            color: Color(0xffebebeb),
+                                            width: 1)),
                                     alignment: Alignment.center,
                                     child: IconButton(
                                       icon: Icon(
@@ -480,19 +497,20 @@ class MenuDetailState extends State<MenuDetail>
                                         color: Color(0xffFF8B51),
                                       ),
                                       onPressed: () {
-                                        if(count > 0) {
+                                        if (count > 0) {
                                           Navigator.pop(context);
                                           ShopItem newItem = ShopItem(
-                                              documentId: widget.menu.documentId,
+                                              documentId:
+                                                  widget.menu.documentId,
                                               name: widget.menu.name,
                                               price: widget.menu.price,
                                               count: count,
                                               isSelected: true,
                                               imageAddress:
-                                              widget.menu.imageAddress);
+                                                  widget.menu.imageAddress);
 
                                           Provider.of<ShopItemProvider>(context,
-                                              listen: false)
+                                                  listen: false)
                                               .addItem(newItem);
 
                                           showDialog(
@@ -501,11 +519,11 @@ class MenuDetailState extends State<MenuDetail>
                                               return AlertDialog(
                                                 shape: RoundedRectangleBorder(
                                                   // AlertDialog 모서리를 둥글게 처리
-                                                  borderRadius: BorderRadius.all(
-                                                      Radius.circular(
+                                                  borderRadius: BorderRadius
+                                                      .all(Radius.circular(
                                                           MediaQuery.of(context)
-                                                              .size
-                                                              .width *
+                                                                  .size
+                                                                  .width *
                                                               0.02)),
                                                 ),
                                                 // backgroundColor: Color(0xffFFFFFF),
@@ -515,12 +533,12 @@ class MenuDetailState extends State<MenuDetail>
                                                   "장바구니로 이동하기",
                                                   style: TextStyle(
                                                       fontSize:
-                                                      MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                          0.04,
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.04,
                                                       fontWeight:
-                                                      FontWeight.bold),
+                                                          FontWeight.bold),
                                                 ),
                                                 actions: <Widget>[
                                                   Column(
@@ -529,21 +547,21 @@ class MenuDetailState extends State<MenuDetail>
                                                         child: Text(
                                                           "해당 상품을 장바구니에 담았습니다.",
                                                         ),
-                                                        alignment:
-                                                        Alignment.centerLeft,
+                                                        alignment: Alignment
+                                                            .centerLeft,
                                                       ),
                                                       Align(
                                                         child: Text(
                                                           "바로 확인하시겠습니까?",
                                                         ),
-                                                        alignment:
-                                                        Alignment.centerLeft,
+                                                        alignment: Alignment
+                                                            .centerLeft,
                                                       ),
                                                       SizedBox(
-                                                        height:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .height *
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
                                                             0.015,
                                                       ),
                                                       Row(
@@ -565,49 +583,49 @@ class MenuDetailState extends State<MenuDetail>
                                                                   MaterialPageRoute(
                                                                       builder:
                                                                           (context) =>
-                                                                          RouterPage(
-                                                                            index: 1,
-                                                                          )),
+                                                                              RouterPage(
+                                                                                index: 0,
+                                                                              )),
                                                                   // NewPage는 이동할 새 페이지의 위젯입니다.
-                                                                      (Route<dynamic>
-                                                                  route) =>
-                                                                  false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+                                                                  (Route<dynamic>
+                                                                          route) =>
+                                                                      false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
                                                                 );
                                                               },
                                                             ),
                                                             decoration:
-                                                            BoxDecoration(
+                                                                BoxDecoration(
                                                               color: Color(
                                                                   0xffFF8B51),
                                                               borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                  8),
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8),
                                                             ),
                                                             width: MediaQuery.of(
-                                                                context)
-                                                                .size
-                                                                .width *
+                                                                        context)
+                                                                    .size
+                                                                    .width *
                                                                 0.3,
                                                             height: MediaQuery.of(
-                                                                context)
-                                                                .size
-                                                                .height *
+                                                                        context)
+                                                                    .size
+                                                                    .height *
                                                                 0.05,
                                                           ),
                                                           SizedBox(
                                                             width: MediaQuery.of(
-                                                                context)
-                                                                .size
-                                                                .width *
+                                                                        context)
+                                                                    .size
+                                                                    .width *
                                                                 0.015,
                                                           ),
                                                           Spacer(),
                                                           SizedBox(
                                                             width: MediaQuery.of(
-                                                                context)
-                                                                .size
-                                                                .width *
+                                                                        context)
+                                                                    .size
+                                                                    .width *
                                                                 0.015,
                                                           ),
                                                           Container(
@@ -622,31 +640,33 @@ class MenuDetailState extends State<MenuDetail>
                                                               onPressed: () {
                                                                 // '아니요'를 눌렀을 때 수행할 동작
                                                                 Navigator.of(
-                                                                    context)
+                                                                        context)
                                                                     .pop(); // 대화 상자를 닫음
                                                               },
                                                             ),
                                                             width: MediaQuery.of(
-                                                                context)
-                                                                .size
-                                                                .width *
+                                                                        context)
+                                                                    .size
+                                                                    .width *
                                                                 0.3,
                                                             height: MediaQuery.of(
-                                                                context)
-                                                                .size
-                                                                .height *
+                                                                        context)
+                                                                    .size
+                                                                    .height *
                                                                 0.05,
                                                             decoration: BoxDecoration(
                                                                 color: Color(
                                                                     0xffFFFFFF),
                                                                 borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                    8),
-                                                                border: Border.all(
-                                                                    color: Color(
-                                                                        0xffEBEBEB),
-                                                                    width: 1.5)),
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            8),
+                                                                border:
+                                                                    Border.all(
+                                                                        color: Color(
+                                                                            0xffEBEBEB),
+                                                                        width:
+                                                                            1.5)),
                                                           ),
                                                         ],
                                                       ),
@@ -657,7 +677,6 @@ class MenuDetailState extends State<MenuDetail>
                                             },
                                           );
                                         }
-
                                       },
                                     ),
                                   ),

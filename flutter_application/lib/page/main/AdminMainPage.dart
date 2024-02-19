@@ -102,7 +102,6 @@ class AdminMainPageState extends State<AdminMainPage>
               menu.name,
               style: TextStyle(
                 fontSize: MediaQuery.of(context).size.width * 0.04,
-                fontWeight: FontWeight.bold,
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.001),
@@ -117,7 +116,7 @@ class AdminMainPageState extends State<AdminMainPage>
             Text(
               '${NumberFormat('#,###').format(menu.price)}원',
               style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width * 0.03,
+                  fontSize: MediaQuery.of(context).size.width * 0.038,
                   color: Colors.black,
                   fontWeight: FontWeight.bold
               ),
@@ -173,7 +172,6 @@ class AdminMainPageState extends State<AdminMainPage>
               menu.name,
               style: TextStyle(
                 fontSize: MediaQuery.of(context).size.width * 0.04,
-                fontWeight: FontWeight.bold,
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.001),
@@ -259,7 +257,7 @@ class AdminMainPageState extends State<AdminMainPage>
                   unselectedLabelColor: Colors.grey,
                   indicatorSize: TabBarIndicatorSize.tab,
                   indicatorColor: Color(0xffFF8B51),
-                  indicatorWeight: 1.0,
+                  indicatorWeight: 2.0,
                   tabs: [
                     Tab(
                       child: Text("전체"),
