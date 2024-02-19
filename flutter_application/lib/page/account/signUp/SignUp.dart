@@ -9,11 +9,22 @@ class SignUpPage extends StatefulWidget {
 }
 
 class SignUpState extends State {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController passwordCheckController = TextEditingController();
+
+  @override
+  void dispose() {
+    // 컨트롤러 사용이 끝났을 때 메모리 누수를 방지하기 위해 dispose 호출
+    emailController.dispose();
+    passwordController.dispose();
+    passwordCheckController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-    final TextEditingController passwordCheckController = TextEditingController();
+
 
     return Scaffold(
       appBar: AppBar(

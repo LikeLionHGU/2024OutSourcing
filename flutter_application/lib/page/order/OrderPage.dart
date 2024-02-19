@@ -398,7 +398,7 @@ class OrderPageState extends State<OrderPage>
               IconButton(onPressed: () {
                 setState(() {
                   _selectedType = false;
-                  order['isDeliver'] = false;
+                  order['isDeliver'] = true;
                   price = 0;
                 });
               }, icon: Icon(Icons.check_circle, color: _selectedType ? Colors.grey : Color(0xffFF8B51), size: MediaQuery.of(context).size.width * 0.05,)),
@@ -410,7 +410,7 @@ class OrderPageState extends State<OrderPage>
               IconButton(onPressed: () {
                 setState(() {
                   _selectedType = true;
-                  order['isDeliver'] = true;
+                  order['isDeliver'] = false;
                   price = 2000;
                 });
               }, icon: Icon(Icons.check_circle, color: _selectedType ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05,)),
@@ -559,6 +559,7 @@ class OrderPageState extends State<OrderPage>
 
   Future<void> addOrderToUser(String userId, Map<String, dynamic> orderData) async {
     CollectionReference orders = FirebaseFirestore.instance.collection('users').doc(userId).collection('orders');
+    print(orderData['isDeliver']);
     await orders.add(orderData);
   }
 

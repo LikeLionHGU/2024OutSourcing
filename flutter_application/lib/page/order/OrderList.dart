@@ -101,6 +101,7 @@ class OrderListState extends State<OrderList> {
         .collection('orders')
     .orderBy('orderTime', descending: true)
         .get();
+    print("!!");
 
     // 모든 주문 문서들의 리스트를 반환
     List<PersonOrder> shopItems = querySnapshot.docs

@@ -93,24 +93,24 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
               },
               color: Colors.white,
               itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                PopupMenuItem<String>(
-                  value: '수정하기',
-                  child: Container(
-                      width: double.infinity,
-                      alignment: Alignment.center,
-                      child: TextButton(
-                        child: Text('수정하기', textAlign: TextAlign.center),
-                        onPressed: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => OrderAdminCheckPage(order: shopItems[index])
-                          //   ),
-                          // );
-                        },
-                      )),
-                ),
-                PopupMenuDivider(),
+                // PopupMenuItem<String>(
+                //   value: '수정하기',
+                //   child: Container(
+                //       width: double.infinity,
+                //       alignment: Alignment.center,
+                //       child: TextButton(
+                //         child: Text('수정하기', textAlign: TextAlign.center),
+                //         onPressed: () {
+                //           // Navigator.push(
+                //           //   context,
+                //           //   MaterialPageRoute(
+                //           //       builder: (context) => OrderAdminCheckPage(order: shopItems[index])
+                //           //   ),
+                //           // );
+                //         },
+                //       )),
+                // ),
+                // PopupMenuDivider(),
                 PopupMenuItem<String>(
                   value: '삭제하기',
                   child: Container(

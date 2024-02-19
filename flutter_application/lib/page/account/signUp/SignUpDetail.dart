@@ -28,6 +28,16 @@ class SignUpDetailState extends State<SignUpDetail> {
       TextEditingController();
 
   @override
+  void dispose() {
+    // 컨트롤러 사용이 끝났을 때 메모리 누수를 방지하기 위해 dispose 호출
+    nameController.dispose();
+    _phoneNumberController.dispose();
+    _addressController.dispose();
+    _addressDetailController.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     // State 내에서 widget을 사용하여 부모 StatefulWidget의 email과 password에 접근
@@ -403,6 +413,7 @@ class SignUpDetailState extends State<SignUpDetail> {
                         'phoneNumber': _phoneNumberController.text,
                         'address': _addressController.text,
                         'addressDetail': _addressDetailController.text,
+                        'role' : false
                       });
                     }
 

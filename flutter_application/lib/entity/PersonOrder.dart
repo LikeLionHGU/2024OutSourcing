@@ -26,6 +26,7 @@ class PersonOrder {
       'member': member.toMap(),
       'orderTime' : orderTime,
       'isCard' : isCard,
+      'isDeliver' : isDeliver,
       'description' : description
     };
   }

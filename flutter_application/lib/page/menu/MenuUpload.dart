@@ -213,6 +213,7 @@ class MenuUploadState extends State<MenuUpload> {
                 return AlertDialog(
                   title: Text('업로드 성공'),
                   backgroundColor: Colors.white,
+                  elevation: 0,
                   content: Text('메뉴가 업로드 되었습니다.'),
                   actions: <Widget>[
                     TextButton(
@@ -260,6 +261,14 @@ class MenuUploadState extends State<MenuUpload> {
                 },
               ),
             ],
+            shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
+              borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
+              side: BorderSide( // 테두리의 두께와 색상을 조절
+                color: Colors.white, // 테두리 색상
+                width: 1, // 테두리 두께
+              ),
+            ),
+            elevation: 0,
           );
         },
       );

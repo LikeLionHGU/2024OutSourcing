@@ -40,11 +40,13 @@ dependencies:
   remedi_kopo: ^0.0.2
   kpostal: ^0.5.1
   firebase_auth: ^4.17.4
+  firebase_messaging: ^14.7.16
   bootpay: ^4.8.3
   image_picker: ^1.0.7
   firebase_storage: ^11.6.5
   provider: ^6.1.1
   intl: ^0.18.1
+  flutter_local_notifications: ^16.3.2
 
 dev_dependencies:
   flutter_test:

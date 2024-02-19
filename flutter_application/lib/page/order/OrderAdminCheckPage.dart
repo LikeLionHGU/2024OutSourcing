@@ -76,7 +76,7 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
     DateTime dateAndTimeInMinutes = DateTime(now.year, now.month, now.day, now.hour, now.minute);
     // true가 계좌이체
     order = PersonOrder(shopList: items!, member: member!, orderTime: Timestamp.fromDate(dateAndTimeInMinutes), isCard: widget.order.order.isCard, description: "요청사항 없음", isDeliver: widget.order.order.isDeliver).toMap();
-    if(widget.order.order.isCard) {
+    if(widget.order.order.isDeliver) {
       price = 2000;
     }
   }
@@ -380,7 +380,7 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
           Row(
             children: [
               SizedBox(width: MediaQuery.of(context).size.width * 0.04,),
-              Icon(Icons.check_circle, color: widget.order.order.isDeliver ? Colors.grey : Color(0xffFF8B51), size: MediaQuery.of(context).size.width * 0.05,),
+              Icon(Icons.check_circle, color: widget.order.order.isDeliver ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05,),
               SizedBox(width: MediaQuery.of(context).size.width * 0.03,),
               Text("포장으로 받기", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
             ],
@@ -391,7 +391,7 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
           Row(
             children: [
               SizedBox(width: MediaQuery.of(context).size.width * 0.04,),
-              Icon(Icons.check_circle, color: widget.order.order.isDeliver ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05,),
+              Icon(Icons.check_circle, color: widget.order.order.isDeliver ? Colors.grey : Color(0xffFF8B51), size: MediaQuery.of(context).size.width * 0.05,),
               SizedBox(width: MediaQuery.of(context).size.width * 0.03,),
               Text("배달로 받기", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
             ],
@@ -528,7 +528,7 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
       ).then((_) {
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => AdminRouterPage(index: 3,)), // NewPage는 이동할 새 페이지의 위젯입니다.
+          MaterialPageRoute(builder: (context) => AdminRouterPage(index: 2,)), // NewPage는 이동할 새 페이지의 위젯입니다.
               (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
         );
       }

@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/page/AdminRouterPage.dart';
 import 'package:flutter_application/page/RouterPage.dart';
 
+import '../../../entity/Member.dart';
 import '../../main/MainPage.dart';
 
 class Login extends StatefulWidget {
@@ -14,6 +16,8 @@ class Login extends StatefulWidget {
 class LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  Member member = Member(name: "name", role: false, email: "email", phoneNumber: "phoneNumber", address: "address", addressDetail: "addressDetail");
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +53,8 @@ class LoginState extends State<Login> {
               Text(
                 "다시 만나서 반가워요 :)",
                 style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width * 0.06, fontWeight: FontWeight.w600),
+                    fontSize: MediaQuery.of(context).size.width * 0.06,
+                    fontWeight: FontWeight.w600),
               ),
             ],
           ),
@@ -62,7 +67,8 @@ class LoginState extends State<Login> {
             child: TextField(
               controller: _emailController,
               cursorColor: Colors.black,
-              style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03),
+              style:
+                  TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03),
               textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(
                 focusedBorder: OutlineInputBorder(
@@ -88,7 +94,8 @@ class LoginState extends State<Login> {
               obscureText: true,
               controller: _passwordController,
               cursorColor: Colors.black,
-              style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03),
+              style:
+                  TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03),
               textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(
                 focusedBorder: OutlineInputBorder(
@@ -114,77 +121,120 @@ class LoginState extends State<Login> {
               border: Border.all(color: Color(0xffFF8B51)), // 테두리 색상
               borderRadius: BorderRadius.circular(8), // 모서리 둥글기
             ),
-            child: TextButton(child: Text("로그인 완료", style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.015, color: Colors.white),), onPressed: () async {
+            child: TextButton(
+              child: Text(
+                "로그인 완료",
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.height * 0.015,
+                    color: Colors.white),
+              ),
+              onPressed: () async {
+                try {
 
-              try {
-                // 사용자 로그인 시도
+                  UserCredential userCredential =
+                      await FirebaseAuth.instance.signInWithEmailAndPassword(
+                    email: _emailController.text,
+                    password: _passwordController.text,
+                  );
+                  String uid = FirebaseAuth.instance.currentUser!.uid;
 
-                  UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-                  email: _emailController.text,
-                  password: _passwordController.text,
-                );
+                  // Firestore에서 해당 UID를 가진 사용자의 정보를 가져옵니다.
+                  DocumentReference userRef = FirebaseFirestore.instance.collection('users').doc(uid);
 
-                if(FirebaseAuth.instance.currentUser!.uid == "mV9xtQzNfrdW9Acn3aAfcPwDS9E2") {
+                  DocumentSnapshot documentSnapshot = await userRef.get();
+                  if (documentSnapshot.exists) {
+                    // 문서 데이터가 존재하면 출력하고 Member 객체를 생성합니다.
+                    print('Document data!!!!!: ${documentSnapshot.data()}');
+                    setState(() {
+                      member = Member.fromDocument(documentSnapshot);
+                    });
+                  } else {
+                    // 문서가 존재하지 않으면 콘솔에 메시지를 출력합니다.
+                    print('Document does not exist on the database');
+                  }
+                  print("object");
+                  print(member.role);
 
+                  if (member.role) {
                     Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => AdminRouterPage(index: 1,)),
-                    ModalRoute.withName('/admin/router'),
-                  );
-                } else {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => RouterPage(index: 1,)),
-                    ModalRoute.withName('/router'),
-                  );
-                }
-
-              } on FirebaseAuthException catch (e) {
-                if (e.code == 'user-not-found') {
-                  AlertDialog(
-                    backgroundColor: Colors.white,
-                    title: Text('등록되지 않은 사용자입니다.', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04),),
-                    // content: Text('이메일을 입력해주세요.'),
-                    actions: <Widget>[
-                      TextButton(
-                        child: Text('확인', style: TextStyle(color: Colors.black),),
-                        onPressed: () {
-                          Navigator.of(context).pop(); // 경고창을 닫습니다.
-                        },
-                      ),
-                    ],
-                  );
-                } else if (e.code == 'wrong-password') {
-
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AdminRouterPage(
+                                index: 1,
+                              )),
+                      ModalRoute.withName('/admin/router'),
+                    );
+                  } else {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => RouterPage(
+                                index: 1,
+                              )),
+                      ModalRoute.withName('/router'),
+                    );
+                  }
+                } on FirebaseAuthException catch (e) {
+                  if (e.code == 'user-not-found') {
                     AlertDialog(
-                    backgroundColor: Colors.white,
-                    title: Text('잘못된 비밀번호입니다..', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04),),
-                    // content: Text('이메일을 입력해주세요.'),
-                    actions: <Widget>[
-                      TextButton(
-                        child: Text('확인', style: TextStyle(color: Colors.black),),
-                        onPressed: () {
-                          Navigator.of(context).pop(); // 경고창을 닫습니다.
-                        },
+                      backgroundColor: Colors.white,
+                      title: Text(
+                        '등록되지 않은 사용자입니다.',
+                        style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.04),
                       ),
-                    ],
-                  );
+                      // content: Text('이메일을 입력해주세요.'),
+                      actions: <Widget>[
+                        TextButton(
+                          child: Text(
+                            '확인',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop(); // 경고창을 닫습니다.
+                          },
+                        ),
+                      ],
+                    );
+                  } else if (e.code == 'wrong-password') {
+                    AlertDialog(
+                      backgroundColor: Colors.white,
+                      title: Text(
+                        '잘못된 비밀번호입니다..',
+                        style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.04),
+                      ),
+                      // content: Text('이메일을 입력해주세요.'),
+                      actions: <Widget>[
+                        TextButton(
+                          child: Text(
+                            '확인',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop(); // 경고창을 닫습니다.
+                          },
+                        ),
+                      ],
+                    );
+                  }
+                  // 로그인 실패 시 null 반환
+                  return null;
                 }
-                // 로그인 실패 시 null 반환
-                return null;
-              }
 
-              // Navigator.pushAndRemoveUntil(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => MainPage()),
-              //   ModalRoute.withName('/router'),
-              // );
-            },),
+                // Navigator.pushAndRemoveUntil(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => MainPage()),
+                //   ModalRoute.withName('/router'),
+                // );
+              },
+            ),
           ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.1,)
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.1,
+          )
         ],
       ),
     );
   }
-
 }

@@ -5,9 +5,11 @@ class Member {
   String phoneNumber;
   String address;
   String addressDetail;
+  bool role;
 
   Member(
       {required this.name,
+        required this.role,
         required this.email,
         required this.phoneNumber,
         required this.address,
@@ -25,7 +27,13 @@ class Member {
 
   factory Member.fromDocument(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    print(data['role']);
+    print(data['role']);
+    print(data['role']);
+    print(data['role']);
+
     return Member(
+      role: data['role'],
       email: data['email'] as String,
       name: data['name'] as String,
       phoneNumber: data['phoneNumber'] as String,
@@ -37,6 +45,7 @@ class Member {
   factory Member.fromMap(Map<String, dynamic> map) {
     return Member(
       name: map['name'],
+      role: map['role'],
       phoneNumber: map['phoneNumber'],
       address: map['address'],
       addressDetail: map['addressDetail'],

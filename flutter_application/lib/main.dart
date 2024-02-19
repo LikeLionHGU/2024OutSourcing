@@ -14,4 +14,4 @@ Future<void> main() async {
       child: MyApp(), // YourApp은 앱의 메인 위젯 클래스입니다.
     ),
   );
-}
+} // 한동대학교   김동규
