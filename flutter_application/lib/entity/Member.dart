@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Member {
   String name;
   String email;
@@ -6,34 +7,34 @@ class Member {
   String address;
   String addressDetail;
   bool role;
+  String token;
 
   Member(
       {required this.name,
-        required this.role,
-        required this.email,
-        required this.phoneNumber,
-        required this.address,
-        required this.addressDetail});
+      required this.token,
+      required this.role,
+      required this.email,
+      required this.phoneNumber,
+      required this.address,
+      required this.addressDetail});
 
   Map<String, dynamic> toMap() {
     return {
-      'name' : name,
-      'phoneNumber' : phoneNumber,
-      'address' : address,
-      'email' : email,
-      'addressDetail' : addressDetail
+      'name': name,
+      'role' : false,
+      'phoneNumber': phoneNumber,
+      'address': address,
+      'email': email,
+      'addressDetail': addressDetail
     };
   }
 
   factory Member.fromDocument(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-    print(data['role']);
-    print(data['role']);
-    print(data['role']);
-    print(data['role']);
 
     return Member(
       role: data['role'],
+      token: '',
       email: data['email'] as String,
       name: data['name'] as String,
       phoneNumber: data['phoneNumber'] as String,
@@ -46,6 +47,7 @@ class Member {
     return Member(
       name: map['name'],
       role: map['role'],
+      token: '',
       phoneNumber: map['phoneNumber'],
       address: map['address'],
       addressDetail: map['addressDetail'],
@@ -65,4 +67,4 @@ class Member {
   //   );
   // }
 }
-
+// 한동대학교

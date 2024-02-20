@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/page/AdminRouterPage.dart';
@@ -16,7 +17,14 @@ class Login extends StatefulWidget {
 class LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  Member member = Member(name: "name", role: false, email: "email", phoneNumber: "phoneNumber", address: "address", addressDetail: "addressDetail");
+  Member member = Member(
+      name: "name",
+      role: false,
+      email: "email",
+      phoneNumber: "phoneNumber",
+      address: "address",
+      addressDetail: "addressDetail",
+      token: "");
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +138,6 @@ class LoginState extends State<Login> {
               ),
               onPressed: () async {
                 try {
-
                   UserCredential userCredential =
                       await FirebaseAuth.instance.signInWithEmailAndPassword(
                     email: _emailController.text,
@@ -139,12 +146,13 @@ class LoginState extends State<Login> {
                   String uid = FirebaseAuth.instance.currentUser!.uid;
 
                   // Firestore에서 해당 UID를 가진 사용자의 정보를 가져옵니다.
-                  DocumentReference userRef = FirebaseFirestore.instance.collection('users').doc(uid);
+                  DocumentReference userRef =
+                      FirebaseFirestore.instance.collection('users').doc(uid);
 
                   DocumentSnapshot documentSnapshot = await userRef.get();
                   if (documentSnapshot.exists) {
                     // 문서 데이터가 존재하면 출력하고 Member 객체를 생성합니다.
-                    print('Document data!!!!!: ${documentSnapshot.data()}');
+
                     setState(() {
                       member = Member.fromDocument(documentSnapshot);
                     });
@@ -152,10 +160,10 @@ class LoginState extends State<Login> {
                     // 문서가 존재하지 않으면 콘솔에 메시지를 출력합니다.
                     print('Document does not exist on the database');
                   }
-                  print("object");
-                  print(member.role);
 
                   if (member.role) {
+                    getTokenAndSave();
+
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
@@ -236,5 +244,28 @@ class LoginState extends State<Login> {
         ],
       ),
     );
+  }
+
+  void getTokenAndSave() async {
+    String? token = await FirebaseMessaging.instance.getToken();
+
+    // 여기서 token을 출력하거나 서버에 저장할 수 있습니다.
+    print("FCM Token: $token");
+
+    // 예를 들어, Firestore에 토큰을 저장하는 경우:
+    if (token != null) {
+      await saveTokenToDatabase(token);
+    }
+  }
+
+  Future<void> saveTokenToDatabase(String token) async {
+    // 사용자의 ID를 가져옵니다. 예를 들어, Firebase Auth를 사용하는 경우:
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+
+    // Firestore에 토큰을 저장합니다.
+    await FirebaseFirestore.instance.collection('users').doc(userId).set({
+      'token': token,
+      // 추가 데이터가 필요한 경우 여기에 추가할 수 있습니다.
+    }, SetOptions(merge: true));
   }
 }

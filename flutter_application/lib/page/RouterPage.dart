@@ -19,11 +19,17 @@ class RouterPage extends StatefulWidget {
 class RouterPageState extends State<RouterPage> {
   int _selectedIndex = 1;
   PageController _pageController = PageController();
-  Member member = Member(name: "name", email: "email", phoneNumber: "phoneNumber", address: "address", addressDetail: "addressDetail", role: false);
+  Member member = Member(
+      name: "name",
+      email: "email",
+      phoneNumber: "phoneNumber",
+      address: "address",
+      addressDetail: "addressDetail",
+      role: false,
+      token: "");
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: PageView(
@@ -33,9 +39,13 @@ class RouterPageState extends State<RouterPage> {
         },
         children: <Widget>[
           // 각 탭에 대응하는 위젯을 여기에 넣으세요.
-          ShopPage(member: member,),
+          ShopPage(
+            member: member,
+          ),
           MainPage(),
-          UserPage(member: member,),
+          UserPage(
+            member: member,
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -46,7 +56,8 @@ class RouterPageState extends State<RouterPage> {
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "장바구니"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_cart), label: "장바구니"),
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "오늘반찬"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "마이페이지"),
         ],
@@ -73,7 +84,7 @@ class RouterPageState extends State<RouterPage> {
 
       // Firestore에서 해당 UID를 가진 사용자의 정보를 가져옵니다.
       DocumentReference userRef =
-      FirebaseFirestore.instance.collection('users').doc(uid);
+          FirebaseFirestore.instance.collection('users').doc(uid);
 
       userRef.get().then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
@@ -106,5 +117,4 @@ class RouterPageState extends State<RouterPage> {
       curve: Curves.easeInOut,
     );
   }
-
 }

@@ -380,7 +380,7 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
           Row(
             children: [
               SizedBox(width: MediaQuery.of(context).size.width * 0.04,),
-              Icon(Icons.check_circle, color: widget.order.order.isDeliver ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05,),
+              Icon(Icons.check_circle, color: widget.order.order.isDeliver ? Colors.grey : Color(0xffFF8B51), size: MediaQuery.of(context).size.width * 0.05,),
               SizedBox(width: MediaQuery.of(context).size.width * 0.03,),
               Text("포장으로 받기", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
             ],
@@ -391,7 +391,7 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
           Row(
             children: [
               SizedBox(width: MediaQuery.of(context).size.width * 0.04,),
-              Icon(Icons.check_circle, color: widget.order.order.isDeliver ? Colors.grey : Color(0xffFF8B51), size: MediaQuery.of(context).size.width * 0.05,),
+              Icon(Icons.check_circle, color: widget.order.order.isDeliver ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05,),
               SizedBox(width: MediaQuery.of(context).size.width * 0.03,),
               Text("배달로 받기", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
             ],

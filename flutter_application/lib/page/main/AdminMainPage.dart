@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/entity/Menu.dart';
@@ -25,6 +26,7 @@ class AdminMainPageState extends State<AdminMainPage>
   @override
   void initState() {
     super.initState();
+    print(FirebaseMessaging.instance.getToken());
     tabController = TabController(length: 6, vsync: this);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       var loadedMenus = await MenuRepository.loadMenusFromFirestore();
@@ -43,7 +45,7 @@ class AdminMainPageState extends State<AdminMainPage>
           } else if(loadedMenus[i].category == 4) {
             fifthMenu.add(loadedMenus[i]);
           } else {
-            print(loadedMenus[i].category);
+
           }
         }
       });
@@ -63,7 +65,6 @@ class AdminMainPageState extends State<AdminMainPage>
     }
 
     return menus!.map((menu) {
-      print(menu.price);
       return Card(
         color: Colors.white,
         clipBehavior: Clip.antiAlias,
@@ -133,7 +134,6 @@ class AdminMainPageState extends State<AdminMainPage>
     }
 
     return targetMenu!.map((menu) {
-      print(menu.price);
       return Card(
         color: Colors.white,
         clipBehavior: Clip.antiAlias,
