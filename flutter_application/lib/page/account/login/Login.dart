@@ -247,7 +247,7 @@ class LoginState extends State<Login> {
   }
 
   void getTokenAndSave() async {
-    String? token = await FirebaseMessaging.instance.getToken();
+    String? token = await FirebaseMessaging.instance.getToken(); // fcm 토큰이 아님 / Device 플러그인 사용해서 디바이스 아이디 가져와야 함
 
     // 여기서 token을 출력하거나 서버에 저장할 수 있습니다.
     print("FCM Token: $token");
