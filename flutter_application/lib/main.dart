@@ -11,33 +11,64 @@ import 'firebase_options.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // final pushController = PushNotificationController();
-  // await pushController.initialize();
-  // pushController.showNotification(message.notification!);
+  final pushController = PushNotificationController();
+  await pushController.initialize();
+  pushController.showNotification(message.notification!);
 }
 
-
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Flutter 엔진과 위젯 트리 바인딩을 초기화합니다.
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // PushNotificationController 인스턴스 생성 및 초기화
   final pushController = PushNotificationController();
   await pushController.initialize();
 
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  runApp(
-    MultiProvider(
+  runApp(MyAppWithProviders(pushController: pushController));
+}
+
+class MyAppWithProviders extends StatelessWidget {
+  final PushNotificationController pushController;
+
+  MyAppWithProviders({required this.pushController});
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => pushController),
         ChangeNotifierProvider(create: (context) => ShopItemProvider()),
       ],
       child: MyApp(),
-    ),
-  );
+    );
+  }
 }
+
+
+// Future<void> main() async {
+//   WidgetsFlutterBinding.ensureInitialized(); // Flutter 엔진과 위젯 트리 바인딩을 초기화합니다.
+//   await Firebase.initializeApp(
+//     options: DefaultFirebaseOptions.currentPlatform,
+//   );
+//
+//   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+//
+//
+//
+//   runApp(
+//     MultiProvider(
+//       providers: [
+//         // ChangeNotifierProvider(create: (context) => pushController),
+//         ChangeNotifierProvider(create: (context) => ShopItemProvider()),
+//       ],
+//       child: MyApp(),
+//     ),
+//   );
+// }
 
 // Future<void> fcmSetting() async {
 //   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
