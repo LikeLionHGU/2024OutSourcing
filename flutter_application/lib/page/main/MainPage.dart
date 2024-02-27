@@ -209,6 +209,47 @@ class MainPageState extends State<MainPage>
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.01,
             ),
+            Container(
+              alignment: Alignment.center,
+              height: MediaQuery.of(context).size.height * 0.035,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Color(0xffFF8B51)), // 테두리 색상
+                borderRadius: BorderRadius.circular(4), // 모서리 둥글기
+              ),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MenuDetail(menu: menu,), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
+                    ),
+                  );
+                },
+                child: Text(
+                  "담기",
+                  style: TextStyle(
+                    color: Color(0xffFF8B51), // 텍스트 색상
+                    fontSize:
+                    MediaQuery.of(context).size.height * 0.015, // 텍스트 크기
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                style: TextButton.styleFrom(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.zero,
+                ),
+                // style: TextButton.styleFrom(
+                //   padding: EdgeInsets.all(8), // 버튼 내부의 패딩
+                // ),
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.01,
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.01,
+            ),
             Text(
               menu.name,
               style: TextStyle(

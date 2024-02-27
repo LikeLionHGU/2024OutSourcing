@@ -244,7 +244,9 @@ class SignUpDetailState extends State<SignUpDetail> {
                 ),
               ),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.2,),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.2,
+            ),
             Container(
               alignment: Alignment.center,
               height: MediaQuery.of(context).size.height * 0.05,
@@ -285,9 +287,12 @@ class SignUpDetailState extends State<SignUpDetail> {
                               },
                             ),
                           ],
-                          shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
-                            borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
-                            side: BorderSide( // 테두리의 두께와 색상을 조절
+                          shape: RoundedRectangleBorder(
+                            // 이 부분을 추가합니다.
+                            borderRadius:
+                                BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
+                            side: BorderSide(
+                              // 테두리의 두께와 색상을 조절
                               color: Colors.white, // 테두리 색상
                               width: 1, // 테두리 두께
                             ),
@@ -319,9 +324,12 @@ class SignUpDetailState extends State<SignUpDetail> {
                               },
                             ),
                           ],
-                          shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
-                            borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
-                            side: BorderSide( // 테두리의 두께와 색상을 조절
+                          shape: RoundedRectangleBorder(
+                            // 이 부분을 추가합니다.
+                            borderRadius:
+                                BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
+                            side: BorderSide(
+                              // 테두리의 두께와 색상을 조절
                               color: Colors.white, // 테두리 색상
                               width: 1, // 테두리 두께
                             ),
@@ -353,9 +361,12 @@ class SignUpDetailState extends State<SignUpDetail> {
                               },
                             ),
                           ],
-                          shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
-                            borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
-                            side: BorderSide( // 테두리의 두께와 색상을 조절
+                          shape: RoundedRectangleBorder(
+                            // 이 부분을 추가합니다.
+                            borderRadius:
+                                BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
+                            side: BorderSide(
+                              // 테두리의 두께와 색상을 조절
                               color: Colors.white, // 테두리 색상
                               width: 1, // 테두리 두께
                             ),
@@ -387,9 +398,12 @@ class SignUpDetailState extends State<SignUpDetail> {
                               },
                             ),
                           ],
-                          shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
-                            borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
-                            side: BorderSide( // 테두리의 두께와 색상을 조절
+                          shape: RoundedRectangleBorder(
+                            // 이 부분을 추가합니다.
+                            borderRadius:
+                                BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
+                            side: BorderSide(
+                              // 테두리의 두께와 색상을 조절
                               color: Colors.white, // 테두리 색상
                               width: 1, // 테두리 두께
                             ),
@@ -413,7 +427,8 @@ class SignUpDetailState extends State<SignUpDetail> {
                         'phoneNumber': _phoneNumberController.text,
                         'address': _addressController.text,
                         'addressDetail': _addressDetailController.text,
-                        'role' : false
+                        'role': false,
+                        'token': ''
                       });
                     }
 

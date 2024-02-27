@@ -6,6 +6,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 // import 'package:soul_link/services/soullink_api_service.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 
+import 'main.dart';
+
 class PushNotificationController extends ChangeNotifier {
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
   FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
@@ -16,6 +18,18 @@ class PushNotificationController extends ChangeNotifier {
       log("flutterLocalNotificationsPlugin already initialized");
       return;
     }
+
+    if (Platform.isIOS) {
+      requestIOSPermissions(); // iOS 권한 요청
+    }
+
+    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true, // Required to display a heads up notification
+      badge: true,
+      sound: true,
+    );
+
+
     String? token = await _fcm.getToken(); // FCM 토큰 얻기 함수
     String? deviceId = await _getDeviceId(); // 디바이스 ID 얻기 함수
     print(token);
@@ -33,14 +47,25 @@ class PushNotificationController extends ChangeNotifier {
     // }
 
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    await flutterLocalNotificationsPlugin
+        ?.resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
     await flutterLocalNotificationsPlugin!.initialize(initializationSettings);
+
+
 
     // FCM 알림을 받아 로컬 알림을 표시하는 함수
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
 
-      if (notification != null && android != null) {
+      if (notification != null) {
         showNotification(notification);
       }
     });
@@ -59,6 +84,16 @@ class PushNotificationController extends ChangeNotifier {
     if (notification != null && android != null) {
       showNotification(notification);
     }
+  }
+
+  Future<void> requestIOSPermissions() async {
+    NotificationSettings settings = await _fcm.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+      provisional: false,
+    );
+    log('User granted permission: ${settings.authorizationStatus}');
   }
 
   // 로컬 알림을 표시하는 함수

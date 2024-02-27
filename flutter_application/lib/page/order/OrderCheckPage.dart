@@ -17,7 +17,12 @@ class OrderCheckPage extends StatefulWidget {
   List<ShopItem> items;
   int totalPrice = 0;
 
-  OrderCheckPage({Key? key, required this.member, required this.items, required this.order}) : super(key: key);
+  OrderCheckPage(
+      {Key? key,
+      required this.member,
+      required this.items,
+      required this.order})
+      : super(key: key);
   @override
   State<StatefulWidget> createState() => OrderPageState();
 }
@@ -38,7 +43,6 @@ class OrderPageState extends State<OrderCheckPage>
   var format = DateFormat('yyyy-MM-dd HH:mm'); // 원하는 포맷 지정
   var date;
 
-  List<String> _options = ['항목 1', '항목 2', '항목 3', '항목 4', '항목 5'];
   String? dropdownValue = null; // DropdownButton의 현재 선택된 값
   TextEditingController _textController = TextEditingController();
   int _selectedIndex = 0; // 현재 선택된 탭의 인덱스
@@ -62,17 +66,26 @@ class OrderPageState extends State<OrderCheckPage>
     addressDetailController.text = widget.member.addressDetail;
     descriptionController.text = widget.order.description;
 
-    for(int i = 0; i < widget.items.length; i++) {
+    for (int i = 0; i < widget.items.length; i++) {
       widget.totalPrice += widget.items[i].price * widget.items[i].count;
     }
 
-    date =  DateTime.fromMillisecondsSinceEpoch(widget.order.orderTime.millisecondsSinceEpoch);
+    date = DateTime.fromMillisecondsSinceEpoch(
+        widget.order.orderTime.millisecondsSinceEpoch);
 
     DateTime now = DateTime.now();
-    DateTime dateAndTimeInMinutes = DateTime(now.year, now.month, now.day, now.hour, now.minute);
+    DateTime dateAndTimeInMinutes =
+        DateTime(now.year, now.month, now.day, now.hour, now.minute);
     // true가 계좌이체
-    order = PersonOrder(shopList: widget.items, member: widget.member, orderTime: Timestamp.fromDate(dateAndTimeInMinutes), isCard: widget.order.isCard, description: "요청사항 없음", isDeliver: widget.order.isDeliver).toMap();
-    if(widget.order.isCard) {
+    order = PersonOrder(
+            shopList: widget.items,
+            member: widget.member,
+            orderTime: Timestamp.fromDate(dateAndTimeInMinutes),
+            isCard: widget.order.isCard,
+            description: "요청사항 없음",
+            isDeliver: widget.order.isDeliver)
+        .toMap();
+    if (widget.order.isDeliver) {
       price = 2000;
     }
   }
@@ -94,8 +107,7 @@ class OrderPageState extends State<OrderCheckPage>
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     image: DecorationImage(
-                        image: NetworkImage(
-                            shopItem.imageAddress),
+                        image: NetworkImage(shopItem.imageAddress),
                         fit: BoxFit.cover)),
               ),
               SizedBox(
@@ -104,13 +116,20 @@ class OrderPageState extends State<OrderCheckPage>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(shopItem.name, style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.039),),
+                  Text(
+                    shopItem.name,
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.039),
+                  ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.01,
                   ),
                   Row(
                     children: [
-                      Text('${NumberFormat('#,###').format(shopItem.price * shopItem.count)}원', style: TextStyle(fontWeight: FontWeight.bold),),
+                      Text(
+                        '${NumberFormat('#,###').format(shopItem.price * shopItem.count)}원',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.01,
                       ),
@@ -157,8 +176,9 @@ class OrderPageState extends State<OrderCheckPage>
         children: [
           ExpansionTile(
             title: Text("${format.format(date)}"),
-            children:
-            widget.items.map(buildShopItem).toList(), // 리스트를 ExpansionTile에 매핑합니다.
+            children: widget.items
+                .map(buildShopItem)
+                .toList(), // 리스트를 ExpansionTile에 매핑합니다.
           ),
           ExpansionTile(title: Text('주문자 정보'), children: [
             SizedBox(
@@ -344,41 +364,74 @@ class OrderPageState extends State<OrderCheckPage>
               height: MediaQuery.of(context).size.height * 0.02,
             ),
           ]),
-          ExpansionTile(
-              title: Text('결제방식'),
+          ExpansionTile(title: Text('결제방식'), children: [
+            Row(
               children: [
-                Row(
-                  children: [
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.06,),
-                    Icon(Icons.check_circle, color: _selectedIndex == 1 ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03,),
-                    Text("가게 방문 후 직접 결제", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
-                  ],
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
-                Row(
-                  children: [
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.06,),
-                    Icon(Icons.check_circle, color: _selectedIndex == 0 ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03,),
-                    Text("계좌이체", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
-                  ],
-                ),
-                // SizedBox(height: MediaQuery.of(context).size.height * 0.005,),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
+                  width: MediaQuery.of(context).size.width * 0.06,
                 ),
-              ]
-          ),
+                Icon(Icons.check_circle,
+                    color:
+                        widget.order.isCard ? Color(0xffFF8B51) : Colors.grey,
+                    size: MediaQuery.of(context).size.width * 0.05),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.03,
+                ),
+                Text(
+                  "가게 방문 후 직접 결제",
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.035),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.01,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.06,
+                ),
+                Icon(Icons.check_circle,
+                    color:
+                        widget.order.isCard ? Colors.grey : Color(0xffFF8B51),
+                    size: MediaQuery.of(context).size.width * 0.05),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.03,
+                ),
+                Text(
+                  "계좌이체",
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.035),
+                ),
+              ],
+            ),
+            // SizedBox(height: MediaQuery.of(context).size.height * 0.005,),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
+          ]),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.02,
           ),
           Row(
             children: [
-              SizedBox(width: MediaQuery.of(context).size.width * 0.04,),
-              Icon(Icons.check_circle, color: widget.order.isDeliver ? Colors.grey : Color(0xffFF8B51), size: MediaQuery.of(context).size.width * 0.05,),
-              SizedBox(width: MediaQuery.of(context).size.width * 0.03,),
-              Text("포장으로 받기", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.04,
+              ),
+              Icon(
+                Icons.check_circle,
+                color: widget.order.isDeliver ? Colors.grey : Color(0xffFF8B51),
+                size: MediaQuery.of(context).size.width * 0.05,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.03,
+              ),
+              Text(
+                "포장으로 받기",
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.035),
+              ),
             ],
           ),
           SizedBox(
@@ -386,10 +439,22 @@ class OrderPageState extends State<OrderCheckPage>
           ),
           Row(
             children: [
-              SizedBox(width: MediaQuery.of(context).size.width * 0.04,),
-              Icon(Icons.check_circle, color: widget.order.isDeliver ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05,),
-              SizedBox(width: MediaQuery.of(context).size.width * 0.03,),
-              Text("배달로 받기", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.04,
+              ),
+              Icon(
+                Icons.check_circle,
+                color: widget.order.isDeliver ? Color(0xffFF8B51) : Colors.grey,
+                size: MediaQuery.of(context).size.width * 0.05,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.03,
+              ),
+              Text(
+                "배달로 받기",
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.035),
+              ),
             ],
           ),
           SizedBox(
@@ -397,11 +462,23 @@ class OrderPageState extends State<OrderCheckPage>
           ),
           Row(
             children: [
-              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
-              Text("총 상품 금액", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.05,
+              ),
+              Text(
+                "총 상품 금액",
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.035),
+              ),
               Spacer(),
-              Text('${NumberFormat('#,###').format(widget.totalPrice)}원', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
-              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+              Text(
+                '${NumberFormat('#,###').format(widget.totalPrice)}원',
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.035),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.05,
+              ),
             ],
           ),
           SizedBox(
@@ -409,11 +486,23 @@ class OrderPageState extends State<OrderCheckPage>
           ),
           Row(
             children: [
-              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
-              Text("배달비", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.05,
+              ),
+              Text(
+                "배달비",
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.035),
+              ),
               Spacer(),
-              Text("${NumberFormat('#,###').format(price)}원", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
-              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+              Text(
+                "${NumberFormat('#,###').format(price)}원",
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.035),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.05,
+              ),
             ],
           ),
           SizedBox(
@@ -421,11 +510,25 @@ class OrderPageState extends State<OrderCheckPage>
           ),
           Row(
             children: [
-              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
-              Text("총 결제 금액", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold),),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.05,
+              ),
+              Text(
+                "총 결제 금액",
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.04,
+                    fontWeight: FontWeight.bold),
+              ),
               Spacer(),
-              Text('${NumberFormat('#,###').format(widget.totalPrice + price)}원', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold),),
-              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+              Text(
+                '${NumberFormat('#,###').format(widget.totalPrice + price)}원',
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.04,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.05,
+              ),
             ],
           ),
           SizedBox(

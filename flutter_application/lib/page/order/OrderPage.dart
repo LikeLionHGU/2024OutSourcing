@@ -350,7 +350,7 @@ class OrderPageState extends State<OrderPage>
                   IconButton(onPressed: () {
                     setState(() {
                       _selectedIndex = 1;
-                      order['isCard'] = false;
+                      order['isCard'] = true;
                     });
 
                   }, icon: Icon(Icons.check_circle, color: _selectedIndex == 1 ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05)),
@@ -364,7 +364,7 @@ class OrderPageState extends State<OrderPage>
                   IconButton(onPressed: () {
                     setState(() {
                       _selectedIndex = 0;
-                      order['isCard'] = true;
+                      order['isCard'] = false;
                     });
 
                   }, icon: Icon(Icons.check_circle, color: _selectedIndex == 0 ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05)),
@@ -398,7 +398,7 @@ class OrderPageState extends State<OrderPage>
               IconButton(onPressed: () {
                 setState(() {
                   _selectedType = false;
-                  order['isDeliver'] = true;
+                  order['isDeliver'] = false;
                   price = 0;
                 });
               }, icon: Icon(Icons.check_circle, color: _selectedType ? Colors.grey : Color(0xffFF8B51), size: MediaQuery.of(context).size.width * 0.05,)),
@@ -410,7 +410,7 @@ class OrderPageState extends State<OrderPage>
               IconButton(onPressed: () {
                 setState(() {
                   _selectedType = true;
-                  order['isDeliver'] = false;
+                  order['isDeliver'] = true;
                   price = 2000;
                 });
               }, icon: Icon(Icons.check_circle, color: _selectedType ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05,)),

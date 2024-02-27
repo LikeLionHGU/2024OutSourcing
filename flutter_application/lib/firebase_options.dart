@@ -67,7 +67,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '167873227013',
     projectId: 'onban-e3465',
     storageBucket: 'onban-e3465.appspot.com',
-    iosBundleId: 'com.example.flutterApplication',
+    iosBundleId: 'com.ehdrb01.onban',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -76,6 +76,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '167873227013',
     projectId: 'onban-e3465',
     storageBucket: 'onban-e3465.appspot.com',
-    iosBundleId: 'com.example.flutterApplication.RunnerTests',
+    iosBundleId: 'com.ehdrb01.onban.RunnerTests',
   );
 }
