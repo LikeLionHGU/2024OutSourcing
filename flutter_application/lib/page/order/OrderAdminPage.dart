@@ -15,7 +15,6 @@ class OrderAdminPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => OrderAdminPageState();
-
 }
 
 class OrderAdminPageState extends State<OrderAdminPage> {
@@ -47,14 +46,15 @@ class OrderAdminPageState extends State<OrderAdminPage> {
         itemCount: shopItems.length, // 리스트 아이템의 총 개수
         itemBuilder: (context, index) {
           var format = DateFormat('yyyy-MM-dd HH:mm'); // 원하는 포맷 지정
-          var date = DateTime.fromMillisecondsSinceEpoch(shopItems[index].dateAndTime.millisecondsSinceEpoch);
+          var date = DateTime.fromMillisecondsSinceEpoch(
+              shopItems[index].dateAndTime.millisecondsSinceEpoch);
           var type = '';
           int num = 0;
           int count = shopItems[index].order.shopList.length;
-          if(shopItems[index].order.isCard) {
-            type = '계좌이체';
-          } else {
+          if (shopItems[index].order.isCard) {
             type = '매장 방문 후 결제';
+          } else {
+            type = '계좌이체';
           }
 
           return Column(
@@ -62,25 +62,36 @@ class OrderAdminPageState extends State<OrderAdminPage> {
               ListTile(
                 title: Row(
                   children: [
-                    Icon(Icons.check_circle, color: shopItems[index].isFinished ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.04),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+                    Icon(Icons.check_circle,
+                        color: shopItems[index].isFinished
+                            ? Color(0xffFF8B51)
+                            : Colors.grey,
+                        size: MediaQuery.of(context).size.width * 0.04),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.02,
+                    ),
                     Text(format.format(date)),
                   ],
                 ),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('메뉴이름     ${shopItems[index].order.shopList[0].name} 등 ${count}개'),
+                    Text(
+                        '메뉴이름     ${shopItems[index].order.shopList[0].name} 등 ${count}개'),
                     Text("결제방법     ${type}"), // 결제방법
                   ],
                 ),
-                trailing: Text('${shopItems[index].order.member.name}', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),), // 가격
+                trailing: Text(
+                  '${shopItems[index].order.member.name}',
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.035),
+                ), // 가격
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => OrderAdminCheckPage(order: shopItems[index])
-                    ),
+                        builder: (context) =>
+                            OrderAdminCheckPage(order: shopItems[index])),
                   );
                 },
               ),
@@ -93,14 +104,15 @@ class OrderAdminPageState extends State<OrderAdminPage> {
   }
 
   Future<List<AdminOrder>> getAllAdminOrders() async {
-    CollectionReference ordersRef = FirebaseFirestore.instance.collection('orders');
-    QuerySnapshot querySnapshot = await ordersRef.orderBy('dateAndTime', descending: true).get();
+    CollectionReference ordersRef =
+        FirebaseFirestore.instance.collection('orders');
+    QuerySnapshot querySnapshot =
+        await ordersRef.orderBy('dateAndTime', descending: true).get();
 
-    List<AdminOrder> orders = querySnapshot.docs
-        .map((doc) {
-
+    List<AdminOrder> orders = querySnapshot.docs.map((doc) {
       Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-      PersonOrder order = PersonOrder.fromFirestore(data['order'] as Map<String, dynamic>); // PersonOrder 객체 생성
+      PersonOrder order = PersonOrder.fromFirestore(
+          data['order'] as Map<String, dynamic>); // PersonOrder 객체 생성
       Timestamp dateAndTime = data['dateAndTime'];
       String userId = data['userId'];
       bool isFinished = data['isFinished'];
@@ -116,5 +128,4 @@ class OrderAdminPageState extends State<OrderAdminPage> {
 
     return orders;
   }
-
 }

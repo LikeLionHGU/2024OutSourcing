@@ -13,7 +13,8 @@ import '../../entity/Member.dart';
 import '../../entity/shop/ShopItem.dart';
 import '../RouterPage.dart';
 
-class OrderAdminCheckPage extends StatefulWidget { // order 문서 내부에 문서 ID를 가지고 와야함
+class OrderAdminCheckPage extends StatefulWidget {
+  // order 문서 내부에 문서 ID를 가지고 와야함
   AdminOrder order;
   int totalPrice = 0;
 
@@ -27,7 +28,6 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
   late Map<String, dynamic> order;
   List<ShopItem>? items;
   Member? member;
-
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -67,16 +67,25 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
 
     descriptionController.text = widget.order.order.description;
 
-    for(int i = 0; i < items!.length; i++) {
+    for (int i = 0; i < items!.length; i++) {
       widget.totalPrice += items![i].price * items![i].count;
     }
-    date =  DateTime.fromMillisecondsSinceEpoch(widget.order.dateAndTime.millisecondsSinceEpoch);
+    date = DateTime.fromMillisecondsSinceEpoch(
+        widget.order.dateAndTime.millisecondsSinceEpoch);
 
     DateTime now = DateTime.now();
-    DateTime dateAndTimeInMinutes = DateTime(now.year, now.month, now.day, now.hour, now.minute);
+    DateTime dateAndTimeInMinutes =
+        DateTime(now.year, now.month, now.day, now.hour, now.minute);
     // true가 계좌이체
-    order = PersonOrder(shopList: items!, member: member!, orderTime: Timestamp.fromDate(dateAndTimeInMinutes), isCard: widget.order.order.isCard, description: "요청사항 없음", isDeliver: widget.order.order.isDeliver).toMap();
-    if(widget.order.order.isDeliver) {
+    order = PersonOrder(
+            shopList: items!,
+            member: member!,
+            orderTime: Timestamp.fromDate(dateAndTimeInMinutes),
+            isCard: widget.order.order.isCard,
+            description: "요청사항 없음",
+            isDeliver: widget.order.order.isDeliver)
+        .toMap();
+    if (widget.order.order.isDeliver) {
       price = 2000;
     }
   }
@@ -90,31 +99,25 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
           Row(
             children: <Widget>[
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.03,
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.2,
-                height: MediaQuery.of(context).size.height * 0.1,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    image: DecorationImage(
-                        image: NetworkImage(
-                            shopItem.imageAddress),
-                        fit: BoxFit.cover)),
-              ),
-              SizedBox(
                 width: MediaQuery.of(context).size.width * 0.04,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(shopItem.name, style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.039),),
+                  Text(
+                    shopItem.name,
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.039),
+                  ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.01,
                   ),
                   Row(
                     children: [
-                      Text('${NumberFormat('#,###').format(shopItem.price * shopItem.count)}원', style: TextStyle(fontWeight: FontWeight.bold),),
+                      Text(
+                        '${NumberFormat('#,###').format(shopItem.price * shopItem.count)}원',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.01,
                       ),
@@ -161,8 +164,9 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
         children: [
           ExpansionTile(
             title: Text("${format.format(date)}"),
-            children:
-            items!.map(buildShopItem).toList(), // 리스트를 ExpansionTile에 매핑합니다.
+            children: items!
+                .map(buildShopItem)
+                .toList(), // 리스트를 ExpansionTile에 매핑합니다.
           ),
           ExpansionTile(title: Text('주문자 정보'), children: [
             SizedBox(
@@ -348,41 +352,78 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
               height: MediaQuery.of(context).size.height * 0.02,
             ),
           ]),
-          ExpansionTile(
-              title: Text('결제방식'),
+          ExpansionTile(title: Text('결제방식'), children: [
+            Row(
               children: [
-                Row(
-                  children: [
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.06,),
-                    Icon(Icons.check_circle, color: _selectedIndex == 1 ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03,),
-                    Text("가게 방문 후 직접 결제", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
-                  ],
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
-                Row(
-                  children: [
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.06,),
-                    Icon(Icons.check_circle, color: _selectedIndex == 0 ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03,),
-                    Text("계좌이체", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
-                  ],
-                ),
-                // SizedBox(height: MediaQuery.of(context).size.height * 0.005,),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
+                  width: MediaQuery.of(context).size.width * 0.06,
                 ),
-              ]
-          ),
+                Icon(Icons.check_circle,
+                    color: widget.order.order.isCard
+                        ? Color(0xffFF8B51)
+                        : Colors.grey,
+                    size: MediaQuery.of(context).size.width * 0.05),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.03,
+                ),
+                Text(
+                  "가게 방문 후 직접 결제",
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.035),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.01,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.06,
+                ),
+                Icon(Icons.check_circle,
+                    color: widget.order.order.isCard
+                        ? Colors.grey
+                        : Color(0xffFF8B51),
+                    size: MediaQuery.of(context).size.width * 0.05),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.03,
+                ),
+                Text(
+                  "계좌이체",
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.035),
+                ),
+              ],
+            ),
+            // SizedBox(height: MediaQuery.of(context).size.height * 0.005,),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
+          ]),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.02,
           ),
           Row(
             children: [
-              SizedBox(width: MediaQuery.of(context).size.width * 0.04,),
-              Icon(Icons.check_circle, color: widget.order.order.isDeliver ? Colors.grey : Color(0xffFF8B51), size: MediaQuery.of(context).size.width * 0.05,),
-              SizedBox(width: MediaQuery.of(context).size.width * 0.03,),
-              Text("포장으로 받기", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.04,
+              ),
+              Icon(
+                Icons.check_circle,
+                color: widget.order.order.isDeliver
+                    ? Colors.grey
+                    : Color(0xffFF8B51),
+                size: MediaQuery.of(context).size.width * 0.05,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.03,
+              ),
+              Text(
+                "포장으로 받기",
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.035),
+              ),
             ],
           ),
           SizedBox(
@@ -390,10 +431,24 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
           ),
           Row(
             children: [
-              SizedBox(width: MediaQuery.of(context).size.width * 0.04,),
-              Icon(Icons.check_circle, color: widget.order.order.isDeliver ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05,),
-              SizedBox(width: MediaQuery.of(context).size.width * 0.03,),
-              Text("배달로 받기", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.04,
+              ),
+              Icon(
+                Icons.check_circle,
+                color: widget.order.order.isDeliver
+                    ? Color(0xffFF8B51)
+                    : Colors.grey,
+                size: MediaQuery.of(context).size.width * 0.05,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.03,
+              ),
+              Text(
+                "배달로 받기",
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.035),
+              ),
             ],
           ),
           SizedBox(
@@ -401,11 +456,23 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
           ),
           Row(
             children: [
-              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
-              Text("총 상품 금액", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.05,
+              ),
+              Text(
+                "총 상품 금액",
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.035),
+              ),
               Spacer(),
-              Text('${NumberFormat('#,###').format(widget.totalPrice)}원', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
-              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+              Text(
+                '${NumberFormat('#,###').format(widget.totalPrice)}원',
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.035),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.05,
+              ),
             ],
           ),
           SizedBox(
@@ -413,11 +480,23 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
           ),
           Row(
             children: [
-              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
-              Text("배달비", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.05,
+              ),
+              Text(
+                "배달비",
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.035),
+              ),
               Spacer(),
-              Text("${NumberFormat('#,###').format(price)}원", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
-              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+              Text(
+                "${NumberFormat('#,###').format(price)}원",
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.035),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.05,
+              ),
             ],
           ),
           SizedBox(
@@ -425,11 +504,25 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
           ),
           Row(
             children: [
-              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
-              Text("총 결제 금액", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold),),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.05,
+              ),
+              Text(
+                "총 결제 금액",
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.04,
+                    fontWeight: FontWeight.bold),
+              ),
               Spacer(),
-              Text('${NumberFormat('#,###').format(widget.totalPrice + price)}원', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold),),
-              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+              Text(
+                '${NumberFormat('#,###').format(widget.totalPrice + price)}원',
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.04,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.05,
+              ),
             ],
           ),
           SizedBox(
@@ -444,14 +537,19 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
                 borderRadius: BorderRadius.circular(8), // 모서리 둥글기
               ),
               child: TextButton(
-                child: Text("완료하기", style: TextStyle(color: Colors.white),),
+                child: Text(
+                  "완료하기",
+                  style: TextStyle(color: Colors.white),
+                ),
                 onPressed: () {
                   updateOrder(widget.order.documentId);
                 },
               ),
             ),
           ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
+          ),
           Align(
             alignment: Alignment.center,
             child: Container(
@@ -461,10 +559,12 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
                 borderRadius: BorderRadius.circular(8), // 모서리 둥글기
               ),
               child: TextButton(
-                child: Text("삭제하기", style: TextStyle(color: Colors.white),),
+                child: Text(
+                  "삭제하기",
+                  style: TextStyle(color: Colors.white),
+                ),
                 onPressed: () {
                   deleteDocument(widget.order.documentId);
-
                 },
               ),
             ),
@@ -475,7 +575,8 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
   }
 
   Future<void> updateOrder(String documentId) async {
-    CollectionReference orders = FirebaseFirestore.instance.collection('orders');
+    CollectionReference orders =
+        FirebaseFirestore.instance.collection('orders');
 
     // 문서 ID를 사용하여 특정 문서 업데이트
     await orders.doc(documentId).update({
@@ -485,28 +586,49 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            shape: RoundedRectangleBorder( // AlertDialog 모서리를 둥글게 처리
-              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.width * 0.02)),
+            shape: RoundedRectangleBorder(
+              // AlertDialog 모서리를 둥글게 처리
+              borderRadius: BorderRadius.all(
+                  Radius.circular(MediaQuery.of(context).size.width * 0.02)),
             ),
             // backgroundColor: Color(0xffFFFFFF),
             backgroundColor: Colors.white,
             elevation: 0,
-            title: Text("주문 확정", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold),),
+            title: Text(
+              "주문 확정",
+              style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.width * 0.04,
+                  fontWeight: FontWeight.bold),
+            ),
             actions: <Widget>[
               Column(
                 children: [
-                  Align(child: Text("주문이 확정되었습니다.",), alignment: Alignment.centerLeft,),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.015,),
+                  Align(
+                    child: Text(
+                      "주문이 확정되었습니다.",
+                    ),
+                    alignment: Alignment.centerLeft,
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.015,
+                  ),
                   Row(
                     children: [
                       Container(
                         child: TextButton(
-                          child: Text("닫기", style: TextStyle(color: Colors.white),), // '네' 버튼
+                          child: Text(
+                            "닫기",
+                            style: TextStyle(color: Colors.white),
+                          ), // '네' 버튼
                           onPressed: () {
                             Navigator.pushAndRemoveUntil(
                               context,
-                              MaterialPageRoute(builder: (context) => AdminRouterPage(index: 2,)), // NewPage는 이동할 새 페이지의 위젯입니다.
-                                  (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+                              MaterialPageRoute(
+                                  builder: (context) => AdminRouterPage(
+                                        index: 2,
+                                      )), // NewPage는 이동할 새 페이지의 위젯입니다.
+                              (Route<dynamic> route) =>
+                                  false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
                             );
                           },
                         ),
@@ -528,17 +650,20 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
       ).then((_) {
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => AdminRouterPage(index: 2,)), // NewPage는 이동할 새 페이지의 위젯입니다.
-              (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+          MaterialPageRoute(
+              builder: (context) => AdminRouterPage(
+                    index: 2,
+                  )), // NewPage는 이동할 새 페이지의 위젯입니다.
+          (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
         );
-      }
-      );
+      });
     });
   }
 
   Future<void> deleteDocument(String documentId) async {
     // Firestore 인스턴스를 가져온 후, 'orders' 컬렉션에서 특정 문서 ID를 가진 문서 참조를 얻습니다.
-    DocumentReference docRef = FirebaseFirestore.instance.collection('orders').doc(documentId);
+    DocumentReference docRef =
+        FirebaseFirestore.instance.collection('orders').doc(documentId);
 
     // 해당 문서를 삭제합니다.
     await docRef.delete().then((_) {
@@ -546,28 +671,49 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            shape: RoundedRectangleBorder( // AlertDialog 모서리를 둥글게 처리
-              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.width * 0.02)),
+            shape: RoundedRectangleBorder(
+              // AlertDialog 모서리를 둥글게 처리
+              borderRadius: BorderRadius.all(
+                  Radius.circular(MediaQuery.of(context).size.width * 0.02)),
             ),
             // backgroundColor: Color(0xffFFFFFF),
             backgroundColor: Colors.white,
             elevation: 0,
-            title: Text("삭제 완료", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold),),
+            title: Text(
+              "삭제 완료",
+              style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.width * 0.04,
+                  fontWeight: FontWeight.bold),
+            ),
             actions: <Widget>[
               Column(
                 children: [
-                  Align(child: Text("삭제가 완료되었습니다.",), alignment: Alignment.centerLeft,),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.015,),
+                  Align(
+                    child: Text(
+                      "삭제가 완료되었습니다.",
+                    ),
+                    alignment: Alignment.centerLeft,
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.015,
+                  ),
                   Row(
                     children: [
                       Container(
                         child: TextButton(
-                          child: Text("닫기", style: TextStyle(color: Colors.white),), // '네' 버튼
+                          child: Text(
+                            "닫기",
+                            style: TextStyle(color: Colors.white),
+                          ), // '네' 버튼
                           onPressed: () {
                             Navigator.pushAndRemoveUntil(
                               context,
-                              MaterialPageRoute(builder: (context) => AdminRouterPage(index: 3,)), // NewPage는 이동할 새 페이지의 위젯입니다.
-                                  (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+                              MaterialPageRoute(
+                                  builder: (context) => AdminRouterPage(
+                                        index: 1,
+                                      )), // NewPage는 이동할 새 페이지의 위젯입니다.
+                              (Route<dynamic> route) =>
+                                  false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
                             );
                           },
                         ),
@@ -589,11 +735,13 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
       ).then((_) {
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => AdminRouterPage(index: 3,)), // NewPage는 이동할 새 페이지의 위젯입니다.
-              (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+          MaterialPageRoute(
+              builder: (context) => AdminRouterPage(
+                    index: 3,
+                  )), // NewPage는 이동할 새 페이지의 위젯입니다.
+          (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
         );
-      }
-      );
+      });
     });
   }
 }

@@ -45,7 +45,7 @@ class MenuDetailState extends State<MenuDetail>
 
   @override
   Widget build(BuildContext context) {
-    final List<String> options = ['메인', '찌개', '해물', '육류', '반찬'];
+    final List<String> options = ['조림', '나물', '국', '고기', '기타'];
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -66,9 +66,12 @@ class MenuDetailState extends State<MenuDetail>
         backgroundColor: Colors.white,
         body: Column(children: [
           SizedBox(
-            width: MediaQuery.of(context).size.width,
+              width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.3,
-              child: Image(image: NetworkImage(widget.menu.imageAddress), fit: BoxFit.cover,)),
+              child: Image(
+                image: NetworkImage(widget.menu.imageAddress),
+                fit: BoxFit.cover,
+              )),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.03,
           ),

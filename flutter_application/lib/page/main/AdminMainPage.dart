@@ -7,6 +7,7 @@ import 'package:flutter_application/entity/MenuRepository.dart';
 import 'package:flutter_application/page/account/FirstPage.dart';
 import 'package:flutter_application/page/menu/AdminMenuDetail.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminMainPage extends StatefulWidget {
   @override
@@ -33,25 +34,22 @@ class AdminMainPageState extends State<AdminMainPage>
       setState(() {
         menus = loadedMenus;
 
-        for(int i = 0; i < loadedMenus.length; i++) {
-          if(loadedMenus[i].category == 0) {
+        for (int i = 0; i < loadedMenus.length; i++) {
+          if (loadedMenus[i].category == 0) {
             firstMenu.add(loadedMenus[i]);
-          } else if(loadedMenus[i].category == 1) {
+          } else if (loadedMenus[i].category == 1) {
             secondMenu.add(loadedMenus[i]);
-          } else if(loadedMenus[i].category == 2) {
+          } else if (loadedMenus[i].category == 2) {
             thirdMenu.add(loadedMenus[i]);
-          } else if(loadedMenus[i].category == 3) {
+          } else if (loadedMenus[i].category == 3) {
             fourthMenu.add(loadedMenus[i]);
-          } else if(loadedMenus[i].category == 4) {
+          } else if (loadedMenus[i].category == 4) {
             fifthMenu.add(loadedMenus[i]);
-          } else {
-
-          }
+          } else {}
         }
       });
     });
   }
-
 
   @override
   void dispose() {
@@ -60,7 +58,7 @@ class AdminMainPageState extends State<AdminMainPage>
   }
 
   List<Card> _buildGridCards(BuildContext context, Orientation orientation) {
-    if(menus == null || menus!.isEmpty) {
+    if (menus == null || menus!.isEmpty) {
       return <Card>[];
     }
 
@@ -86,7 +84,9 @@ class AdminMainPageState extends State<AdminMainPage>
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AdminMenuDetail(menu: menu,), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
+                      builder: (context) => AdminMenuDetail(
+                        menu: menu,
+                      ), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
                     ),
                   );
                 },
@@ -110,8 +110,7 @@ class AdminMainPageState extends State<AdminMainPage>
               '${menu.count}개 남았습니다',
               style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.03,
-                  color: Color(0xffFF0000)
-              ),
+                  color: Color(0xffFF0000)),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.01),
             Text(
@@ -119,8 +118,7 @@ class AdminMainPageState extends State<AdminMainPage>
               style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.038,
                   color: Colors.black,
-                  fontWeight: FontWeight.bold
-              ),
+                  fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -128,8 +126,9 @@ class AdminMainPageState extends State<AdminMainPage>
     }).toList();
   }
 
-  List<Card> _buildElementGridCards(BuildContext context, Orientation orientation, List<Menu> targetMenu) {
-    if(targetMenu == null || targetMenu!.isEmpty) {
+  List<Card> _buildElementGridCards(
+      BuildContext context, Orientation orientation, List<Menu> targetMenu) {
+    if (targetMenu == null || targetMenu!.isEmpty) {
       return <Card>[];
     }
 
@@ -155,7 +154,9 @@ class AdminMainPageState extends State<AdminMainPage>
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AdminMenuDetail(menu: menu,), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
+                      builder: (context) => AdminMenuDetail(
+                        menu: menu,
+                      ), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
                     ),
                   );
                 },
@@ -179,8 +180,7 @@ class AdminMainPageState extends State<AdminMainPage>
               '${menu.count}개 남았습니다',
               style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.03,
-                  color: Color(0xffFF0000)
-              ),
+                  color: Color(0xffFF0000)),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.01),
             Text(
@@ -188,8 +188,7 @@ class AdminMainPageState extends State<AdminMainPage>
               style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.03,
                   color: Colors.black,
-                  fontWeight: FontWeight.bold
-              ),
+                  fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -197,9 +196,18 @@ class AdminMainPageState extends State<AdminMainPage>
     }).toList();
   }
 
+  Future<void> logout() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('isLoggedIn');
+    await prefs.remove('role');
+    // 필요한 경우 loginToken도 제거
+    await prefs.remove('loginToken');
+    // 또는 prefs.clear()를 사용하여 모든 데이터를 초기화할 수도 있으나, 이 경우 다른 설정값도 같이 삭제됩니다.
+  }
+
   @override
   Widget build(BuildContext context) {
-    final tabs = ['전체', '육류', '해조류', '국류', '밑반찬', '기타'];
+    final tabs = ['전체', '조림', '나물', '국', '고기', '기타'];
     // 화면의 가로 크기를 가져옵니다.
     double screenWidth = MediaQuery.of(context).size.width;
 
@@ -218,16 +226,23 @@ class AdminMainPageState extends State<AdminMainPage>
         backgroundColor: Colors.white,
         centerTitle: true,
         elevation: 0,
-        title: Text("온반", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05),),
+        title: Text(
+          "온반",
+          style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05),
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.logout),
             onPressed: () async {
               await FirebaseAuth.instance.signOut(); // Firebase에서 로그아웃
+              await logout();
               Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => FirstPage()), // NewPage는 이동할 새 페이지의 위젯입니다.
-                    (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+                MaterialPageRoute(
+                    builder: (context) =>
+                        FirstPage()), // NewPage는 이동할 새 페이지의 위젯입니다.
+                (Route<dynamic> route) =>
+                    false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
               );
             },
           ),
@@ -263,19 +278,19 @@ class AdminMainPageState extends State<AdminMainPage>
                       child: Text("전체"),
                     ),
                     Tab(
-                      child: Text("메인"),
+                      child: Text("조림"),
                     ),
                     Tab(
-                      child: Text("찌개"),
+                      child: Text("나물"),
                     ),
                     Tab(
-                      child: Text("해물"),
+                      child: Text("국"),
                     ),
                     Tab(
-                      child: Text("육류"),
+                      child: Text("고기"),
                     ),
                     Tab(
-                      child: Text("반찬"),
+                      child: Text("기타"),
                     ),
                   ],
                 ),
@@ -295,7 +310,8 @@ class AdminMainPageState extends State<AdminMainPage>
                 OrientationBuilder(
                   builder: (context, orientation) {
                     int crossAxisCount = 2;
-                    double spacing = MediaQuery.of(context).size.height * 0.00000000001;
+                    double spacing =
+                        MediaQuery.of(context).size.height * 0.00000000001;
                     return GridView.count(
                       crossAxisCount: crossAxisCount,
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
@@ -308,65 +324,75 @@ class AdminMainPageState extends State<AdminMainPage>
                 OrientationBuilder(
                   builder: (context, orientation) {
                     int crossAxisCount = 2;
-                    double spacing = MediaQuery.of(context).size.height * 0.00000000001;
+                    double spacing =
+                        MediaQuery.of(context).size.height * 0.00000000001;
                     return GridView.count(
                       crossAxisCount: crossAxisCount,
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                       childAspectRatio: childAspectRatio,
                       // mainAxisSpacing: spacing,
-                      children: _buildElementGridCards(context, orientation, firstMenu),
+                      children: _buildElementGridCards(
+                          context, orientation, firstMenu),
                     );
                   },
                 ),
                 OrientationBuilder(
                   builder: (context, orientation) {
                     int crossAxisCount = 2;
-                    double spacing = MediaQuery.of(context).size.height * 0.00000000001;
+                    double spacing =
+                        MediaQuery.of(context).size.height * 0.00000000001;
                     return GridView.count(
                       crossAxisCount: crossAxisCount,
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                       childAspectRatio: childAspectRatio,
                       // mainAxisSpacing: spacing,
-                      children: _buildElementGridCards(context, orientation, secondMenu),
+                      children: _buildElementGridCards(
+                          context, orientation, secondMenu),
                     );
                   },
                 ),
                 OrientationBuilder(
                   builder: (context, orientation) {
                     int crossAxisCount = 2;
-                    double spacing = MediaQuery.of(context).size.height * 0.00000000001;
+                    double spacing =
+                        MediaQuery.of(context).size.height * 0.00000000001;
                     return GridView.count(
                       crossAxisCount: crossAxisCount,
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                       childAspectRatio: childAspectRatio,
                       // mainAxisSpacing: spacing,
-                      children: _buildElementGridCards(context, orientation, thirdMenu),
+                      children: _buildElementGridCards(
+                          context, orientation, thirdMenu),
                     );
                   },
                 ),
                 OrientationBuilder(
                   builder: (context, orientation) {
                     int crossAxisCount = 2;
-                    double spacing = MediaQuery.of(context).size.height * 0.00000000001;
+                    double spacing =
+                        MediaQuery.of(context).size.height * 0.00000000001;
                     return GridView.count(
                       crossAxisCount: crossAxisCount,
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                       childAspectRatio: childAspectRatio,
                       // mainAxisSpacing: spacing,
-                      children: _buildElementGridCards(context, orientation, fourthMenu),
+                      children: _buildElementGridCards(
+                          context, orientation, fourthMenu),
                     );
                   },
                 ),
                 OrientationBuilder(
                   builder: (context, orientation) {
                     int crossAxisCount = 2;
-                    double spacing = MediaQuery.of(context).size.height * 0.00000000001;
+                    double spacing =
+                        MediaQuery.of(context).size.height * 0.00000000001;
                     return GridView.count(
                       crossAxisCount: crossAxisCount,
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                       childAspectRatio: childAspectRatio,
                       // mainAxisSpacing: spacing,
-                      children: _buildElementGridCards(context, orientation, fifthMenu),
+                      children: _buildElementGridCards(
+                          context, orientation, fifthMenu),
                     );
                   },
                 ),

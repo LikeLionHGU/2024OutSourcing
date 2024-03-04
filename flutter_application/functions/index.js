@@ -24,8 +24,8 @@ exports.sendNotificationToAdmins = functions.region('asia-northeast3').firestore
         // 푸시 알림 페이로드 구성
         const payload = {
             notification: {
-                title: '중요한 업데이트!',
-                body: '새로운 정보가 추가되었습니다. 확인해주세요.',
+                title: '새로운 주문이 들어왔어요!',
+                body: '어서 주문을 확인 해주세요 :)',
                 // 이미지를 포함하려면 이 줄을 추가하세요:
                 image: 'https://firebasestorage.googleapis.com/v0/b/onban-e3465.appspot.com/o/Frame%201097.png?alt=media&token=1773d545-842c-4eb3-8511-5c643bc1817a'
             }

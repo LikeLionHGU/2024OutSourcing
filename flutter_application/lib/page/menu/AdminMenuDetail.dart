@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -55,7 +56,10 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
         SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 0.3,
-            child: Image(image: NetworkImage(widget.menu.imageAddress), fit: BoxFit.cover,)),
+            child: Image(
+              image: NetworkImage(widget.menu.imageAddress),
+              fit: BoxFit.cover,
+            )),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.03,
         ),
@@ -128,7 +132,11 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
                       )),
                 ),
               ],
-              icon: Icon(Icons.edit, color: Colors.grey, size: MediaQuery.of(context).size.width * 0.05,), // 사용하고 싶은 아이콘을 여기에 넣으세요.
+              icon: Icon(
+                Icons.edit,
+                color: Colors.grey,
+                size: MediaQuery.of(context).size.width * 0.05,
+              ), // 사용하고 싶은 아이콘을 여기에 넣으세요.
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.05,
@@ -190,10 +198,16 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
           indicatorWeight: 2,
           tabs: [
             Tab(
-              child: Text("상품설명", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.036),),
+              child: Text(
+                "상품설명",
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.036),
+              ),
             ),
             Tab(
-              child: Text("배송안내", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.036)),
+              child: Text("배송안내",
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.036)),
             ),
           ],
         ),
@@ -259,9 +273,19 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
       ]),
     );
   } // 0xffC5C5C5
+
   Future<void> deleteDocument(String documentId) async {
     // Firestore 인스턴스를 가져온 후, 'orders' 컬렉션에서 특정 문서 ID를 가진 문서 참조를 얻습니다.
-    DocumentReference docRef = FirebaseFirestore.instance.collection('products').doc(documentId);
+    DocumentReference docRef =
+        FirebaseFirestore.instance.collection('products').doc(documentId);
+
+    DocumentSnapshot docSnapshot = await docRef.get();
+
+    var documentData = docSnapshot.data() as Map<String, dynamic>; // 타입 캐스팅
+    var imagePath = documentData['imagePath']; // 이제 '[]' 연산자 사용 가능
+    var fileRef = FirebaseStorage.instance.ref().child(imagePath);
+
+    await fileRef.delete();
 
     // 해당 문서를 삭제합니다.
     await docRef.delete().then((_) {
@@ -269,28 +293,49 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            shape: RoundedRectangleBorder( // AlertDialog 모서리를 둥글게 처리
-              borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.width * 0.02)),
+            shape: RoundedRectangleBorder(
+              // AlertDialog 모서리를 둥글게 처리
+              borderRadius: BorderRadius.all(
+                  Radius.circular(MediaQuery.of(context).size.width * 0.02)),
             ),
             // backgroundColor: Color(0xffFFFFFF),
             backgroundColor: Colors.white,
             elevation: 0,
-            title: Text("삭제 완료", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold),),
+            title: Text(
+              "삭제 완료",
+              style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.width * 0.04,
+                  fontWeight: FontWeight.bold),
+            ),
             actions: <Widget>[
               Column(
                 children: [
-                  Align(child: Text("삭제가 완료되었습니다.",), alignment: Alignment.centerLeft,),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.015,),
+                  Align(
+                    child: Text(
+                      "삭제가 완료되었습니다.",
+                    ),
+                    alignment: Alignment.centerLeft,
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.015,
+                  ),
                   Row(
                     children: [
                       Container(
                         child: TextButton(
-                          child: Text("닫기", style: TextStyle(color: Colors.white),), // '네' 버튼
+                          child: Text(
+                            "닫기",
+                            style: TextStyle(color: Colors.white),
+                          ), // '네' 버튼
                           onPressed: () {
                             Navigator.pushAndRemoveUntil(
                               context,
-                              MaterialPageRoute(builder: (context) => AdminRouterPage(index: 0,)), // NewPage는 이동할 새 페이지의 위젯입니다.
-                                  (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+                              MaterialPageRoute(
+                                  builder: (context) => AdminRouterPage(
+                                        index: 1,
+                                      )), // NewPage는 이동할 새 페이지의 위젯입니다.
+                              (Route<dynamic> route) =>
+                                  false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
                             );
                           },
                         ),
@@ -312,11 +357,13 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
       ).then((_) {
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => AdminRouterPage(index: 3,)), // NewPage는 이동할 새 페이지의 위젯입니다.
-              (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+          MaterialPageRoute(
+              builder: (context) => AdminRouterPage(
+                    index: 1,
+                  )), // NewPage는 이동할 새 페이지의 위젯입니다.
+          (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
         );
-      }
-      );
+      });
     });
   }
 }

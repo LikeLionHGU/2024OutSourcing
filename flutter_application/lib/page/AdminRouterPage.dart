@@ -30,7 +30,6 @@ class AdminRouterPageState extends State<AdminRouterPage> {
   void initState() {
     super.initState();
 
-
     setState(() {
       _selectedIndex = widget.index;
     });
@@ -63,14 +62,15 @@ class AdminRouterPageState extends State<AdminRouterPage> {
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.add_circle_outline), label: "메뉴등록"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.add_circle_outline), label: "메뉴등록"),
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "오늘반찬"),
-          BottomNavigationBarItem(icon: Icon(Icons.receipt_long_rounded), label: "주문확인"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.receipt_long_rounded), label: "주문확인"),
         ],
       ),
     );
   }
-
 
   void _onItemTapped(int index) {
     _pageController.animateToPage(
@@ -79,5 +79,4 @@ class AdminRouterPageState extends State<AdminRouterPage> {
       curve: Curves.easeInOut,
     );
   }
-
 }

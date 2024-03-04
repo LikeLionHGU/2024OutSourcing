@@ -2,6 +2,8 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/page/order/OrderAdminPage.dart';
+import 'package:flutter_application/router/app.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 // import 'package:soul_link/services/soullink_api_service.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -23,12 +25,12 @@ class PushNotificationController extends ChangeNotifier {
       requestIOSPermissions(); // iOS 권한 요청
     }
 
-    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
       alert: true, // Required to display a heads up notification
       badge: true,
       sound: true,
     );
-
 
     String? token = await _fcm.getToken(); // FCM 토큰 얻기 함수
     String? deviceId = await _getDeviceId(); // 디바이스 ID 얻기 함수
@@ -36,29 +38,18 @@ class PushNotificationController extends ChangeNotifier {
     log("FCM Token: $token");
     log("deviceId: $deviceId");
 
-    // // FCM 토큰을 서버에 전송하는 함수
-    // if (token != null) {
-    //   try {
-    //     await SoulLinkAPI().sendTokenToServer(token, deviceId!);
-    //   } catch (e) {
-    //     log(e.toString());
-    //     return;
-    //   }
-    // }
-
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     await flutterLocalNotificationsPlugin
         ?.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
-    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
       alert: true,
       badge: true,
       sound: true,
     );
     await flutterLocalNotificationsPlugin!.initialize(initializationSettings);
-
-
 
     // FCM 알림을 받아 로컬 알림을 표시하는 함수
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -68,6 +59,17 @@ class PushNotificationController extends ChangeNotifier {
       if (notification != null) {
         showNotification(notification);
       }
+    });
+
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      navigateToSpecificPage();
+    }
+
+    // 앱이 백그라운드 상태일 때 알림 클릭 처리
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      navigateToSpecificPage();
     });
 
     // 백그라운드 메시지 핸들러 설정
@@ -120,9 +122,25 @@ class PushNotificationController extends ChangeNotifier {
     return '';
   }
 
+  void navigateToSpecificPage() {}
+
+  Future<void> handleInitialMessage(BuildContext context) async {
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      navigateToSpecificPage();
+    }
+  }
+
+  void setupOnMessageOpenedApp(BuildContext context) {
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      navigateToSpecificPage();
+    });
+  }
+
   // 로컬 알림 초기화 함수
   static const initializationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
+      AndroidInitializationSettings('@mipmap/ic_lRauncher');
   static const initializationSettingsIOs = DarwinInitializationSettings();
   static const initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid, iOS: initializationSettingsIOs);

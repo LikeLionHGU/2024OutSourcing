@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/main.dart';
 import 'package:flutter_application/page/AdminRouterPage.dart';
 import 'package:flutter_application/page/RouterPage.dart';
 
@@ -161,6 +162,11 @@ class LoginState extends State<Login> {
                     print('Document does not exist on the database');
                   }
 
+                  if (userCredential.user != null) {
+                    await saveUserLoginState();
+                    // 로그인 성공 후의 로직 처리 (예: 홈 화면으로 이동)
+                  }
+
                   if (member.role) {
                     getTokenAndSave();
 
@@ -247,7 +253,8 @@ class LoginState extends State<Login> {
   }
 
   void getTokenAndSave() async {
-    String? token = await FirebaseMessaging.instance.getToken(); // fcm 토큰이 아님 / Device 플러그인 사용해서 디바이스 아이디 가져와야 함
+    String? token = await FirebaseMessaging.instance
+        .getToken(); // fcm 토큰이 아님 / Device 플러그인 사용해서 디바이스 아이디 가져와야 함
 
     // 여기서 token을 출력하거나 서버에 저장할 수 있습니다.
     print("FCM Token: $token");

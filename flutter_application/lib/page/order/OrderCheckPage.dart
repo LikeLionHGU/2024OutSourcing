@@ -99,18 +99,6 @@ class OrderPageState extends State<OrderCheckPage>
           Row(
             children: <Widget>[
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.03,
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.2,
-                height: MediaQuery.of(context).size.height * 0.1,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    image: DecorationImage(
-                        image: NetworkImage(shopItem.imageAddress),
-                        fit: BoxFit.cover)),
-              ),
-              SizedBox(
                 width: MediaQuery.of(context).size.width * 0.04,
               ),
               Column(
@@ -405,6 +393,36 @@ class OrderPageState extends State<OrderCheckPage>
                       fontSize: MediaQuery.of(context).size.width * 0.035),
                 ),
               ],
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.14,
+                ),
+                Text(
+                  "수협중앙회 2020-5311-7264",
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.035),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.005,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.14,
+                ),
+                Text(
+                  "(주문 후 바로 입금 부탁드립니다)",
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.035),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
             ),
             // SizedBox(height: MediaQuery.of(context).size.height * 0.005,),
             SizedBox(

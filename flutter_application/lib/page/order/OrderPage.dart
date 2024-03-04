@@ -16,7 +16,8 @@ class OrderPage extends StatefulWidget {
   List<ShopItem> items;
   int totalPrice = 0;
 
-  OrderPage({Key? key, required this.member, required this.items}) : super(key: key);
+  OrderPage({Key? key, required this.member, required this.items})
+      : super(key: key);
   @override
   State<StatefulWidget> createState() => OrderPageState();
 }
@@ -56,14 +57,22 @@ class OrderPageState extends State<OrderPage>
     addressController.text = widget.member.address;
     addressDetailController.text = widget.member.addressDetail;
 
-    for(int i = 0; i < widget.items.length; i++) {
+    for (int i = 0; i < widget.items.length; i++) {
       widget.totalPrice += widget.items[i].price * widget.items[i].count;
     }
 
     DateTime now = DateTime.now();
-    DateTime dateAndTimeInMinutes = DateTime(now.year, now.month, now.day, now.hour, now.minute);
+    DateTime dateAndTimeInMinutes =
+        DateTime(now.year, now.month, now.day, now.hour, now.minute);
     // true가 계좌이체
-    order = PersonOrder(shopList: widget.items, member: widget.member, orderTime: Timestamp.fromDate(dateAndTimeInMinutes), isCard: true, description: "요청사항 없음", isDeliver: false).toMap();
+    order = PersonOrder(
+            shopList: widget.items,
+            member: widget.member,
+            orderTime: Timestamp.fromDate(dateAndTimeInMinutes),
+            isCard: false,
+            description: "요청사항 없음",
+            isDeliver: false)
+        .toMap();
   }
 
   Widget buildShopItem(ShopItem shopItem) {
@@ -83,8 +92,7 @@ class OrderPageState extends State<OrderPage>
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     image: DecorationImage(
-                        image: NetworkImage(
-                            shopItem.imageAddress),
+                        image: NetworkImage(shopItem.imageAddress),
                         fit: BoxFit.cover)),
               ),
               SizedBox(
@@ -99,7 +107,8 @@ class OrderPageState extends State<OrderPage>
                   ),
                   Row(
                     children: [
-                      Text('${NumberFormat('#,###').format(shopItem.price * shopItem.count)}원'),
+                      Text(
+                          '${NumberFormat('#,###').format(shopItem.price * shopItem.count)}원'),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.01,
                       ),
@@ -146,8 +155,9 @@ class OrderPageState extends State<OrderPage>
         children: [
           ExpansionTile(
             title: Text('주문내역'),
-            children:
-                widget.items.map(buildShopItem).toList(), // 리스트를 ExpansionTile에 매핑합니다.
+            children: widget.items
+                .map(buildShopItem)
+                .toList(), // 리스트를 ExpansionTile에 매핑합니다.
           ),
           ExpansionTile(title: Text('주문자 정보'), children: [
             SizedBox(
@@ -304,117 +314,186 @@ class OrderPageState extends State<OrderPage>
               height: MediaQuery.of(context).size.height * 0.02,
             ),
             Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                height: MediaQuery.of(context).size.height * 0.05,
-                child: InputDecorator(
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: MediaQuery.of(context).size.height * 0.05,
+              child: InputDecorator(
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
 
-                    border: OutlineInputBorder(), // 테두리를 추가합니다.
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 5), // 내부 패딩을 추가합니다.
-                    // 여기에 추가적인 꾸밈 속성을 정의할 수 있습니다.
-                  ),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      value: dropdownValue,
-                      isExpanded: true,
-                      hint: Text("요청사항을 선택해주세요", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03),),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownValue = newValue!;
-                          order['description'] = newValue!;
-                        });
-                      },
-                      items: <String>['요청사항 없음', '벨 누르지 말고 문 앞에 놓아주세요', '벨 누르고 문 앞에 놓아주세요', '비대면으로 받고싶어요']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value, style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03),),
-                        );
-                      }).toList(),
+                  border: OutlineInputBorder(), // 테두리를 추가합니다.
+                  contentPadding: EdgeInsets.symmetric(
+                      horizontal: 10, vertical: 5), // 내부 패딩을 추가합니다.
+                  // 여기에 추가적인 꾸밈 속성을 정의할 수 있습니다.
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: dropdownValue,
+                    isExpanded: true,
+                    hint: Text(
+                      "요청사항을 선택해주세요",
+                      style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width * 0.03),
                     ),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        dropdownValue = newValue!;
+                        order['description'] = newValue!;
+                      });
+                    },
+                    items: <String>[
+                      '요청사항 없음',
+                      '벨 누르지 말고 문 앞에 놓아주세요',
+                      '벨 누르고 문 앞에 놓아주세요',
+                      '비대면으로 받고싶어요'
+                    ].map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.03),
+                        ),
+                      );
+                    }).toList(),
                   ),
                 ),
               ),
+            ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
             ),
           ]),
-          ExpansionTile(
-            title: Text('결제방식'),
-            children: [
-              Row(
-                children: [
-                  SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
-                  IconButton(onPressed: () {
-                    setState(() {
-                      _selectedIndex = 1;
-                      order['isCard'] = true;
-                    });
-
-                  }, icon: Icon(Icons.check_circle, color: _selectedIndex == 1 ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05)),
-                  Text("가게 방문 후 직접 결제", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
-                ],
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
-              Row(
-                children: [
-                  SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
-                  IconButton(onPressed: () {
-                    setState(() {
-                      _selectedIndex = 0;
-                      order['isCard'] = false;
-                    });
-
-                  }, icon: Icon(Icons.check_circle, color: _selectedIndex == 0 ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05)),
-                  Text("계좌이체", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
-                ],
-              ),
-              // SizedBox(height: MediaQuery.of(context).size.height * 0.005,),
-              Row(
-                children: [
-                  SizedBox(width: MediaQuery.of(context).size.width * 0.14,),
-                  Text("수협중앙회 2020-5311-7264", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
-                ],
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.005,),
-              Row(
-                children: [
-                  SizedBox(width: MediaQuery.of(context).size.width * 0.14,),
-                  Text("(주문 후 바로 입금 부탁드립니다)", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
-                ],
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
-              ),
-            ]
-          ),
+          ExpansionTile(title: Text('결제방식'), children: [
+            Row(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.02,
+                ),
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedIndex = 1;
+                        order['isCard'] = true;
+                      });
+                    },
+                    icon: Icon(Icons.check_circle,
+                        color: _selectedIndex == 1
+                            ? Color(0xffFF8B51)
+                            : Colors.grey,
+                        size: MediaQuery.of(context).size.width * 0.05)),
+                Text(
+                  "가게 방문 후 직접 결제",
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.035),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.01,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.02,
+                ),
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedIndex = 0;
+                        order['isCard'] = false;
+                      });
+                    },
+                    icon: Icon(Icons.check_circle,
+                        color: _selectedIndex == 0
+                            ? Color(0xffFF8B51)
+                            : Colors.grey,
+                        size: MediaQuery.of(context).size.width * 0.05)),
+                Text(
+                  "계좌이체",
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.035),
+                ),
+              ],
+            ),
+            // SizedBox(height: MediaQuery.of(context).size.height * 0.005,),
+            Row(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.14,
+                ),
+                Text(
+                  "수협중앙회 2020-5311-7264",
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.035),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.005,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.14,
+                ),
+                Text(
+                  "(주문 후 바로 입금 부탁드립니다)",
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.035),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
+          ]),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.01,
           ),
           Row(
             children: [
-              IconButton(onPressed: () {
-                setState(() {
-                  _selectedType = false;
-                  order['isDeliver'] = false;
-                  price = 0;
-                });
-              }, icon: Icon(Icons.check_circle, color: _selectedType ? Colors.grey : Color(0xffFF8B51), size: MediaQuery.of(context).size.width * 0.05,)),
-              Text("포장으로 받기", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _selectedType = false;
+                      order['isDeliver'] = false;
+                      price = 0;
+                    });
+                  },
+                  icon: Icon(
+                    Icons.check_circle,
+                    color: _selectedType ? Colors.grey : Color(0xffFF8B51),
+                    size: MediaQuery.of(context).size.width * 0.05,
+                  )),
+              Text(
+                "포장으로 받기",
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.035),
+              ),
             ],
           ),
           Row(
             children: [
-              IconButton(onPressed: () {
-                setState(() {
-                  _selectedType = true;
-                  order['isDeliver'] = true;
-                  price = 2000;
-                });
-              }, icon: Icon(Icons.check_circle, color: _selectedType ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.05,)),
-              Text("배달로 받기", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _selectedType = true;
+                      order['isDeliver'] = true;
+                      price = 2000;
+                    });
+                  },
+                  icon: Icon(
+                    Icons.check_circle,
+                    color: _selectedType ? Color(0xffFF8B51) : Colors.grey,
+                    size: MediaQuery.of(context).size.width * 0.05,
+                  )),
+              Text(
+                "배달로 받기",
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.035),
+              ),
             ],
           ),
           SizedBox(
@@ -422,11 +501,23 @@ class OrderPageState extends State<OrderPage>
           ),
           Row(
             children: [
-              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
-              Text("총 상품 금액", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.05,
+              ),
+              Text(
+                "총 상품 금액",
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.035),
+              ),
               Spacer(),
-              Text('${NumberFormat('#,###').format(widget.totalPrice)}원', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
-              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+              Text(
+                '${NumberFormat('#,###').format(widget.totalPrice)}원',
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.035),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.05,
+              ),
             ],
           ),
           SizedBox(
@@ -434,11 +525,23 @@ class OrderPageState extends State<OrderPage>
           ),
           Row(
             children: [
-              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
-              Text("배달비", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.05,
+              ),
+              Text(
+                "배달비",
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.035),
+              ),
               Spacer(),
-              Text('${NumberFormat('#,###').format(price)}원', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
-              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+              Text(
+                '${NumberFormat('#,###').format(price)}원',
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.035),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.05,
+              ),
             ],
           ),
           SizedBox(
@@ -446,17 +549,28 @@ class OrderPageState extends State<OrderPage>
           ),
           Row(
             children: [
-              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
-              Text("총 결제 금액", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.05,
+              ),
+              Text(
+                "총 결제 금액",
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.035),
+              ),
               Spacer(),
-              Text('${NumberFormat('#,###').format(widget.totalPrice + price)}원', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
-              SizedBox(width: MediaQuery.of(context).size.width * 0.05,),
+              Text(
+                '${NumberFormat('#,###').format(widget.totalPrice + price)}원',
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.035),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.05,
+              ),
             ],
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.02,
           ),
-
           Align(
             alignment: Alignment.center,
             child: Container(
@@ -466,11 +580,15 @@ class OrderPageState extends State<OrderPage>
                 borderRadius: BorderRadius.circular(8), // 모서리 둥글기
               ),
               child: TextButton(
-                child: Text("주문하기", style: TextStyle(color: Colors.white),),
+                child: Text(
+                  "주문하기",
+                  style: TextStyle(color: Colors.white),
+                ),
                 onPressed: () {
                   addOrderToUser(FirebaseAuth.instance.currentUser!.uid, order);
                   addOrder(FirebaseAuth.instance.currentUser!.uid, order);
-                  updateCounts(Provider.of<ShopItemProvider>(context, listen: false));
+                  updateCounts(
+                      Provider.of<ShopItemProvider>(context, listen: false));
 
                   Provider.of<ShopItemProvider>(context, listen: false).clear();
 
@@ -478,28 +596,51 @@ class OrderPageState extends State<OrderPage>
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        shape: RoundedRectangleBorder( // AlertDialog 모서리를 둥글게 처리
-                          borderRadius: BorderRadius.all(Radius.circular(MediaQuery.of(context).size.width * 0.02)),
+                        shape: RoundedRectangleBorder(
+                          // AlertDialog 모서리를 둥글게 처리
+                          borderRadius: BorderRadius.all(Radius.circular(
+                              MediaQuery.of(context).size.width * 0.02)),
                         ),
                         // backgroundColor: Color(0xffFFFFFF),
                         backgroundColor: Colors.white,
                         elevation: 0,
-                        title: Text("주문 완료", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, fontWeight: FontWeight.bold),),
+                        title: Text(
+                          "주문 완료",
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.04,
+                              fontWeight: FontWeight.bold),
+                        ),
                         actions: <Widget>[
                           Column(
                             children: [
-                              Align(child: Text("주문이 완료되었습니다.",), alignment: Alignment.centerLeft,),
-                              SizedBox(height: MediaQuery.of(context).size.height * 0.015,),
+                              Align(
+                                child: Text(
+                                  "주문이 완료되었습니다.",
+                                ),
+                                alignment: Alignment.centerLeft,
+                              ),
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.015,
+                              ),
                               Row(
                                 children: [
                                   Container(
                                     child: TextButton(
-                                      child: Text("닫기", style: TextStyle(color: Colors.white),), // '네' 버튼
+                                      child: Text(
+                                        "닫기",
+                                        style: TextStyle(color: Colors.white),
+                                      ), // '네' 버튼
                                       onPressed: () {
                                         Navigator.pushAndRemoveUntil(
                                           context,
-                                          MaterialPageRoute(builder: (context) => RouterPage(index: 1,)), // NewPage는 이동할 새 페이지의 위젯입니다.
-                                              (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+                                          MaterialPageRoute(
+                                              builder: (context) => RouterPage(
+                                                    index: 1,
+                                                  )), // NewPage는 이동할 새 페이지의 위젯입니다.
+                                          (Route<dynamic> route) =>
+                                              false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
                                         );
                                       },
                                     ),
@@ -507,8 +648,10 @@ class OrderPageState extends State<OrderPage>
                                       color: Color(0xffFF8B51),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
-                                    width: MediaQuery.of(context).size.width * 0.3,
-                                    height: MediaQuery.of(context).size.height * 0.05,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.3,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.05,
                                   ),
                                 ],
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -521,12 +664,14 @@ class OrderPageState extends State<OrderPage>
                   ).then((_) {
                     Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (context) => RouterPage(index: 1,)), // NewPage는 이동할 새 페이지의 위젯입니다.
-                          (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+                      MaterialPageRoute(
+                          builder: (context) => RouterPage(
+                                index: 1,
+                              )), // NewPage는 이동할 새 페이지의 위젯입니다.
+                      (Route<dynamic> route) =>
+                          false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
                     );
-                  }
-                  );
-
+                  });
                 },
               ),
             ),
@@ -540,7 +685,8 @@ class OrderPageState extends State<OrderPage>
     FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     for (var item in provider.items) {
-      DocumentReference docRef = firestore.collection('products').doc(item.documentId);
+      DocumentReference docRef =
+          firestore.collection('products').doc(item.documentId);
       print("!!");
       print(item.documentId);
 
@@ -557,21 +703,28 @@ class OrderPageState extends State<OrderPage>
     }
   }
 
-  Future<void> addOrderToUser(String userId, Map<String, dynamic> orderData) async {
-    CollectionReference orders = FirebaseFirestore.instance.collection('users').doc(userId).collection('orders');
+  Future<void> addOrderToUser(
+      String userId, Map<String, dynamic> orderData) async {
+    CollectionReference orders = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('orders');
     print(orderData['isDeliver']);
     await orders.add(orderData);
   }
 
   Future<void> addOrder(String userId, Map<String, dynamic> orderData) async {
-    DocumentReference orderDocRef = FirebaseFirestore.instance.collection('orders').doc(); // 주문 문서 ID 자동 생성
+    DocumentReference orderDocRef =
+        FirebaseFirestore.instance.collection('orders').doc(); // 주문 문서 ID 자동 생성
     DateTime now = DateTime.now();
-    DateTime dateAndTimeInMinutes = DateTime(now.year, now.month, now.day, now.hour, now.minute);
+    DateTime dateAndTimeInMinutes =
+        DateTime(now.year, now.month, now.day, now.hour, now.minute);
     await orderDocRef.set({
       'userId': userId, // 사용자 ID 명시적으로 저장
       'order': orderData,
-      'isFinished' : false,
-      'dateAndTime': Timestamp.fromDate(dateAndTimeInMinutes), // Timestamp 형태로 변환
+      'isFinished': false,
+      'dateAndTime':
+          Timestamp.fromDate(dateAndTimeInMinutes), // Timestamp 형태로 변환
     });
   }
 }

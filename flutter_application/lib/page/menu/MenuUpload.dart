@@ -22,6 +22,7 @@ class MenuUploadState extends State<MenuUpload> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   int _selectedIndex = 0;
+  late String fileName;
 
   Future<void> _pickImage() async {
     final pickedFile =
@@ -35,9 +36,12 @@ class MenuUploadState extends State<MenuUpload> {
 
   Future<String?> uploadImage(File image) async {
     try {
-      String fileName = 'images/${DateTime.now().millisecondsSinceEpoch.toString()}.jpg';
-      firebase_storage.UploadTask task =
-      firebase_storage.FirebaseStorage.instance.ref(fileName).putFile(image);
+      fileName =
+          'images/${DateTime.now().millisecondsSinceEpoch.toString()}.jpg';
+      firebase_storage.UploadTask task = firebase_storage
+          .FirebaseStorage.instance
+          .ref(fileName)
+          .putFile(image);
 
       firebase_storage.TaskSnapshot snapshot = await task;
       if (snapshot.state == firebase_storage.TaskState.success) {
@@ -51,16 +55,19 @@ class MenuUploadState extends State<MenuUpload> {
   }
 
   Future<void> saveData(String imageUrl) async {
-    CollectionReference products = FirebaseFirestore.instance.collection('products');
-    return products.add({
-      'name': nameController.text,
-      'price': int.tryParse(priceController.text) ?? 0,
-      'count': int.tryParse(countController.text) ?? 0,
-      'description': descriptionController.text,
-      'address': addressController.text,
-      'categoryIndex': _selectedIndex,
-      'imageUrl': imageUrl, // 업로드된 이미지의 URL
-    })
+    CollectionReference products =
+        FirebaseFirestore.instance.collection('products');
+    return products
+        .add({
+          'name': nameController.text,
+          'price': int.tryParse(priceController.text) ?? 0,
+          'count': int.tryParse(countController.text) ?? 0,
+          'description': descriptionController.text,
+          'address': addressController.text,
+          'categoryIndex': _selectedIndex,
+          'imageUrl': imageUrl, // 업로드된 이미지의 URL
+          'imagePath': fileName
+        })
         .then((value) => print("Product Added"))
         .catchError((error) => print("Failed to add product: $error"));
   }
@@ -69,7 +76,7 @@ class MenuUploadState extends State<MenuUpload> {
     if (_image != null) {
       uploadImage(_image!).then((imageUrl) {
         if (imageUrl != null) {
-          if(nameController.text == null) {
+          if (nameController.text == null) {
             showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -79,15 +86,20 @@ class MenuUploadState extends State<MenuUpload> {
                   content: Text('메뉴 이름을 입력해주세요.'),
                   actions: <Widget>[
                     TextButton(
-                      child: Text('확인', style: TextStyle(color: Colors.black),),
+                      child: Text(
+                        '확인',
+                        style: TextStyle(color: Colors.black),
+                      ),
                       onPressed: () {
                         Navigator.of(context).pop(); // 경고창을 닫습니다.
                       },
                     ),
                   ],
-                  shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
+                  shape: RoundedRectangleBorder(
+                    // 이 부분을 추가합니다.
                     borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
-                    side: BorderSide( // 테두리의 두께와 색상을 조절
+                    side: BorderSide(
+                      // 테두리의 두께와 색상을 조절
                       color: Colors.white, // 테두리 색상
                       width: 1, // 테두리 두께
                     ),
@@ -95,7 +107,6 @@ class MenuUploadState extends State<MenuUpload> {
                 );
               },
             );
-
           } else if (priceController.text == null) {
             showDialog(
               context: context,
@@ -106,15 +117,20 @@ class MenuUploadState extends State<MenuUpload> {
                   content: Text('가격을 입력해주세요.'),
                   actions: <Widget>[
                     TextButton(
-                      child: Text('확인', style: TextStyle(color: Colors.black),),
+                      child: Text(
+                        '확인',
+                        style: TextStyle(color: Colors.black),
+                      ),
                       onPressed: () {
                         Navigator.of(context).pop(); // 경고창을 닫습니다.
                       },
                     ),
                   ],
-                  shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
+                  shape: RoundedRectangleBorder(
+                    // 이 부분을 추가합니다.
                     borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
-                    side: BorderSide( // 테두리의 두께와 색상을 조절
+                    side: BorderSide(
+                      // 테두리의 두께와 색상을 조절
                       color: Colors.white, // 테두리 색상
                       width: 1, // 테두리 두께
                     ),
@@ -122,7 +138,6 @@ class MenuUploadState extends State<MenuUpload> {
                 );
               },
             );
-
           } else if (countController.text == null) {
             showDialog(
               context: context,
@@ -133,15 +148,20 @@ class MenuUploadState extends State<MenuUpload> {
                   content: Text('수량을 입력해주세요.'),
                   actions: <Widget>[
                     TextButton(
-                      child: Text('확인', style: TextStyle(color: Colors.black),),
+                      child: Text(
+                        '확인',
+                        style: TextStyle(color: Colors.black),
+                      ),
                       onPressed: () {
                         Navigator.of(context).pop(); // 경고창을 닫습니다.
                       },
                     ),
                   ],
-                  shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
+                  shape: RoundedRectangleBorder(
+                    // 이 부분을 추가합니다.
                     borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
-                    side: BorderSide( // 테두리의 두께와 색상을 조절
+                    side: BorderSide(
+                      // 테두리의 두께와 색상을 조절
                       color: Colors.white, // 테두리 색상
                       width: 1, // 테두리 두께
                     ),
@@ -149,7 +169,6 @@ class MenuUploadState extends State<MenuUpload> {
                 );
               },
             );
-
           } else if (descriptionController.text == null) {
             showDialog(
               context: context,
@@ -160,15 +179,20 @@ class MenuUploadState extends State<MenuUpload> {
                   content: Text('상품 설명을 입력해주세요.'),
                   actions: <Widget>[
                     TextButton(
-                      child: Text('확인', style: TextStyle(color: Colors.black),),
+                      child: Text(
+                        '확인',
+                        style: TextStyle(color: Colors.black),
+                      ),
                       onPressed: () {
                         Navigator.of(context).pop(); // 경고창을 닫습니다.
                       },
                     ),
                   ],
-                  shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
+                  shape: RoundedRectangleBorder(
+                    // 이 부분을 추가합니다.
                     borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
-                    side: BorderSide( // 테두리의 두께와 색상을 조절
+                    side: BorderSide(
+                      // 테두리의 두께와 색상을 조절
                       color: Colors.white, // 테두리 색상
                       width: 1, // 테두리 두께
                     ),
@@ -176,7 +200,6 @@ class MenuUploadState extends State<MenuUpload> {
                 );
               },
             );
-
           } else if (addressController.text == null) {
             showDialog(
               context: context,
@@ -187,15 +210,20 @@ class MenuUploadState extends State<MenuUpload> {
                   content: Text('배송 안내사항을 입력해주세요.'),
                   actions: <Widget>[
                     TextButton(
-                      child: Text('확인', style: TextStyle(color: Colors.black),),
+                      child: Text(
+                        '확인',
+                        style: TextStyle(color: Colors.black),
+                      ),
                       onPressed: () {
                         Navigator.of(context).pop(); // 경고창을 닫습니다.
                       },
                     ),
                   ],
-                  shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
+                  shape: RoundedRectangleBorder(
+                    // 이 부분을 추가합니다.
                     borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
-                    side: BorderSide( // 테두리의 두께와 색상을 조절
+                    side: BorderSide(
+                      // 테두리의 두께와 색상을 조절
                       color: Colors.white, // 테두리 색상
                       width: 1, // 테두리 두께
                     ),
@@ -203,7 +231,6 @@ class MenuUploadState extends State<MenuUpload> {
                 );
               },
             );
-
           } else {
             saveData(imageUrl);
 
@@ -217,7 +244,10 @@ class MenuUploadState extends State<MenuUpload> {
                   content: Text('메뉴가 업로드 되었습니다.'),
                   actions: <Widget>[
                     TextButton(
-                      child: Text('확인', style: TextStyle(color: Colors.black),),
+                      child: Text(
+                        '확인',
+                        style: TextStyle(color: Colors.black),
+                      ),
                       onPressed: () {
                         setState(() {
                           _image = null;
@@ -231,9 +261,11 @@ class MenuUploadState extends State<MenuUpload> {
                       },
                     ),
                   ],
-                  shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
+                  shape: RoundedRectangleBorder(
+                    // 이 부분을 추가합니다.
                     borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
-                    side: BorderSide( // 테두리의 두께와 색상을 조절
+                    side: BorderSide(
+                      // 테두리의 두께와 색상을 조절
                       color: Colors.white, // 테두리 색상
                       width: 1, // 테두리 두께
                     ),
@@ -242,7 +274,6 @@ class MenuUploadState extends State<MenuUpload> {
               },
             );
           }
-
         }
       });
     } else {
@@ -255,15 +286,20 @@ class MenuUploadState extends State<MenuUpload> {
             content: Text('이미지를 선택하지 않았습니다. 이미지를 선택해주세요.'),
             actions: <Widget>[
               TextButton(
-                child: Text('확인', style: TextStyle(color: Colors.black),),
+                child: Text(
+                  '확인',
+                  style: TextStyle(color: Colors.black),
+                ),
                 onPressed: () {
                   Navigator.of(context).pop(); // 경고창을 닫습니다.
                 },
               ),
             ],
-            shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
+            shape: RoundedRectangleBorder(
+              // 이 부분을 추가합니다.
               borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
-              side: BorderSide( // 테두리의 두께와 색상을 조절
+              side: BorderSide(
+                // 테두리의 두께와 색상을 조절
                 color: Colors.white, // 테두리 색상
                 width: 1, // 테두리 두께
               ),
@@ -277,7 +313,7 @@ class MenuUploadState extends State<MenuUpload> {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> options = ['메인', '찌개', '해물', '육류', '반찬'];
+    final List<String> options = ['조림', '나물', '국', '고기', '기타'];
 
     return Scaffold(
       appBar: AppBar(
@@ -481,7 +517,8 @@ class MenuUploadState extends State<MenuUpload> {
                       color: Colors.black,
                       fontSize: MediaQuery.of(context).size.width * 0.03),
                   hintText: '상품설명을 입력해주세요',
-                  hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.038),
+                  hintStyle: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.038),
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -512,7 +549,8 @@ class MenuUploadState extends State<MenuUpload> {
                       color: Colors.black,
                       fontSize: MediaQuery.of(context).size.width * 0.03),
                   hintText: '배송안내를 입력해주세요',
-                  hintStyle: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.038),
+                  hintStyle: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.038),
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -526,7 +564,10 @@ class MenuUploadState extends State<MenuUpload> {
                   borderRadius: BorderRadius.circular(8), // 모서리 둥글기
                 ),
                 child: TextButton(
-                  child: Text("등록하기", style: TextStyle(color: Colors.white),),
+                  child: Text(
+                    "등록하기",
+                    style: TextStyle(color: Colors.white),
+                  ),
                   onPressed: () {
                     uploadAndSaveData();
                   },
