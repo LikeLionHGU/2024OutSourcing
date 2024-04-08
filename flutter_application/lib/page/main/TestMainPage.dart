@@ -5,16 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/entity/Member.dart';
 import 'package:flutter_application/entity/Menu.dart';
 import 'package:flutter_application/entity/MenuRepository.dart';
+import 'package:flutter_application/page/account/FirstPage.dart';
 import 'package:flutter_application/page/menu/AdminMenuDetail.dart';
 import 'package:flutter_application/page/menu/MenuDetail.dart';
 import 'package:intl/intl.dart';
 
-class MainPage extends StatefulWidget {
+class TestMainPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => MainPageState();
+  State<StatefulWidget> createState() => TestMainPageState();
 }
 
-class MainPageState extends State<MainPage>
+class TestMainPageState extends State<TestMainPage>
     with SingleTickerProviderStateMixin {
   TabController? tabController;
   List<Menu>? menus;
@@ -106,36 +107,32 @@ class MainPageState extends State<MainPage>
                 border: Border.all(color: Color(0xffFF8B51)), // 테두리 색상
                 borderRadius: BorderRadius.circular(4), // 모서리 둥글기
               ),
-              child: Semantics(
-                label: "새로운 음식을 장바구니에 담으시려면 이 버튼을 눌러주세요.",
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MenuDetail(
-                          menu: menu,
-                        ), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
-                      ),
-                    );
-                  },
-                  child: Text(
-                    "담기",
-                    style: TextStyle(
-                      color: Color(0xffFF8B51), // 텍스트 색상
-                      fontSize:
-                          MediaQuery.of(context).size.height * 0.015, // 텍스트 크기
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          FirstPage(), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
                     ),
-                    textAlign: TextAlign.center,
+                  );
+                },
+                child: Text(
+                  "담기",
+                  style: TextStyle(
+                    color: Color(0xffFF8B51), // 텍스트 색상
+                    fontSize:
+                        MediaQuery.of(context).size.height * 0.015, // 텍스트 크기
                   ),
-                  style: TextButton.styleFrom(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.zero,
-                  ),
-                  // style: TextButton.styleFrom(
-                  //   padding: EdgeInsets.all(8), // 버튼 내부의 패딩
-                  // ),
+                  textAlign: TextAlign.center,
                 ),
+                style: TextButton.styleFrom(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.zero,
+                ),
+                // style: TextButton.styleFrom(
+                //   padding: EdgeInsets.all(8), // 버튼 내부의 패딩
+                // ),
               ),
             ),
             SizedBox(
@@ -220,36 +217,33 @@ class MainPageState extends State<MainPage>
                 border: Border.all(color: Color(0xffFF8B51)), // 테두리 색상
                 borderRadius: BorderRadius.circular(4), // 모서리 둥글기
               ),
-              child: Semantics(
-                label: "새로운 음식을 담고 싶으시다면, 이 버튼을 눌러주세요.",
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MenuDetail(
-                          menu: menu,
-                        ), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
-                      ),
-                    );
-                  },
-                  child: Text(
-                    "담기",
-                    style: TextStyle(
-                      color: Color(0xffFF8B51), // 텍스트 색상
-                      fontSize:
-                          MediaQuery.of(context).size.height * 0.015, // 텍스트 크기
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MenuDetail(
+                        menu: menu,
+                      ), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
                     ),
-                    textAlign: TextAlign.center,
+                  );
+                },
+                child: Text(
+                  "담기",
+                  style: TextStyle(
+                    color: Color(0xffFF8B51), // 텍스트 색상
+                    fontSize:
+                        MediaQuery.of(context).size.height * 0.015, // 텍스트 크기
                   ),
-                  style: TextButton.styleFrom(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.zero,
-                  ),
-                  // style: TextButton.styleFrom(
-                  //   padding: EdgeInsets.all(8), // 버튼 내부의 패딩
-                  // ),
+                  textAlign: TextAlign.center,
                 ),
+                style: TextButton.styleFrom(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.zero,
+                ),
+                // style: TextButton.styleFrom(
+                //   padding: EdgeInsets.all(8), // 버튼 내부의 패딩
+                // ),
               ),
             ),
             SizedBox(

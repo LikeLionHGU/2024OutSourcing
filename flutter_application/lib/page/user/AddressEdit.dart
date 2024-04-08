@@ -73,24 +73,27 @@ class AddressEditState extends State<AddressEdit> {
                       hintStyle: TextStyle(
                           fontSize: MediaQuery.of(context).size.width * 0.025),
                       border: OutlineInputBorder(),
-                      suffixIcon: TextButton(
-                          onPressed: () {
-                            Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (context) {
-                              return KpostalView(
-                                callback: (Kpostal result) {
-                                  _addressController.text = result.address;
-                                },
-                              );
-                            }));
-                          },
-                          child: Text(
-                            "주소찾기",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.03),
-                          )),
+                      suffixIcon: Semantics(
+                        label: "주소를 찾으시려면 이 버튼을 눌러주세요.",
+                        child: TextButton(
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .push(MaterialPageRoute(builder: (context) {
+                                return KpostalView(
+                                  callback: (Kpostal result) {
+                                    _addressController.text = result.address;
+                                  },
+                                );
+                              }));
+                            },
+                            child: Text(
+                              "주소찾기",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.03),
+                            )),
+                      ),
                     ),
                   ),
                 ),
@@ -136,9 +139,12 @@ class AddressEditState extends State<AddressEdit> {
                 border: Border.all(color: Color(0xffFF8B51)), // 테두리 색상
                 borderRadius: BorderRadius.circular(8), // 모서리 둥글기
               ),
-              child: TextButton(child: Text("수정하기", style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.015, color: Colors.white),), onPressed: () {
-                updateUserInformation(FirebaseAuth.instance.currentUser!.uid, _addressController.text, _addressDetailController.text);
-              },),
+              child: Semantics(
+                label: "수정하길 원하시면 이 버튼을 눌러주세요.",
+                child: TextButton(child: Text("수정하기", style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.015, color: Colors.white),), onPressed: () {
+                  updateUserInformation(FirebaseAuth.instance.currentUser!.uid, _addressController.text, _addressDetailController.text);
+                },),
+              ),
             ),
           ],
         ));
@@ -173,15 +179,18 @@ class AddressEditState extends State<AddressEdit> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        child: TextButton(
-                          child: Text("확인", style: TextStyle(color: Colors.white),), // '아니요' 버튼
-                          onPressed: () {
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(builder: (context) => RouterPage(index: 1,)), // NewPage는 이동할 새 페이지의 위젯입니다.
-                                  (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
-                            );
-                          },
+                        child: Semantics(
+                          label: "배송지가 변경되었습니다. 창을 닫으시려면 이 버튼을 눌러주세요.",
+                          child: TextButton(
+                            child: Text("확인", style: TextStyle(color: Colors.white),), // '아니요' 버튼
+                            onPressed: () {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(builder: (context) => RouterPage(index: 1,)), // NewPage는 이동할 새 페이지의 위젯입니다.
+                                    (Route<dynamic> route) => false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+                              );
+                            },
+                          ),
                         ),
                         width: MediaQuery.of(context).size.width * 0.3,
                         height: MediaQuery.of(context).size.height * 0.05,

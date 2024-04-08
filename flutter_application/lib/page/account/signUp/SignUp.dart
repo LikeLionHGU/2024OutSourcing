@@ -176,133 +176,148 @@ class SignUpState extends State {
                 border: Border.all(color: Color(0xffFF8B51)), // 테두리 색상
                 borderRadius: BorderRadius.circular(8), // 모서리 둥글기
               ),
-              child: TextButton(
-                child: Text(
-                  "다음",
-                  style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.height * 0.015,
-                      color: Colors.white),
-                ),
-                onPressed: () {
-                  if (emailController.text.isEmpty) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          backgroundColor: Colors.white,
-                          elevation: 0,
+              child: Semantics(
+                label: "다음 화면으로 넘어가기 위한 버튼입니다.",
+                child: TextButton(
+                  child: Text(
+                    "다음",
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.height * 0.015,
+                        color: Colors.white),
+                  ),
+                  onPressed: () {
+                    if (emailController.text.isEmpty) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            backgroundColor: Colors.white,
+                            elevation: 0,
 
-                          title: Text('이메일을 입력해주세요.', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, ),),
-                          // content: Text('이메일을 입력해주세요.'),
-                          actions: <Widget>[
-                            TextButton(
-                              child: Text('확인', style: TextStyle(color: Colors.black),),
-                              onPressed: () {
-                                Navigator.of(context).pop(); // 경고창을 닫습니다.
-                              },
+                            title: Text('이메일을 입력해주세요.', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, ),),
+                            // content: Text('이메일을 입력해주세요.'),
+                            actions: <Widget>[
+                              Semantics(
+                                label: "이메일을 입력하지 않으셨습니다.",
+                                child: TextButton(
+                                  child: Text('확인', style: TextStyle(color: Colors.black),),
+                                  onPressed: () {
+                                    Navigator.of(context).pop(); // 경고창을 닫습니다.
+                                  },
+                                ),
+                              ),
+                            ],
+                            shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
+                              borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
+                              side: BorderSide( // 테두리의 두께와 색상을 조절
+                                color: Colors.white, // 테두리 색상
+                                width: 1, // 테두리 두께
+                              ),
                             ),
-                          ],
-                          shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
-                            borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
-                            side: BorderSide( // 테두리의 두께와 색상을 조절
-                              color: Colors.white, // 테두리 색상
-                              width: 1, // 테두리 두께
+                          );
+                        },
+                      );
+                    } else if(passwordController.text.isEmpty) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            elevation: 0,
+                            backgroundColor: Colors.white,
+                            title: Text('비밀번호를 입력해주세요.', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04,),),
+                            // content: Text('이메일을 입력해주세요.'),
+                            actions: <Widget>[
+                              Semantics(
+                                label: "비밀번호를 입력하지 않으셨습니다.",
+                                child: TextButton(
+                                  child: Text('확인', style: TextStyle(color: Colors.black),),
+                                  onPressed: () {
+                                    Navigator.of(context).pop(); // 경고창을 닫습니다.
+                                  },
+                                ),
+                              ),
+                            ],
+                            shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
+                              borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
+                              side: BorderSide( // 테두리의 두께와 색상을 조절
+                                color: Colors.white, // 테두리 색상
+                                width: 1, // 테두리 두께
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                    );
-                  } else if(passwordController.text.isEmpty) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          elevation: 0,
-                          backgroundColor: Colors.white,
-                          title: Text('비밀번호를 입력해주세요.', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04,),),
-                          // content: Text('이메일을 입력해주세요.'),
-                          actions: <Widget>[
-                            TextButton(
-                              child: Text('확인', style: TextStyle(color: Colors.black),),
-                              onPressed: () {
-                                Navigator.of(context).pop(); // 경고창을 닫습니다.
-                              },
+                          );
+                        },
+                      );
+                    } else if(!RegExp(r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$').hasMatch(passwordController.text)) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            elevation: 0,
+                            backgroundColor: Colors.white,
+                            title: Text('영문, 숫자, 특수문자를 포함해 8자 이상 작성해주세요', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, ),),
+                            // content: Text('이메일을 입력해주세요.'),
+                            actions: <Widget>[
+                              Semantics(
+                                label: "영문, 숫자, 특수문자를 포함해 8자 이상 작성해주세요.",
+                                child: TextButton(
+                                  child: Text('확인', style: TextStyle(color: Colors.black),),
+                                  onPressed: () {
+                                    Navigator.of(context).pop(); // 경고창을 닫습니다.
+                                  },
+                                ),
+                              ),
+                            ],
+                            shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
+                              borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
+                              side: BorderSide( // 테두리의 두께와 색상을 조절
+                                color: Colors.white, // 테두리 색상
+                                width: 1, // 테두리 두께
+                              ),
                             ),
-                          ],
-                          shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
-                            borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
-                            side: BorderSide( // 테두리의 두께와 색상을 조절
-                              color: Colors.white, // 테두리 색상
-                              width: 1, // 테두리 두께
+                          );
+                        },
+                      );
+                    } else if(passwordController.text != passwordCheckController.text) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            elevation: 0,
+                            backgroundColor: Colors.white,
+                            title: Text('비밀번호가 일치하지 않습니다.', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, ),),
+                            // content: Text('이메일을 입력해주세요.'),
+                            actions: <Widget>[
+                              Semantics(
+                                label: "비밀번호가 일치하지 않습니다.",
+                                child: TextButton(
+                                  child: Text('확인', style: TextStyle(color: Colors.black),),
+                                  onPressed: () {
+                                    Navigator.of(context).pop(); // 경고창을 닫습니다.
+                                  },
+                                ),
+                              ),
+                            ],
+                            shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
+                              borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
+                              side: BorderSide( // 테두리의 두께와 색상을 조절
+                                color: Colors.white, // 테두리 색상
+                                width: 1, // 테두리 두께
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                    );
-                  } else if(!RegExp(r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$').hasMatch(passwordController.text)) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          elevation: 0,
-                          backgroundColor: Colors.white,
-                          title: Text('영문, 숫자, 특수문자를 포함해 8자 이상 작성해주세요', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, ),),
-                          // content: Text('이메일을 입력해주세요.'),
-                          actions: <Widget>[
-                            TextButton(
-                              child: Text('확인', style: TextStyle(color: Colors.black),),
-                              onPressed: () {
-                                Navigator.of(context).pop(); // 경고창을 닫습니다.
-                              },
-                            ),
-                          ],
-                          shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
-                            borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
-                            side: BorderSide( // 테두리의 두께와 색상을 조절
-                              color: Colors.white, // 테두리 색상
-                              width: 1, // 테두리 두께
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  } else if(passwordController.text != passwordCheckController.text) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          elevation: 0,
-                          backgroundColor: Colors.white,
-                          title: Text('비밀번호가 일치하지 않습니다.', style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04, ),),
-                          // content: Text('이메일을 입력해주세요.'),
-                          actions: <Widget>[
-                            TextButton(
-                              child: Text('확인', style: TextStyle(color: Colors.black),),
-                              onPressed: () {
-                                Navigator.of(context).pop(); // 경고창을 닫습니다.
-                              },
-                            ),
-                          ],
-                          shape: RoundedRectangleBorder( // 이 부분을 추가합니다.
-                            borderRadius: BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
-                            side: BorderSide( // 테두리의 두께와 색상을 조절
-                              color: Colors.white, // 테두리 색상
-                              width: 1, // 테두리 두께
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  }
-                  else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SignUpDetail(email: emailController.text, password: passwordController.text,), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
-                      ),
-                    );
-                  }
-                },
+                          );
+                        },
+                      );
+                    }
+                    else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SignUpDetail(email: emailController.text, password: passwordController.text,), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
+                        ),
+                      );
+                    }
+                  },
+                ),
               ),
             ),
             SizedBox(

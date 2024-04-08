@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_application/page/RouterPage.dart';
 import 'package:flutter_application/page/main/MainPage.dart';
 import 'package:kpostal/kpostal.dart';
@@ -196,23 +197,26 @@ class SignUpDetailState extends State<SignUpDetail> {
                   hintStyle: TextStyle(
                       fontSize: MediaQuery.of(context).size.width * 0.025),
                   border: OutlineInputBorder(),
-                  suffixIcon: TextButton(
-                      onPressed: () {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (context) {
-                          return KpostalView(
-                            callback: (Kpostal result) {
-                              _addressController.text = result.address;
-                            },
-                          );
-                        }));
-                      },
-                      child: Text(
-                        "주소찾기",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: MediaQuery.of(context).size.width * 0.03),
-                      )),
+                  suffixIcon: Semantics(
+                    label: "주소를 찾으려면 이 버튼을 눌러주세요.",
+                    child: TextButton(
+                        onPressed: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return KpostalView(
+                              callback: (Kpostal result) {
+                                _addressController.text = result.address;
+                              },
+                            );
+                          }));
+                        },
+                        child: Text(
+                          "주소찾기",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: MediaQuery.of(context).size.width * 0.03),
+                        )),
+                  ),
                 ),
               ),
             ),
@@ -255,193 +259,208 @@ class SignUpDetailState extends State<SignUpDetail> {
                 border: Border.all(color: Colors.grey), // 테두리 색상
                 borderRadius: BorderRadius.circular(8), // 모서리 둥글기
               ),
-              child: TextButton(
-                child: Text(
-                  "다음",
-                  style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.height * 0.015,
-                      color: Colors.black),
-                ),
-                onPressed: () async {
-                  if (nameController.text.isEmpty) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          backgroundColor: Colors.white,
-                          title: Text(
-                            '이름을 입력해주세요.',
-                            style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.04),
-                          ),
-                          // content: Text('이메일을 입력해주세요.'),
-                          actions: <Widget>[
-                            TextButton(
-                              child: Text(
-                                '확인',
-                                style: TextStyle(color: Colors.black),
+              child: Semantics(
+                label: "다음으로 넘어가려면 이 버튼을 눌러주세요.",
+                child: TextButton(
+                  child: Text(
+                    "다음",
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.height * 0.015,
+                        color: Colors.black),
+                  ),
+                  onPressed: () async {
+                    if (nameController.text.isEmpty) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            backgroundColor: Colors.white,
+                            title: Text(
+                              '이름을 입력해주세요.',
+                              style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.04),
+                            ),
+                            // content: Text('이메일을 입력해주세요.'),
+                            actions: <Widget>[
+                              Semantics(
+                                label: "이름을 입력해주세요.",
+                                child: TextButton(
+                                  child: Text(
+                                    '확인',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop(); // 경고창을 닫습니다.
+                                  },
+                                ),
                               ),
-                              onPressed: () {
-                                Navigator.of(context).pop(); // 경고창을 닫습니다.
-                              },
-                            ),
-                          ],
-                          shape: RoundedRectangleBorder(
-                            // 이 부분을 추가합니다.
-                            borderRadius:
-                                BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
-                            side: BorderSide(
-                              // 테두리의 두께와 색상을 조절
-                              color: Colors.white, // 테두리 색상
-                              width: 1, // 테두리 두께
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  } else if (_phoneNumberController.text.isEmpty) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          backgroundColor: Colors.white,
-                          title: Text(
-                            '전화번호를 입력해주세요.',
-                            style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.04),
-                          ),
-                          // content: Text('이메일을 입력해주세요.'),
-                          actions: <Widget>[
-                            TextButton(
-                              child: Text(
-                                '확인',
-                                style: TextStyle(color: Colors.black),
+                            ],
+                            shape: RoundedRectangleBorder(
+                              // 이 부분을 추가합니다.
+                              borderRadius:
+                                  BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
+                              side: BorderSide(
+                                // 테두리의 두께와 색상을 조절
+                                color: Colors.white, // 테두리 색상
+                                width: 1, // 테두리 두께
                               ),
-                              onPressed: () {
-                                Navigator.of(context).pop(); // 경고창을 닫습니다.
-                              },
                             ),
-                          ],
-                          shape: RoundedRectangleBorder(
-                            // 이 부분을 추가합니다.
-                            borderRadius:
-                                BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
-                            side: BorderSide(
-                              // 테두리의 두께와 색상을 조절
-                              color: Colors.white, // 테두리 색상
-                              width: 1, // 테두리 두께
+                          );
+                        },
+                      );
+                    } else if (_phoneNumberController.text.isEmpty) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            backgroundColor: Colors.white,
+                            title: Text(
+                              '전화번호를 입력해주세요.',
+                              style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.04),
                             ),
-                          ),
-                        );
-                      },
-                    );
-                  } else if (_addressController.text.isEmpty) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          backgroundColor: Colors.white,
-                          title: Text(
-                            '주소를 입력해주세요.',
-                            style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.04),
-                          ),
-                          // content: Text('이메일을 입력해주세요.'),
-                          actions: <Widget>[
-                            TextButton(
-                              child: Text(
-                                '확인',
-                                style: TextStyle(color: Colors.black),
+                            // content: Text('이메일을 입력해주세요.'),
+                            actions: <Widget>[
+                              Semantics(
+                                label: "전화번호를 입력해주세요.",
+                                child: TextButton(
+                                  child: Text(
+                                    '확인',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop(); // 경고창을 닫습니다.
+                                  },
+                                ),
                               ),
-                              onPressed: () {
-                                Navigator.of(context).pop(); // 경고창을 닫습니다.
-                              },
-                            ),
-                          ],
-                          shape: RoundedRectangleBorder(
-                            // 이 부분을 추가합니다.
-                            borderRadius:
-                                BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
-                            side: BorderSide(
-                              // 테두리의 두께와 색상을 조절
-                              color: Colors.white, // 테두리 색상
-                              width: 1, // 테두리 두께
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  } else if (_addressDetailController.text.isEmpty) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          backgroundColor: Colors.white,
-                          title: Text(
-                            '상세 주소를 입력해주세요.',
-                            style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.04),
-                          ),
-                          // content: Text('이메일을 입력해주세요.'),
-                          actions: <Widget>[
-                            TextButton(
-                              child: Text(
-                                '확인',
-                                style: TextStyle(color: Colors.black),
+                            ],
+                            shape: RoundedRectangleBorder(
+                              // 이 부분을 추가합니다.
+                              borderRadius:
+                                  BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
+                              side: BorderSide(
+                                // 테두리의 두께와 색상을 조절
+                                color: Colors.white, // 테두리 색상
+                                width: 1, // 테두리 두께
                               ),
-                              onPressed: () {
-                                Navigator.of(context).pop(); // 경고창을 닫습니다.
-                              },
                             ),
-                          ],
-                          shape: RoundedRectangleBorder(
-                            // 이 부분을 추가합니다.
-                            borderRadius:
-                                BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
-                            side: BorderSide(
-                              // 테두리의 두께와 색상을 조절
-                              color: Colors.white, // 테두리 색상
-                              width: 1, // 테두리 두께
+                          );
+                        },
+                      );
+                    } else if (_addressController.text.isEmpty) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            backgroundColor: Colors.white,
+                            title: Text(
+                              '주소를 입력해주세요.',
+                              style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.04),
                             ),
-                          ),
-                        );
-                      },
-                    );
-                  } else {
-                    UserCredential userCredential = await FirebaseAuth.instance
-                        .createUserWithEmailAndPassword(
-                            email: widget.email, password: widget.password);
+                            // content: Text('이메일을 입력해주세요.'),
+                            actions: <Widget>[
+                              Semantics(
+                                label: "주소를 입력해주세요.",
+                                child: TextButton(
+                                  child: Text(
+                                    '확인',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop(); // 경고창을 닫습니다.
+                                  },
+                                ),
+                              ),
+                            ],
+                            shape: RoundedRectangleBorder(
+                              // 이 부분을 추가합니다.
+                              borderRadius:
+                                  BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
+                              side: BorderSide(
+                                // 테두리의 두께와 색상을 조절
+                                color: Colors.white, // 테두리 색상
+                                width: 1, // 테두리 두께
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    } else if (_addressDetailController.text.isEmpty) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            backgroundColor: Colors.white,
+                            title: Text(
+                              '상세 주소를 입력해주세요.',
+                              style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.04),
+                            ),
+                            // content: Text('이메일을 입력해주세요.'),
+                            actions: <Widget>[
+                              Semantics(
+                                label: "상세 주소를 입력해주세요",
+                                child: TextButton(
+                                  child: Text(
+                                    '확인',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop(); // 경고창을 닫습니다.
+                                  },
+                                ),
+                              ),
+                            ],
+                            shape: RoundedRectangleBorder(
+                              // 이 부분을 추가합니다.
+                              borderRadius:
+                                  BorderRadius.circular(10.0), // 모서리의 둥근 정도를 조절
+                              side: BorderSide(
+                                // 테두리의 두께와 색상을 조절
+                                color: Colors.white, // 테두리 색상
+                                width: 1, // 테두리 두께
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    } else {
+                      UserCredential userCredential = await FirebaseAuth.instance
+                          .createUserWithEmailAndPassword(
+                              email: widget.email, password: widget.password);
 
-                    User? user = userCredential.user;
-                    if (user != null) {
-                      await FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(user.uid)
-                          .set({
-                        'name': nameController.text,
-                        'email': email,
-                        'phoneNumber': _phoneNumberController.text,
-                        'address': _addressController.text,
-                        'addressDetail': _addressDetailController.text,
-                        'role': false,
-                        'token': ''
-                      });
+                      User? user = userCredential.user;
+                      if (user != null) {
+                        await FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(user.uid)
+                            .set({
+                          'name': nameController.text,
+                          'email': email,
+                          'phoneNumber': _phoneNumberController.text,
+                          'address': _addressController.text,
+                          'addressDetail': _addressDetailController.text,
+                          'role': false,
+                          'token': ''
+                        });
+                      }
+
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RouterPage(
+                                  index: 1,
+                                )),
+                        ModalRoute.withName('/router'),
+                      );
                     }
-
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => RouterPage(
-                                index: 1,
-                              )),
-                      ModalRoute.withName('/router'),
-                    );
-                  }
-                },
+                  },
+                ),
               ),
             ),
             SizedBox(

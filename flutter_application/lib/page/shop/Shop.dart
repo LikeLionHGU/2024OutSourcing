@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_application/entity/shop/ShopItem.dart';
 import 'package:flutter_application/entity/shop/ShopItemProvider.dart';
 import 'package:intl/intl.dart';
@@ -51,30 +52,36 @@ class ShopPageState extends State<ShopPage> {
           Row(
             children: [ // 0xffFF8B51
               SizedBox(width: MediaQuery.of(context).size.width * 0.03,),
-              IconButton(onPressed: () {
-                setState(() {
-                  shopItem.isSelected = !shopItem.isSelected;
+              Semantics(
+                label: "이 부분을 누르시면 아이템이 선택됩니다.",
+                child: IconButton(onPressed: () {
+                  setState(() {
+                    shopItem.isSelected = !shopItem.isSelected;
 
-                  if(shopItem.isSelected == false) {
-                    isChecked = false;
-                    price -= shopItem.price * shopItem.count;
-                  } else {
-                    price += shopItem.price * shopItem.count;
-                  }
+                    if(shopItem.isSelected == false) {
+                      isChecked = false;
+                      price -= shopItem.price * shopItem.count;
+                    } else {
+                      price += shopItem.price * shopItem.count;
+                    }
 
 
-                });
-              }, icon: Icon(Icons.check_circle, color: shopItem.isSelected ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.06)),
+                  });
+                }, icon: Icon(Icons.check_circle, color: shopItem.isSelected ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.06)),
+              ),
               Text(shopItem.name, style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.038)),
               Spacer(),
-              IconButton(
-                icon: Icon(Icons.close),
-                onPressed: () {
-                  setState(() {
-                    items.remove(shopItem);
-                    price -= shopItem.price * shopItem.count;
-                  });
-                },
+              Semantics(
+                label: "아이템을 삭제하려면 이 버튼을 눌러주세요.",
+                child: IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    setState(() {
+                      items.remove(shopItem);
+                      price -= shopItem.price * shopItem.count;
+                    });
+                  },
+                ),
               ),
               SizedBox(width: MediaQuery.of(context).size.width * 0.01,),
             ],
@@ -110,28 +117,34 @@ class ShopPageState extends State<ShopPage> {
                     ),
                     child: Row(
                       children: [
-                        IconButton(
-                          icon: Icon(Icons.remove),
-                          onPressed: () {
-                            setState(() {
-                              if (shopItem.count > 1) {
-                                shopItem.count--;
-                                price -= shopItem.price;
-                              }
-                            });
-                          },
+                        Semantics(
+                          label: "수량을 줄이시려면 이 버튼을 눌러주세요.",
+                          child: IconButton(
+                            icon: Icon(Icons.remove),
+                            onPressed: () {
+                              setState(() {
+                                if (shopItem.count > 1) {
+                                  shopItem.count--;
+                                  price -= shopItem.price;
+                                }
+                              });
+                            },
+                          ),
                         ),
                         Spacer(),
                         Text('${shopItem.count}'),
                         Spacer(),
-                        IconButton(
-                          icon: Icon(Icons.add),
-                          onPressed: () {
-                            setState(() {
-                              shopItem.count++;
-                              price += shopItem.price;
-                            });
-                          },
+                        Semantics(
+                          label: "수량을 증가하려면 이 버튼을 눌러주세요.",
+                          child: IconButton(
+                            icon: Icon(Icons.add),
+                            onPressed: () {
+                              setState(() {
+                                shopItem.count++;
+                                price += shopItem.price;
+                              });
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -166,32 +179,38 @@ class ShopPageState extends State<ShopPage> {
               SizedBox(width: MediaQuery.of(context).size.width * 0.04,),
               Row(
                 children: [
-                  IconButton(onPressed: () {setState(() {
-                    isChecked = true;
-                    int num = 0;
-                    for(int i = 0; i < items.length; i++) {
-                      items[i].isSelected = true;
-                      num += items[i].price * items[i].count;
-                    }
+                  Semantics(
+                    label: "전체를 선택하려면 이 버튼을 눌러주세요.",
+                    child: IconButton(onPressed: () {setState(() {
+                      isChecked = true;
+                      int num = 0;
+                      for(int i = 0; i < items.length; i++) {
+                        items[i].isSelected = true;
+                        num += items[i].price * items[i].count;
+                      }
 
-                    price = num;
-                  });}, icon: Icon(Icons.check_circle, color: isChecked ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.06)),
+                      price = num;
+                    });}, icon: Icon(Icons.check_circle, color: isChecked ? Color(0xffFF8B51) : Colors.grey, size: MediaQuery.of(context).size.width * 0.06)),
+                  ),
                   Text("전체 선택", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.035),),
                 ],
               ),
               Spacer(),
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    isChecked = false;
+              Semantics(
+                label: "선택을 해제하려면 이 버튼을 눌러주세요.",
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      isChecked = false;
 
-                    for(int i = 0; i < items.length; i++) {
-                      items[i].isSelected = false;
-                    }
-                    price = 0;
-                  });
-                },
-                child: Text('선택 해제', style: TextStyle(color: Colors.black, fontSize: MediaQuery.of(context).size.width * 0.035),),
+                      for(int i = 0; i < items.length; i++) {
+                        items[i].isSelected = false;
+                      }
+                      price = 0;
+                    });
+                  },
+                  child: Text('선택 해제', style: TextStyle(color: Colors.black, fontSize: MediaQuery.of(context).size.width * 0.035),),
+                ),
               ),
               SizedBox(width: MediaQuery.of(context).size.width * 0.01,)
             ],
@@ -224,29 +243,32 @@ class ShopPageState extends State<ShopPage> {
                     color: Color(0xffFF8B51),
                     borderRadius: BorderRadius.circular(8), // 모서리 둥글기
                   ),
-                  child: TextButton(
-                    child: Text("바로 구매하기", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                    onPressed: () {
-                      if(items.length < 1) {
+                  child: Semantics(
+                    label: "구매를 희망하신다면 이 버튼을 눌러주세요.",
+                    child: TextButton(
+                      child: Text("바로 구매하기", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                      onPressed: () {
+                        if(items.length < 1) {
 
-                      } else {
-                        List<ShopItem> selectedItems = [];
+                        } else {
+                          List<ShopItem> selectedItems = [];
 
-                        for(int i = 0; i < items.length; i++) {
-                          if(items[i].isSelected) {
-                            selectedItems.add(items[i]);
+                          for(int i = 0; i < items.length; i++) {
+                            if(items[i].isSelected) {
+                              selectedItems.add(items[i]);
+                            }
                           }
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => OrderPage(member: widget.member, items: selectedItems,), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
+                            ),
+                          );
                         }
 
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => OrderPage(member: widget.member, items: selectedItems,), // 여기서 생성자를 사용하여 이메일 값을 전달합니다.
-                          ),
-                        );
-                      }
-
-                    },
+                      },
+                    ),
                   ),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02,),

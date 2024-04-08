@@ -49,13 +49,16 @@ class PasswordState extends State<Password> {
                 border: Border.all(color: Color(0xffFF8B51)), // 테두리 색상
                 borderRadius: BorderRadius.circular(8), // 모서리 둥글기
               ),
-              child: TextButton(
-                onPressed: () {
-                  resetPassword(_emailController.text.trim());
-                },
-                child: Text(
-                  '비밀번호 재설정 이메일 보내기',
-                  style: TextStyle(color: Colors.white),
+              child: Semantics(
+                label: "비밀번호를 재설정 하기 위해 이메일을 전송합니다.",
+                child: TextButton(
+                  onPressed: () {
+                    resetPassword(_emailController.text.trim());
+                  },
+                  child: Text(
+                    '비밀번호 재설정 이메일 보내기',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             ),

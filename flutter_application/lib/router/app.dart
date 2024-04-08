@@ -5,6 +5,7 @@ import 'package:flutter_application/page/AdminRouterPage.dart';
 import 'package:flutter_application/page/RouterPage.dart';
 import 'package:flutter_application/page/account/login/Password.dart';
 import 'package:flutter_application/page/main/MainPage.dart';
+import 'package:flutter_application/page/main/TestMainPage.dart';
 import 'package:flutter_application/page/order/OrderPage.dart';
 
 import '../page/account/FirstPage.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         // '/reservation/student' : (BuildContext context) => const StudentReservation(),
         // '/main' : (BuildContext context) => MainPage(),
         // '/detail' : (BuildContext context) => MenuDetail(),
-        '/first': (BuildContext context) => FirstPage(),
+        '/first': (BuildContext context) => TestMainPage(),
         '/signUp': (BuildContext context) => SignUpPage(),
         // '/signUpDetail' : (BuildContext context) => SignUpDetail(),
         '/login': (BuildContext context) => Login(),

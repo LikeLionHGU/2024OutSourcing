@@ -536,14 +536,17 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
                 color: Color(0xffFF8B51),
                 borderRadius: BorderRadius.circular(8), // 모서리 둥글기
               ),
-              child: TextButton(
-                child: Text(
-                  "완료하기",
-                  style: TextStyle(color: Colors.white),
+              child: Semantics(
+                label: "해당 작업을 완료하시려면 이 버튼을 눌러주세요.",
+                child: TextButton(
+                  child: Text(
+                    "완료하기",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: () {
+                    updateOrder(widget.order.documentId);
+                  },
                 ),
-                onPressed: () {
-                  updateOrder(widget.order.documentId);
-                },
               ),
             ),
           ),
@@ -558,14 +561,17 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
                 color: Color(0xffFF8B51),
                 borderRadius: BorderRadius.circular(8), // 모서리 둥글기
               ),
-              child: TextButton(
-                child: Text(
-                  "삭제하기",
-                  style: TextStyle(color: Colors.white),
+              child: Semantics(
+                label: "삭제하시려면 이 버튼을 눌러주세요.",
+                child: TextButton(
+                  child: Text(
+                    "삭제하기",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: () {
+                    deleteDocument(widget.order.documentId);
+                  },
                 ),
-                onPressed: () {
-                  deleteDocument(widget.order.documentId);
-                },
               ),
             ),
           ),
@@ -615,22 +621,25 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
                   Row(
                     children: [
                       Container(
-                        child: TextButton(
-                          child: Text(
-                            "닫기",
-                            style: TextStyle(color: Colors.white),
-                          ), // '네' 버튼
-                          onPressed: () {
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AdminRouterPage(
-                                        index: 2,
-                                      )), // NewPage는 이동할 새 페이지의 위젯입니다.
-                              (Route<dynamic> route) =>
-                                  false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
-                            );
-                          },
+                        child: Semantics(
+                          label: "이 창을 닫으시려면 이 버튼을 눌러주세요.",
+                          child: TextButton(
+                            child: Text(
+                              "닫기",
+                              style: TextStyle(color: Colors.white),
+                            ), // '네' 버튼
+                            onPressed: () {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AdminRouterPage(
+                                          index: 2,
+                                        )), // NewPage는 이동할 새 페이지의 위젯입니다.
+                                (Route<dynamic> route) =>
+                                    false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+                              );
+                            },
+                          ),
                         ),
                         decoration: BoxDecoration(
                           color: Color(0xffFF8B51),
@@ -700,22 +709,25 @@ class OrderAdminCheckPageState extends State<OrderAdminCheckPage>
                   Row(
                     children: [
                       Container(
-                        child: TextButton(
-                          child: Text(
-                            "닫기",
-                            style: TextStyle(color: Colors.white),
-                          ), // '네' 버튼
-                          onPressed: () {
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AdminRouterPage(
-                                        index: 1,
-                                      )), // NewPage는 이동할 새 페이지의 위젯입니다.
-                              (Route<dynamic> route) =>
-                                  false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
-                            );
-                          },
+                        child: Semantics(
+                          label: "이 창을 닫으시려면 이 버튼을 눌러주세요.",
+                          child: TextButton(
+                            child: Text(
+                              "닫기",
+                              style: TextStyle(color: Colors.white),
+                            ), // '네' 버튼
+                            onPressed: () {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AdminRouterPage(
+                                          index: 1,
+                                        )), // NewPage는 이동할 새 페이지의 위젯입니다.
+                                (Route<dynamic> route) =>
+                                    false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+                              );
+                            },
+                          ),
                         ),
                         decoration: BoxDecoration(
                           color: Color(0xffFF8B51),

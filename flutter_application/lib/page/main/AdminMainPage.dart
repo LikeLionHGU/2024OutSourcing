@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_application/entity/Menu.dart';
 import 'package:flutter_application/entity/MenuRepository.dart';
 import 'package:flutter_application/page/account/FirstPage.dart';
@@ -231,20 +232,23 @@ class AdminMainPageState extends State<AdminMainPage>
           style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05),
         ),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut(); // Firebase에서 로그아웃
-              await logout();
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        FirstPage()), // NewPage는 이동할 새 페이지의 위젯입니다.
-                (Route<dynamic> route) =>
-                    false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
-              );
-            },
+          Semantics(
+            label: "로그아웃을 위한 버튼입니다. 로그아웃을 희망하신다면 이 버튼을 눌러주세요.",
+            child: IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut(); // Firebase에서 로그아웃
+                await logout();
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          FirstPage()), // NewPage는 이동할 새 페이지의 위젯입니다.
+                  (Route<dynamic> route) =>
+                      false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+                );
+              },
+            ),
           ),
         ],
         bottom: PreferredSize(

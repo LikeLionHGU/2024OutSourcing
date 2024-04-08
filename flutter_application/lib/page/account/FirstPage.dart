@@ -53,16 +53,19 @@ class FirstPageState extends State<FirstPage> {
               border: Border.all(color: Color(0xffFF8B51)), // 테두리 색상
               borderRadius: BorderRadius.circular(8), // 모서리 둥글기
             ),
-            child: TextButton(
-              child: Text(
-                "신규 회원가입",
-                style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.height * 0.015,
-                    color: Colors.white),
+            child: Semantics(
+              label: "신규 회원가입을 원하시면 이 버튼을 눌러주세요.",
+              child: TextButton(
+                child: Text(
+                  "신규 회원가입",
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.height * 0.015,
+                      color: Colors.white),
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, "/signUp");
+                },
               ),
-              onPressed: () {
-                Navigator.pushNamed(context, "/signUp");
-              },
             ),
           ),
           SizedBox(
@@ -76,16 +79,19 @@ class FirstPageState extends State<FirstPage> {
               border: Border.all(color: Color(0xffFF8B51)), // 테두리 색상
               borderRadius: BorderRadius.circular(8), // 모서리 둥글기
             ),
-            child: TextButton(
-              child: Text(
-                "기존 유저 로그인",
-                style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.height * 0.015,
-                    color: Color(0xffFF8B51)),
+            child: Semantics(
+              label: "기존 유저라면 이 버튼을 눌러서 로그인을 진행해주세요",
+              child: TextButton(
+                child: Text(
+                  "기존 유저 로그인",
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.height * 0.015,
+                      color: Color(0xffFF8B51)),
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, "/login");
+                },
               ),
-              onPressed: () {
-                Navigator.pushNamed(context, "/login");
-              },
             ),
           ),
           SizedBox(
@@ -99,16 +105,19 @@ class FirstPageState extends State<FirstPage> {
               border: Border.all(color: Color(0xffFF8B51)), // 테두리 색상
               borderRadius: BorderRadius.circular(8), // 모서리 둥글기
             ),
-            child: TextButton(
-              child: Text(
-                "비밀번호 찾기",
-                style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.height * 0.015,
-                    color: Color(0xffFF8B51)),
+            child: Semantics(
+              label: "비밀번호를 찾고 싶으시다면 이 버튼을 눌러주세요.",
+              child: TextButton(
+                child: Text(
+                  "비밀번호 찾기",
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.height * 0.015,
+                      color: Color(0xffFF8B51)),
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, "/password");
+                },
               ),
-              onPressed: () {
-                Navigator.pushNamed(context, "/password");
-              },
             ),
           ),
           SizedBox(

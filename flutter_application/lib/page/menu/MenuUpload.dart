@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../RouterPage.dart';
@@ -85,14 +86,17 @@ class MenuUploadState extends State<MenuUpload> {
                   backgroundColor: Colors.white,
                   content: Text('메뉴 이름을 입력해주세요.'),
                   actions: <Widget>[
-                    TextButton(
-                      child: Text(
-                        '확인',
-                        style: TextStyle(color: Colors.black),
+                    Semantics(
+                      label: "메뉴 이름을 입력해주세요.",
+                      child: TextButton(
+                        child: Text(
+                          '확인',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop(); // 경고창을 닫습니다.
+                        },
                       ),
-                      onPressed: () {
-                        Navigator.of(context).pop(); // 경고창을 닫습니다.
-                      },
                     ),
                   ],
                   shape: RoundedRectangleBorder(
@@ -116,14 +120,17 @@ class MenuUploadState extends State<MenuUpload> {
                   backgroundColor: Colors.white,
                   content: Text('가격을 입력해주세요.'),
                   actions: <Widget>[
-                    TextButton(
-                      child: Text(
-                        '확인',
-                        style: TextStyle(color: Colors.black),
+                    Semantics(
+                      label: "가격을 입력해주세요.",
+                      child: TextButton(
+                        child: Text(
+                          '확인',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop(); // 경고창을 닫습니다.
+                        },
                       ),
-                      onPressed: () {
-                        Navigator.of(context).pop(); // 경고창을 닫습니다.
-                      },
                     ),
                   ],
                   shape: RoundedRectangleBorder(
@@ -147,14 +154,17 @@ class MenuUploadState extends State<MenuUpload> {
                   backgroundColor: Colors.white,
                   content: Text('수량을 입력해주세요.'),
                   actions: <Widget>[
-                    TextButton(
-                      child: Text(
-                        '확인',
-                        style: TextStyle(color: Colors.black),
+                    Semantics(
+                      label: "수량을 입력해주세요.",
+                      child: TextButton(
+                        child: Text(
+                          '확인',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop(); // 경고창을 닫습니다.
+                        },
                       ),
-                      onPressed: () {
-                        Navigator.of(context).pop(); // 경고창을 닫습니다.
-                      },
                     ),
                   ],
                   shape: RoundedRectangleBorder(
@@ -178,14 +188,17 @@ class MenuUploadState extends State<MenuUpload> {
                   backgroundColor: Colors.white,
                   content: Text('상품 설명을 입력해주세요.'),
                   actions: <Widget>[
-                    TextButton(
-                      child: Text(
-                        '확인',
-                        style: TextStyle(color: Colors.black),
+                    Semantics(
+                      label: "상품 설명을 입력해주세요.",
+                      child: TextButton(
+                        child: Text(
+                          '확인',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop(); // 경고창을 닫습니다.
+                        },
                       ),
-                      onPressed: () {
-                        Navigator.of(context).pop(); // 경고창을 닫습니다.
-                      },
                     ),
                   ],
                   shape: RoundedRectangleBorder(
@@ -209,14 +222,17 @@ class MenuUploadState extends State<MenuUpload> {
                   backgroundColor: Colors.white,
                   content: Text('배송 안내사항을 입력해주세요.'),
                   actions: <Widget>[
-                    TextButton(
-                      child: Text(
-                        '확인',
-                        style: TextStyle(color: Colors.black),
+                    Semantics(
+                      label: "배송 안내사항을 입력해주세요.",
+                      child: TextButton(
+                        child: Text(
+                          '확인',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop(); // 경고창을 닫습니다.
+                        },
                       ),
-                      onPressed: () {
-                        Navigator.of(context).pop(); // 경고창을 닫습니다.
-                      },
                     ),
                   ],
                   shape: RoundedRectangleBorder(
@@ -243,22 +259,25 @@ class MenuUploadState extends State<MenuUpload> {
                   elevation: 0,
                   content: Text('메뉴가 업로드 되었습니다.'),
                   actions: <Widget>[
-                    TextButton(
-                      child: Text(
-                        '확인',
-                        style: TextStyle(color: Colors.black),
+                    Semantics(
+                      label: "메뉴가 업로드 되었습니다.",
+                      child: TextButton(
+                        child: Text(
+                          '확인',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _image = null;
+                            nameController.text = '';
+                            priceController.text = '';
+                            countController.text = '';
+                            descriptionController.text = '';
+                            addressController.text = '';
+                          });
+                          Navigator.of(context).pop(); // 경고창을 닫습니다.
+                        },
                       ),
-                      onPressed: () {
-                        setState(() {
-                          _image = null;
-                          nameController.text = '';
-                          priceController.text = '';
-                          countController.text = '';
-                          descriptionController.text = '';
-                          addressController.text = '';
-                        });
-                        Navigator.of(context).pop(); // 경고창을 닫습니다.
-                      },
                     ),
                   ],
                   shape: RoundedRectangleBorder(
@@ -285,14 +304,17 @@ class MenuUploadState extends State<MenuUpload> {
             backgroundColor: Colors.white,
             content: Text('이미지를 선택하지 않았습니다. 이미지를 선택해주세요.'),
             actions: <Widget>[
-              TextButton(
-                child: Text(
-                  '확인',
-                  style: TextStyle(color: Colors.black),
+              Semantics(
+                label: "이미지를 선택하지 않았습니다. 이미지를 선택해주세요.",
+                child: TextButton(
+                  child: Text(
+                    '확인',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // 경고창을 닫습니다.
+                  },
                 ),
-                onPressed: () {
-                  Navigator.of(context).pop(); // 경고창을 닫습니다.
-                },
               ),
             ],
             shape: RoundedRectangleBorder(
@@ -341,11 +363,14 @@ class MenuUploadState extends State<MenuUpload> {
                           border: Border.all(color: Colors.grey), // 테두리 색상
                           borderRadius: BorderRadius.circular(1), // 모서리 둥글기
                         ),
-                        child: IconButton(
-                          icon: Icon(Icons.camera_alt_outlined),
-                          onPressed: () {
-                            _pickImage();
-                          },
+                        child: Semantics(
+                          label: "이미지를 선택해주세요.",
+                          child: IconButton(
+                            icon: Icon(Icons.camera_alt_outlined),
+                            onPressed: () {
+                              _pickImage();
+                            },
+                          ),
                         ),
                       ),
               ],
@@ -563,14 +588,17 @@ class MenuUploadState extends State<MenuUpload> {
                   border: Border.all(color: Color(0xffFF8B51)), // 테두리 색상
                   borderRadius: BorderRadius.circular(8), // 모서리 둥글기
                 ),
-                child: TextButton(
-                  child: Text(
-                    "등록하기",
-                    style: TextStyle(color: Colors.white),
+                child: Semantics(
+                  label: "메뉴를 등록하시려면 이 버튼을 눌러주세요.",
+                  child: TextButton(
+                    child: Text(
+                      "등록하기",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () {
+                      uploadAndSaveData();
+                    },
                   ),
-                  onPressed: () {
-                    uploadAndSaveData();
-                  },
                 )),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.025,

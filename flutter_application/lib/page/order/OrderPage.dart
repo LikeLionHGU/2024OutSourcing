@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_application/entity/PersonOrder.dart';
 import 'package:flutter_application/entity/shop/ShopItemProvider.dart';
 import 'package:intl/intl.dart';
@@ -371,18 +372,21 @@ class OrderPageState extends State<OrderPage>
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.02,
                 ),
-                IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _selectedIndex = 1;
-                        order['isCard'] = true;
-                      });
-                    },
-                    icon: Icon(Icons.check_circle,
-                        color: _selectedIndex == 1
-                            ? Color(0xffFF8B51)
-                            : Colors.grey,
-                        size: MediaQuery.of(context).size.width * 0.05)),
+                Semantics(
+                  label: "카드로 하시려면 이 부분을 선택해주세요.",
+                  child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _selectedIndex = 1;
+                          order['isCard'] = true;
+                        });
+                      },
+                      icon: Icon(Icons.check_circle,
+                          color: _selectedIndex == 1
+                              ? Color(0xffFF8B51)
+                              : Colors.grey,
+                          size: MediaQuery.of(context).size.width * 0.05)),
+                ),
                 Text(
                   "가게 방문 후 직접 결제",
                   style: TextStyle(
@@ -398,18 +402,21 @@ class OrderPageState extends State<OrderPage>
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.02,
                 ),
-                IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _selectedIndex = 0;
-                        order['isCard'] = false;
-                      });
-                    },
-                    icon: Icon(Icons.check_circle,
-                        color: _selectedIndex == 0
-                            ? Color(0xffFF8B51)
-                            : Colors.grey,
-                        size: MediaQuery.of(context).size.width * 0.05)),
+                Semantics(
+                  label: "계좌이체로 하시려면 이 부분을 선택해주세요.",
+                  child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _selectedIndex = 0;
+                          order['isCard'] = false;
+                        });
+                      },
+                      icon: Icon(Icons.check_circle,
+                          color: _selectedIndex == 0
+                              ? Color(0xffFF8B51)
+                              : Colors.grey,
+                          size: MediaQuery.of(context).size.width * 0.05)),
+                ),
                 Text(
                   "계좌이체",
                   style: TextStyle(
@@ -454,19 +461,22 @@ class OrderPageState extends State<OrderPage>
           ),
           Row(
             children: [
-              IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _selectedType = false;
-                      order['isDeliver'] = false;
-                      price = 0;
-                    });
-                  },
-                  icon: Icon(
-                    Icons.check_circle,
-                    color: _selectedType ? Colors.grey : Color(0xffFF8B51),
-                    size: MediaQuery.of(context).size.width * 0.05,
-                  )),
+              Semantics(
+                label: "포장을 원하시면 이 부분을 선택해주세요.",
+                child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedType = false;
+                        order['isDeliver'] = false;
+                        price = 0;
+                      });
+                    },
+                    icon: Icon(
+                      Icons.check_circle,
+                      color: _selectedType ? Colors.grey : Color(0xffFF8B51),
+                      size: MediaQuery.of(context).size.width * 0.05,
+                    )),
+              ),
               Text(
                 "포장으로 받기",
                 style: TextStyle(
@@ -476,19 +486,22 @@ class OrderPageState extends State<OrderPage>
           ),
           Row(
             children: [
-              IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _selectedType = true;
-                      order['isDeliver'] = true;
-                      price = 2000;
-                    });
-                  },
-                  icon: Icon(
-                    Icons.check_circle,
-                    color: _selectedType ? Color(0xffFF8B51) : Colors.grey,
-                    size: MediaQuery.of(context).size.width * 0.05,
-                  )),
+              Semantics(
+                label: "배달을 원하시면 이 버튼을 눌러주세요.",
+                child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedType = true;
+                        order['isDeliver'] = true;
+                        price = 2000;
+                      });
+                    },
+                    icon: Icon(
+                      Icons.check_circle,
+                      color: _selectedType ? Color(0xffFF8B51) : Colors.grey,
+                      size: MediaQuery.of(context).size.width * 0.05,
+                    )),
+              ),
               Text(
                 "배달로 받기",
                 style: TextStyle(
@@ -579,100 +592,106 @@ class OrderPageState extends State<OrderPage>
                 color: Color(0xffFF8B51),
                 borderRadius: BorderRadius.circular(8), // 모서리 둥글기
               ),
-              child: TextButton(
-                child: Text(
-                  "주문하기",
-                  style: TextStyle(color: Colors.white),
-                ),
-                onPressed: () {
-                  addOrderToUser(FirebaseAuth.instance.currentUser!.uid, order);
-                  addOrder(FirebaseAuth.instance.currentUser!.uid, order);
-                  updateCounts(
-                      Provider.of<ShopItemProvider>(context, listen: false));
+              child: Semantics(
+                label: "주문 하시려면 이 버튼을 눌러주세요.",
+                child: TextButton(
+                  child: Text(
+                    "주문하기",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: () {
+                    addOrderToUser(FirebaseAuth.instance.currentUser!.uid, order);
+                    addOrder(FirebaseAuth.instance.currentUser!.uid, order);
+                    updateCounts(
+                        Provider.of<ShopItemProvider>(context, listen: false));
 
-                  Provider.of<ShopItemProvider>(context, listen: false).clear();
+                    Provider.of<ShopItemProvider>(context, listen: false).clear();
 
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        shape: RoundedRectangleBorder(
-                          // AlertDialog 모서리를 둥글게 처리
-                          borderRadius: BorderRadius.all(Radius.circular(
-                              MediaQuery.of(context).size.width * 0.02)),
-                        ),
-                        // backgroundColor: Color(0xffFFFFFF),
-                        backgroundColor: Colors.white,
-                        elevation: 0,
-                        title: Text(
-                          "주문 완료",
-                          style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.04,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        actions: <Widget>[
-                          Column(
-                            children: [
-                              Align(
-                                child: Text(
-                                  "주문이 완료되었습니다.",
-                                ),
-                                alignment: Alignment.centerLeft,
-                              ),
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.015,
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                    child: TextButton(
-                                      child: Text(
-                                        "닫기",
-                                        style: TextStyle(color: Colors.white),
-                                      ), // '네' 버튼
-                                      onPressed: () {
-                                        Navigator.pushAndRemoveUntil(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => RouterPage(
-                                                    index: 1,
-                                                  )), // NewPage는 이동할 새 페이지의 위젯입니다.
-                                          (Route<dynamic> route) =>
-                                              false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
-                                        );
-                                      },
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: Color(0xffFF8B51),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.3,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.05,
-                                  ),
-                                ],
-                                mainAxisAlignment: MainAxisAlignment.center,
-                              ),
-                            ],
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          shape: RoundedRectangleBorder(
+                            // AlertDialog 모서리를 둥글게 처리
+                            borderRadius: BorderRadius.all(Radius.circular(
+                                MediaQuery.of(context).size.width * 0.02)),
                           ),
-                        ],
+                          // backgroundColor: Color(0xffFFFFFF),
+                          backgroundColor: Colors.white,
+                          elevation: 0,
+                          title: Text(
+                            "주문 완료",
+                            style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.04,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          actions: <Widget>[
+                            Column(
+                              children: [
+                                Align(
+                                  child: Text(
+                                    "주문이 완료되었습니다.",
+                                  ),
+                                  alignment: Alignment.centerLeft,
+                                ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.015,
+                                ),
+                                Row(
+                                  children: [
+                                    Container(
+                                      child: Semantics(
+                                        label: "해당 창을 닫으시려면 이 버튼을 눌러주세요.",
+                                        child: TextButton(
+                                          child: Text(
+                                            "닫기",
+                                            style: TextStyle(color: Colors.white),
+                                          ), // '네' 버튼
+                                          onPressed: () {
+                                            Navigator.pushAndRemoveUntil(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) => RouterPage(
+                                                        index: 1,
+                                                      )), // NewPage는 이동할 새 페이지의 위젯입니다.
+                                              (Route<dynamic> route) =>
+                                                  false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Color(0xffFF8B51),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      width:
+                                          MediaQuery.of(context).size.width * 0.3,
+                                      height: MediaQuery.of(context).size.height *
+                                          0.05,
+                                    ),
+                                  ],
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      },
+                    ).then((_) {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RouterPage(
+                                  index: 1,
+                                )), // NewPage는 이동할 새 페이지의 위젯입니다.
+                        (Route<dynamic> route) =>
+                            false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
                       );
-                    },
-                  ).then((_) {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => RouterPage(
-                                index: 1,
-                              )), // NewPage는 이동할 새 페이지의 위젯입니다.
-                      (Route<dynamic> route) =>
-                          false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
-                    );
-                  });
-                },
+                    });
+                  },
+                ),
               ),
             ),
           ),

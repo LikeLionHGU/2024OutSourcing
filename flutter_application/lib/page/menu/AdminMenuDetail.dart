@@ -40,11 +40,14 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
         centerTitle: true,
         backgroundColor: Colors.white,
         scrolledUnderElevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+        leading: Semantics(
+          label: "뒤로 가시려면 이 버튼을 눌러주세요.",
+          child: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
         title: Text(
           widget.menu.name,
@@ -120,15 +123,18 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
                   child: Container(
                       width: double.infinity,
                       alignment: Alignment.center,
-                      child: TextButton(
-                        child: Text(
-                          '삭제하기',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.red),
+                      child: Semantics(
+                        label: "삭제하려면 이 버튼을 눌러주세요.",
+                        child: TextButton(
+                          child: Text(
+                            '삭제하기',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.red),
+                          ),
+                          onPressed: () {
+                            deleteDocument(widget.menu.documentId);
+                          },
                         ),
-                        onPressed: () {
-                          deleteDocument(widget.menu.documentId);
-                        },
                       )),
                 ),
               ],
@@ -322,22 +328,25 @@ class AdminMenuDetailState extends State<AdminMenuDetail>
                   Row(
                     children: [
                       Container(
-                        child: TextButton(
-                          child: Text(
-                            "닫기",
-                            style: TextStyle(color: Colors.white),
-                          ), // '네' 버튼
-                          onPressed: () {
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AdminRouterPage(
-                                        index: 1,
-                                      )), // NewPage는 이동할 새 페이지의 위젯입니다.
-                              (Route<dynamic> route) =>
-                                  false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
-                            );
-                          },
+                        child: Semantics(
+                          label: "해당 창을 닫으시려면 이 버튼을 눌러주세요.",
+                          child: TextButton(
+                            child: Text(
+                              "닫기",
+                              style: TextStyle(color: Colors.white),
+                            ), // '네' 버튼
+                            onPressed: () {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AdminRouterPage(
+                                          index: 1,
+                                        )), // NewPage는 이동할 새 페이지의 위젯입니다.
+                                (Route<dynamic> route) =>
+                                    false, // 조건이 false를 반환하므로 모든 이전 라우트를 제거합니다.
+                              );
+                            },
+                          ),
                         ),
                         decoration: BoxDecoration(
                           color: Color(0xffFF8B51),
